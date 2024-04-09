@@ -1,6 +1,7 @@
 package com.example.codapizza.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -39,21 +40,26 @@ private fun ToppingCallPreviewNotOnPizza() {
 fun ToppingCell(
     topping: Topping,
     placement: ToppingPlacement?,
+    modifier: Modifier = Modifier,
     onClickTopping: () -> Unit
 ) {
     Row (
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
+        modifier = modifier
+            .clickable { onClickTopping }
             .padding(horizontal = 16.dp, vertical = 4.dp)
-            .background(Color.Cyan)
     ) {
         Checkbox(
             checked = (placement != null),
             onCheckedChange = {
-                TODO()
+                /* TODO */
             }
         )
-        Column {
+        Column (
+            modifier = Modifier.weight(1f, fill = true)
+                .padding(start = 4.dp)
+
+        ) {
             Text(
                 text = stringResource(topping.toppingName),
                 style = MaterialTheme.typography.body1

@@ -4,6 +4,9 @@
     <string name="placement_none">None</string>
     <string name="placement_left">Left half</string>
     <string name="placement_right">Right half</string>
+
+    <string name="place_order_button">Place order</string>
+
     <string name="placement_whole">Whole pizza</string>
 
     <string name="topping_basil">Basil</string>
