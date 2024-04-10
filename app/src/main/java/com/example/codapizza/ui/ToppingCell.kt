@@ -32,7 +32,7 @@ private fun ToppingCellPreview() {
 @Preview
 @Composable
 private fun ToppingCallPreviewNotOnPizza() {
-    ToppingCell(topping = Topping.Pepperoni, placement = null,
+    ToppingCell(topping = Topping.Basil, placement = null,
         onClickTopping = {})
 }
 
