@@ -1,5 +1,6 @@
 package com.example.codapizza.ui
 
+import android.util.Log
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
@@ -36,6 +37,18 @@ import com.example.codapizza.R
 import com.example.codapizza.model.Pizza
 import com.example.codapizza.model.Topping
 import com.example.codapizza.model.ToppingPlacement
+
+private var pizza =
+    Pizza(
+        toppings = mapOf(
+            Topping.Pepperoni to ToppingPlacement.All,
+            Topping.Pineapple to ToppingPlacement.All
+        )
+    )
+    set(value) {
+        Log.d("PizzaBuilderScreen", "Reassigned pizza to $value")
+        field = value
+    }
 
 
 @Preview
@@ -79,11 +92,21 @@ private fun ToppingList(
     LazyColumn(
         modifier = modifier
     ) {
-        items(Topping.values()) {toppings ->
+        items(Topping.entries.toTypedArray()) { topping ->
             ToppingCell(
-                topping = toppings,
-                placement = ToppingPlacement.All,
-                onClickTopping = {},
+                topping = topping,
+                placement = pizza.toppings[topping],
+                onClickTopping = {
+                    val isOnPizza = pizza.toppings[topping] != null
+                    pizza = pizza.withTopping(
+                        topping = topping,
+                        placement = if (isOnPizza) {
+                            null
+                        } else {
+                            ToppingPlacement.All
+                        }
+                    )
+                },
                 modifier = modifier
             )
         }
