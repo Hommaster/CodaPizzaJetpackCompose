@@ -5,7 +5,7 @@
     <string name="placement_left">Left half</string>
     <string name="placement_right">Right half</string>
 
-    <string name="place_order_button">Place order</string>
+    <string name="place_order_button">Place order (%1$s) руб.</string>
 
     <string name="placement_whole">Whole pizza</string>
 
