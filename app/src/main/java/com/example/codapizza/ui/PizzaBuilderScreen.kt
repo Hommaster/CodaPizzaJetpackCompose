@@ -21,6 +21,9 @@ import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -37,18 +40,6 @@ import com.example.codapizza.R
 import com.example.codapizza.model.Pizza
 import com.example.codapizza.model.Topping
 import com.example.codapizza.model.ToppingPlacement
-
-private var pizza =
-    Pizza(
-        toppings = mapOf(
-            Topping.Pepperoni to ToppingPlacement.All,
-            Topping.Pineapple to ToppingPlacement.All
-        )
-    )
-    set(value) {
-        Log.d("PizzaBuilderScreen", "Reassigned pizza to $value")
-        field = value
-    }
 
 
 @Preview
@@ -89,6 +80,11 @@ fun PizzaBuilderScreen(
 private fun ToppingList(
     modifier: Modifier = Modifier
 ) {
+
+    var pizza by remember {
+        mutableStateOf(Pizza())
+    }
+
     LazyColumn(
         modifier = modifier
     ) {
@@ -139,8 +135,7 @@ private fun OrderButton(
                     scaleX = scale
                     scaleY = scale
                     transformOrigin = TransformOrigin.Center
-                }
-                .align(Alignment.Top),
+                },
             style = LocalTextStyle.current.copy(textMotion = TextMotion.Animated),
             text = stringResource(id = R.string.place_order_button)
             .toUpperCase(Locale.current),
