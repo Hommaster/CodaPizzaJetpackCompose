@@ -1,6 +1,5 @@
 package com.example.codapizza.ui
 
-import android.util.Log
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
@@ -22,9 +21,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
@@ -32,6 +30,7 @@ import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.intl.Locale
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextMotion
 import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.tooling.preview.Preview
@@ -47,6 +46,10 @@ import com.example.codapizza.model.ToppingPlacement
 fun PizzaBuilderScreen(
     modifier: Modifier = Modifier
 ) {
+    var pizza by rememberSaveable {
+        mutableStateOf(Pizza())
+    }
+
     val infiniteTransition = rememberInfiniteTransition(label = "infinite")
     val color by infiniteTransition.animateColor(
         initialValue = Color.White,
@@ -64,11 +67,14 @@ fun PizzaBuilderScreen(
             }
     ) {
         ToppingList(
+            pizza = pizza,
+            onEditTopping = { pizza = it },
             modifier = modifier
                 .fillMaxWidth()
                 .weight(1f, fill = true)
         )
         OrderButton(
+            pizza = pizza,
             modifier = modifier
                 .fillMaxWidth()
                 .padding(10.dp)
@@ -78,12 +84,10 @@ fun PizzaBuilderScreen(
 
 @Composable
 private fun ToppingList(
+    pizza: Pizza,
+    onEditTopping: (Pizza) -> Unit,
     modifier: Modifier = Modifier
 ) {
-
-    var pizza by remember {
-        mutableStateOf(Pizza())
-    }
 
     LazyColumn(
         modifier = modifier
@@ -92,16 +96,17 @@ private fun ToppingList(
             ToppingCell(
                 topping = topping,
                 placement = pizza.toppings[topping],
+                isChecked = pizza.toppings[topping] != null,
                 onClickTopping = {
                     val isOnPizza = pizza.toppings[topping] != null
-                    pizza = pizza.withTopping(
+                    onEditTopping(pizza.withTopping(
                         topping = topping,
                         placement = if (isOnPizza) {
                             null
                         } else {
                             ToppingPlacement.All
                         }
-                    )
+                    ))
                 },
                 modifier = modifier
             )
@@ -111,13 +116,14 @@ private fun ToppingList(
 
 @Composable
 private fun OrderButton(
+    pizza: Pizza,
     modifier: Modifier = Modifier
 ) {
     val infiniteTransition = rememberInfiniteTransition(label = "infinite transition")
     val scale by infiniteTransition.animateFloat(
         initialValue = 1f,
-        targetValue = 1.17f,
-        animationSpec = infiniteRepeatable(tween(10000), RepeatMode.Reverse),
+        targetValue = 1.05f,
+        animationSpec = infiniteRepeatable(tween(15000), RepeatMode.Reverse),
         label = "scale"
     )
 
@@ -128,17 +134,20 @@ private fun OrderButton(
         border = BorderStroke(3.dp, Color.Yellow),
         colors = ButtonDefaults.buttonColors(contentColor = Color.White, backgroundColor = Color.Blue)
     ) {
+
+        val price = pizza.price
+
         Text(
             modifier = modifier
-                .padding(135.dp, 0.dp)
                 .graphicsLayer {
                     scaleX = scale
                     scaleY = scale
                     transformOrigin = TransformOrigin.Center
                 },
             style = LocalTextStyle.current.copy(textMotion = TextMotion.Animated),
-            text = stringResource(id = R.string.place_order_button)
+            text = stringResource(R.string.place_order_button, price)
             .toUpperCase(Locale.current),
+            textAlign = TextAlign.Center
         )
     }
 }
