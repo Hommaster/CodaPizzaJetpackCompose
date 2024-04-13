@@ -88,6 +88,13 @@ private fun ToppingList(
     onEditTopping: (Pizza) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val infiniteTransition = rememberInfiniteTransition(label = "infinite transition")
+    val scale by infiniteTransition.animateFloat(
+        initialValue = 1f,
+        targetValue = 1.02f,
+        animationSpec = infiniteRepeatable(tween(15000), RepeatMode.Reverse),
+        label = "scale"
+    )
 
     LazyColumn(
         modifier = modifier
@@ -109,6 +116,11 @@ private fun ToppingList(
                     ))
                 },
                 modifier = modifier
+                    .graphicsLayer {
+                        scaleX = scale
+                        scaleY = scale
+                        transformOrigin = TransformOrigin.Center
+                    }
             )
         }
     }
