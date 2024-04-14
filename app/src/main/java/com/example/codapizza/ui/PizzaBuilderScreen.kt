@@ -96,6 +96,19 @@ private fun ToppingList(
         label = "scale"
     )
 
+    var showToppingCellDialog by rememberSaveable {
+        mutableStateOf(false)
+    }
+
+    if (showToppingCellDialog) {
+        ToppingCellDialog(
+            onDismissRequest = {
+                showToppingCellDialog = false
+            }
+        )
+    }
+
+
     LazyColumn(
         modifier = modifier
     ) {
@@ -105,15 +118,7 @@ private fun ToppingList(
                 placement = pizza.toppings[topping],
                 isChecked = pizza.toppings[topping] != null,
                 onClickTopping = {
-                    val isOnPizza = pizza.toppings[topping] != null
-                    onEditTopping(pizza.withTopping(
-                        topping = topping,
-                        placement = if (isOnPizza) {
-                            null
-                        } else {
-                            ToppingPlacement.All
-                        }
-                    ))
+                    showToppingCellDialog = true
                 },
                 modifier = modifier
                     .graphicsLayer {

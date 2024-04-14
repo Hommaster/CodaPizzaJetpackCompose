@@ -125,8 +125,6 @@ fun ToppingCell(
             }
         }
         Image(
-//            painter = painterResource(id = drawableId),
-//            contentDescription = nameDrawableIcon
             painterResource(topping.toppingDrawable),
             "drawableIcon"
         )
