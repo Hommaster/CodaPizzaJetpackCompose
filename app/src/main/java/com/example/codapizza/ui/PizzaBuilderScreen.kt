@@ -38,7 +38,8 @@ import androidx.compose.ui.unit.dp
 import com.example.codapizza.R
 import com.example.codapizza.model.Pizza
 import com.example.codapizza.model.Topping
-import com.example.codapizza.model.ToppingPlacement
+
+
 
 
 @Preview
@@ -96,14 +97,20 @@ private fun ToppingList(
         label = "scale"
     )
 
-    var showToppingCellDialog by rememberSaveable {
-        mutableStateOf(false)
+
+    var toppingBeingAdd by rememberSaveable {
+        mutableStateOf<Topping?>(null)
     }
 
-    if (showToppingCellDialog) {
+    toppingBeingAdd?.let {
         ToppingCellDialog(
+            topping = it,
+            placementIsChoose = pizza.isPlacement(it),
+            onSetToppingPlacement = {placement ->
+                                    onEditTopping(pizza.withTopping(it, placement))
+            },
             onDismissRequest = {
-                showToppingCellDialog = false
+                toppingBeingAdd = null
             }
         )
     }
@@ -118,7 +125,7 @@ private fun ToppingList(
                 placement = pizza.toppings[topping],
                 isChecked = pizza.toppings[topping] != null,
                 onClickTopping = {
-                    showToppingCellDialog = true
+                    toppingBeingAdd = topping
                 },
                 modifier = modifier
                     .graphicsLayer {
