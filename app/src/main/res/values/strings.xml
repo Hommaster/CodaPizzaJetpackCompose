@@ -15,4 +15,6 @@
     <string name="topping_peppers">Peppers</string>
     <string name="topping_pepperoni">Pepperoni</string>
     <string name="topping_pineapple">Pineapple</string>
+
+    <string name="placement_prompt">Where do you want %1$s on your pizza?</string>
 </resources>
