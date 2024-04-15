@@ -27,4 +27,13 @@ data class Pizza(
             }
         )
     }
+
+    fun isPlacement(topping: Topping): ToppingPlacement? {
+        return if (toppings[topping] != null) {
+            toppings[topping]
+        } else {
+            null
+        }
+    }
+
 }
