@@ -74,6 +74,7 @@ fun PizzaBuilderScreen(
                 .fillMaxWidth()
                 .weight(1f, fill = true)
         )
+        ToppingCellDropdownMenu()
         OrderButton(
             pizza = pizza,
             modifier = modifier
