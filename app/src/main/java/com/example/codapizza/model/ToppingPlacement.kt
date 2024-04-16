@@ -8,5 +8,6 @@ enum class ToppingPlacement (
 ) {
     Left(R.string.placement_left),
     Right(R.string.placement_right),
-    All(R.string.placement_whole)
+    All(R.string.placement_whole),
+    None(R.string.placement_none)
 }
