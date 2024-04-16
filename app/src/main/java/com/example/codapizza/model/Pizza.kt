@@ -15,6 +15,7 @@ data class Pizza(
                 when (toppingPlacement) {
                     Left, Right -> 0.5
                     All -> 1.0
+                    None -> 0.0
                 }
             }
 
