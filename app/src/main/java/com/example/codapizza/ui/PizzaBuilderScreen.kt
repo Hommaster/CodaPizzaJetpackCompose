@@ -1,5 +1,6 @@
 package com.example.codapizza.ui
 
+import android.util.Log
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
@@ -67,6 +68,11 @@ fun PizzaBuilderScreen(
                 drawRect(color)
             }
     ) {
+        ToppingCellDropdownMenu(
+            setSizePizza = {
+                pizza.changeSizePizza(it)
+            }
+        )
         ToppingList(
             pizza = pizza,
             onEditTopping = { pizza = it },
@@ -74,7 +80,6 @@ fun PizzaBuilderScreen(
                 .fillMaxWidth()
                 .weight(1f, fill = true)
         )
-        ToppingCellDropdownMenu()
         OrderButton(
             pizza = pizza,
             modifier = modifier
@@ -161,6 +166,7 @@ private fun OrderButton(
     ) {
 
         val price = pizza.price
+        Log.d("changeSize", "$price")
 
         Text(
             modifier = modifier

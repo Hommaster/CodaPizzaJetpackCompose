@@ -1,23 +1,32 @@
 package com.example.codapizza.model
 
 import android.os.Parcelable
+import android.util.Log
 import com.example.codapizza.model.ToppingPlacement.*
 import kotlinx.parcelize.Parcelize
+import java.math.BigDecimal
+import kotlin.math.roundToInt
 
 @Parcelize
 data class Pizza(
-    val toppings: Map<Topping, ToppingPlacement> = emptyMap()
+    val toppings: Map<Topping, ToppingPlacement> = emptyMap(),
+    val sizePizza: SizePizza? = null
 ): Parcelable {
 
-    val price: Double
-        get() = 9.99 + toppings.asSequence()
-            .sumOf { (_, toppingPlacement) ->
+    val price: BigDecimal
+        get() = 9.99.toBigDecimal() + (when (sizePizza) {
+            SizePizza.Small -> 5.0
+            SizePizza.Average -> 6.0
+            SizePizza.Big -> 7.0
+            SizePizza.VeryBig -> 8.0
+            else -> 7.0
+        }).toBigDecimal() + (toppings.asSequence()
+                .sumOf { (_, toppingPlacement) ->
                 when (toppingPlacement) {
                     Left, Right -> 0.5
                     All -> 1.0
-                    None -> 0.0
                 }
-            }
+            }).toBigDecimal()
 
     fun withTopping(topping: Topping, placement: ToppingPlacement?): Pizza {
         return copy(
@@ -26,6 +35,12 @@ data class Pizza(
             } else {
                 toppings + (topping to placement)
             }
+        )
+    }
+
+    fun changeSizePizza(size: SizePizza): Pizza {
+        return copy(
+            sizePizza = SizePizza.Small
         )
     }
 

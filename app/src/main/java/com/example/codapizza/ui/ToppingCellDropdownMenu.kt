@@ -17,13 +17,23 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.codapizza.model.SizePizza
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun ToppingCellDropdownMenu() {
+fun ToppingCellDropdownMenu(
+    setSizePizza: (sizePizza: SizePizza) -> Unit
+) {
     val context = LocalContext.current
-    val coffeeDrinks = arrayOf("None", "Whole Pizza", "Right", "Left")
+
+    val smallString = stringResource(id = SizePizza.Small.sizeName)
+    val averageString = stringResource(id = SizePizza.Average.sizeName)
+    val bigString = stringResource(id = SizePizza.Big.sizeName)
+    val veryBigString = stringResource(id = SizePizza.VeryBig.sizeName)
+
+    val coffeeDrinks = arrayOf(smallString, averageString, bigString, veryBigString)
     var expanded by remember { mutableStateOf(false) }
     var selectedText by remember { mutableStateOf(coffeeDrinks[0]) }
 
@@ -55,6 +65,14 @@ fun ToppingCellDropdownMenu() {
                         onClick = {
                             selectedText = item
                             expanded = false
+
+                            when (selectedText) {
+                                smallString -> setSizePizza(SizePizza.Small)
+                                averageString -> setSizePizza(SizePizza.Average)
+                                bigString -> setSizePizza(SizePizza.Big)
+                                veryBigString -> setSizePizza(SizePizza.VeryBig)
+                            }
+
                             Toast.makeText(context, item, Toast.LENGTH_SHORT).show()
                         }
                     )
