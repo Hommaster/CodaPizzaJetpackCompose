@@ -12,12 +12,17 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+//noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.Button
+//noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.ButtonDefaults
+//noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.LocalTextStyle
+//noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -68,10 +73,9 @@ fun PizzaBuilderScreen(
                 drawRect(color)
             }
     ) {
-        ToppingCellDropdownMenu(
-            setSizePizza = {
-                pizza.changeSizePizza(it)
-            }
+        SizeDialog(
+            pizza = pizza,
+            onEditSize = { pizza = it }
         )
         ToppingList(
             pizza = pizza,
@@ -158,7 +162,8 @@ private fun OrderButton(
     )
 
     Button(
-        modifier = modifier,
+        modifier = modifier
+            .width(140.dp),
         onClick = { /*TODO*/ },
         shape = RoundedCornerShape(23.dp),
         border = BorderStroke(3.dp, Color.Yellow),
@@ -181,4 +186,16 @@ private fun OrderButton(
             textAlign = TextAlign.Center
         )
     }
+}
+
+@Composable
+private fun SizeDialog(
+    pizza: Pizza,
+    onEditSize: (Pizza) -> Unit
+) {
+    ToppingCellDropdownMenu(
+        setSizePizza = {sizePizza ->
+            onEditSize(pizza.changeSizePizza(sizePizza))
+        }
+    )
 }

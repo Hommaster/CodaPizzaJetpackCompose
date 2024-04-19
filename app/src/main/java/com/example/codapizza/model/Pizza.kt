@@ -40,7 +40,7 @@ data class Pizza(
 
     fun changeSizePizza(size: SizePizza): Pizza {
         return copy(
-            sizePizza = SizePizza.Small
+            sizePizza = size
         )
     }
 
