@@ -29,6 +29,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
@@ -73,6 +74,10 @@ fun PizzaBuilderScreen(
                 drawRect(color)
             }
     ) {
+        PizzaMargaritaImage(
+            pizza = pizza,
+            modifier = modifier
+        )
         SizeDialog(
             pizza = pizza,
             onEditSize = { pizza = it }
@@ -87,7 +92,7 @@ fun PizzaBuilderScreen(
         OrderButton(
             pizza = pizza,
             modifier = modifier
-                .fillMaxWidth()
+                .align(Alignment.CenterHorizontally)
                 .padding(10.dp)
         )
     }
@@ -163,7 +168,7 @@ private fun OrderButton(
 
     Button(
         modifier = modifier
-            .width(140.dp),
+            .width(280.dp),
         onClick = { /*TODO*/ },
         shape = RoundedCornerShape(23.dp),
         border = BorderStroke(3.dp, Color.Yellow),
