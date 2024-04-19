@@ -15,8 +15,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+//noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.Icon
+//noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.MaterialTheme
+//noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
@@ -67,7 +70,9 @@ fun ToppingCell(
     onClickTopping: () -> Unit
 ) {
 
-    val checkboxColor: Color by animateColorAsState(if (isChecked) checkedColor else uncheckedColor)
+    val checkboxColor: Color by animateColorAsState(if (isChecked) checkedColor else uncheckedColor,
+        label = ""
+    )
     val density = LocalDensity.current
     val duration = 1000
 

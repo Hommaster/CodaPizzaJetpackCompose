@@ -65,7 +65,7 @@ fun ToppingCellDialog(
                         .padding(24.dp)
                 )
                 
-                ToppingPlacement.values().forEach { placement ->
+                ToppingPlacement.entries.forEach { placement ->
                     ToppingPlacementOption(
                         placementName = placement.label,
                         placement = placement,
@@ -100,7 +100,9 @@ fun ToppingPlacementOption(
     size: Float = 24f,
 ) {
 
-    val checkboxColor: Color by animateColorAsState(if (placementIsChoose != null && placementIsChoose == placement) checkedColor else uncheckedColor)
+    val checkboxColor: Color by animateColorAsState(if (placementIsChoose != null && placementIsChoose == placement) checkedColor else uncheckedColor,
+        label = ""
+    )
     val density = LocalDensity.current
     val duration = 1000
 
