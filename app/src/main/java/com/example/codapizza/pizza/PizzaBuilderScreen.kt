@@ -1,4 +1,4 @@
-package com.example.codapizza.ui
+package com.example.codapizza.pizza
 
 import android.util.Log
 import androidx.compose.animation.animateColor
@@ -10,6 +10,7 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -24,6 +25,8 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.LocalTextStyle
 //noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.Text
+//noinspection UsingMaterialAndMaterial3Libraries
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -40,22 +43,19 @@ import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextMotion
 import androidx.compose.ui.text.toUpperCase
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.codapizza.R
 import com.example.codapizza.model.Pizza
 import com.example.codapizza.model.Topping
 
 
-
-
-@Preview
 @Composable
 fun PizzaBuilderScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    pizzaName: String?
 ) {
     var pizza by rememberSaveable {
-        mutableStateOf(Pizza())
+        mutableStateOf(Pizza(pizzaName = pizzaName))
     }
 
     val infiniteTransition = rememberInfiniteTransition(label = "infinite")
@@ -74,8 +74,16 @@ fun PizzaBuilderScreen(
                 drawRect(color)
             }
     ) {
-        PizzaMargaritaImage(
+        TopAppBar(
+            title = {
+                Text(text = "Cool Pizza with fucking LOVE",
+                    color = Color.Blue)
+            },
+            windowInsets = WindowInsets(0, 60, 0 ,0),
+        )
+        PizzasImage(
             pizza = pizza,
+            pizzaName = pizzaName,
             modifier = modifier
         )
         SizeDialog(
