@@ -1,4 +1,4 @@
-package com.example.codapizza.ui
+package com.example.codapizza.pizza
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
