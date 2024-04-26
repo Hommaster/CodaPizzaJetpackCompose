@@ -1,20 +1,22 @@
 [versions]
-agp = "8.3.1"
+agp = "8.3.2"
 kotlin = "1.9.23"
-coreKtx = "1.12.0"
+coreKtx = "1.13.0"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
 appcompat = "1.6.1"
 material = "1.11.0"
-activity = "1.8.2"
+activity = "1.9.0"
 constraintlayout = "2.1.4"
-compose = "1.6.5"
-activityCompose = "1.8.2"
+compose = "1.6.6"
+activityCompose = "1.9.0"
 parcelize = "1.6.10"
 material3Android = "1.2.1"
+navVersion = "2.7.7"
 
 [libraries]
+androidx-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navVersion" }
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "compose" }
 androidx-compose-compiler = { group = "androidx.compose.compiler", name = "compiler", version.ref = "compose" }
 androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "compose" }
