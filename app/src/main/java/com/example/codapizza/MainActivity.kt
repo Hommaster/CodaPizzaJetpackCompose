@@ -2,17 +2,57 @@ package com.example.codapizza
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.example.codapizza.model.Topping
-import com.example.codapizza.model.ToppingPlacement
-import com.example.codapizza.ui.PizzaBuilderScreen
-import com.example.codapizza.ui.ToppingCell
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.example.codapizza.arraypizza.ArrayOfPizza
+import com.example.codapizza.theme.AppTheme
+import com.example.codapizza.pizza.PizzaBuilderScreen
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        enableEdgeToEdge()
+
+        val insetsController = WindowCompat.getInsetsController(window, window.decorView)
+        insetsController.apply {
+            hide(WindowInsetsCompat.Type.navigationBars())
+            systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        }
+
         setContent {
-            PizzaBuilderScreen()
+
+            val navController = rememberNavController()
+
+            NavHost(navController = navController, startDestination = "screen_1") {
+                composable(
+                    "screen_2/{pizza_name}",
+                    arguments = listOf(
+                        navArgument(name = "pizza_name"){
+                            type = NavType.StringType
+                        }
+                    )
+                ) { backstackEntry ->
+                    AppTheme {
+                        PizzaBuilderScreen(
+                            pizzaName = backstackEntry.arguments?.getString("pizza_name")
+                        )
+                    }
+                }
+                composable("screen_1") {
+                    AppTheme {
+                        ArrayOfPizza(navController)
+                    }
+                }
+            }
         }
     }
 }
