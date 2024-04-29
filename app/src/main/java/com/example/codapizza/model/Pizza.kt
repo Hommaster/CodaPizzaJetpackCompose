@@ -1,12 +1,10 @@
 package com.example.codapizza.model
 
 import android.os.Parcelable
-import android.util.Log
 import com.example.codapizza.model.ToppingPlacement.*
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import java.math.BigDecimal
-import kotlin.math.roundToInt
 
 @Parcelize
 data class Pizza(
