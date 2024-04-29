@@ -20,6 +20,10 @@
     <string name="size_average">Average</string>
     <string name="size_big">Big</string>
     <string name="size_very_big">Very big</string>
+    
+    <string name="cart">Cart</string>
+    <string name="contact_vk">We are on VK</string>
+    <string name="contact_insta">We are on Instagram</string>
 
     <string name="placement_prompt">Where do you want %1$s on your pizza?</string>
 
@@ -27,4 +31,6 @@
     <string name="margherita_ingredients">Main ingredients: mozzarella cheese, ripe tomatoes and fresh basil leaves</string>
     <string name="carbonara">Carbonara</string>
     <string name="carbonara_ingredients">Earthy mushrooms, melty cheese, crispy bacon, and most important of all, eggs</string>
+    <string name="chicago">Chicago</string>
+    <string name="chicago_ingredients">Earthy mushrooms, melty cheese, crispy bacon, and most important of all, eggs</string>
 </resources>

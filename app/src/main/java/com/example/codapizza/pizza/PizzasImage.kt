@@ -50,6 +50,7 @@ fun PizzasImage(
         val pizzas = when(pizzaName) {
             stringResource(R.string.margherita) -> Pizzas.Margherita
             stringResource(R.string.carbonara) -> Pizzas.Carbonara
+            stringResource(R.string.chicago) -> Pizzas.Chicago
             else -> Pizzas.Margherita
         }
 

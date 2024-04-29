@@ -18,5 +18,10 @@ enum class Pizzas(
         pizzaName = R.string.carbonara,
         pizzaIngredients = R.string.carbonara_ingredients,
         pizzaImage = R.drawable.carbonara
+    ),
+    Chicago(
+        pizzaName = R.string.chicago,
+        pizzaIngredients = R.string.chicago_ingredients,
+        pizzaImage = R.drawable.chicago
     )
 }

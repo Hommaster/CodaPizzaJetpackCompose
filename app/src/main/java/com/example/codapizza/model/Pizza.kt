@@ -19,6 +19,7 @@ data class Pizza(
     private val pizzaNamePrice: BigDecimal = when(pizzaName) {
         "Carbonara" -> 11.99
         "Margherita" -> 9.99
+        "Chicago" -> 10.99
         else -> 9.99
     }.toBigDecimal()
 
