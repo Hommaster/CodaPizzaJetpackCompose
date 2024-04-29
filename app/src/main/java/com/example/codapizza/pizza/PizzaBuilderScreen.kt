@@ -10,6 +10,7 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -27,9 +28,20 @@ import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.Text
 //noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.NavigationDrawerItem
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -44,9 +56,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextMotion
 import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.codapizza.R
 import com.example.codapizza.model.Pizza
 import com.example.codapizza.model.Topping
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -74,13 +89,6 @@ fun PizzaBuilderScreen(
                 drawRect(color)
             }
     ) {
-        TopAppBar(
-            title = {
-                Text(text = "Cool Pizza with fucking LOVE",
-                    color = Color.Blue)
-            },
-            windowInsets = WindowInsets(0, 60, 0 ,0),
-        )
         PizzasImage(
             pizza = pizza,
             pizzaName = pizzaName,
