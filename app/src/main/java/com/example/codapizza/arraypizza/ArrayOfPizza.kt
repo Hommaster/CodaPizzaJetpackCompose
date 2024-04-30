@@ -2,6 +2,7 @@ package com.example.codapizza.arraypizza
 
 import android.content.Intent
 import android.net.Uri
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -24,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -38,7 +40,7 @@ fun ArrayOfPizza(navController: NavHostController) {
 
     val cartItemString = stringResource(id = R.string.cart)
     val vkSocItemString = stringResource(id = R.string.contact_vk)
-    val instaSocItemString = stringResource(id = R.string.contact_insta)
+    val instaSocItemString = stringResource(id = R.string.contact_telegram)
 
     val context = LocalContext.current
     val urlVK = "https://vk.com/xzycoc"
@@ -54,25 +56,21 @@ fun ArrayOfPizza(navController: NavHostController) {
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet{
-                items.forEach { item ->
-                    NavigationDrawerItem(
-                        label= { androidx.compose.material3.Text(item, fontSize = 22.sp) },
-                        selected = selectedItem.value==item,
-                        onClick = {
-                            scope.launch { drawerState.close() }
-                            when(item) {
-                                cartItemString -> navController.navigate("cart_screen")
-                                vkSocItemString -> {
-                                    val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(urlVK))
-                                    startActivity(context, browserIntent, null)
-                                }
-                                instaSocItemString -> {
-                                    val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(urlTG))
-                                    startActivity(context, browserIntent, null)
-                                }
+                NavigationDrawerItems.entries.forEach { item ->
+                    Row{
+                        NavigationDrawerItem(
+                            label= { androidx.compose.material3.Text(stringResource(id = item.nameItem), fontSize = 22.sp) },
+                            selected = selectedItem.value== stringResource(id = item.nameItem),
+                            onClick = {
+                                scope.launch { drawerState.close() }
+                                item.navigate
                             }
-                        }
-                    )
+                        )
+                        Image(
+                            painter = painterResource(id = item.imageItem), 
+                            contentDescription = stringResource(id = item.nameItem)
+                        )
+                    }
                 }
             }
         },
