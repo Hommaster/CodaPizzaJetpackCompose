@@ -70,6 +70,7 @@ fun PizzaBuilderScreen(
             .drawBehind {
                 drawRect(color)
             }
+            .padding(0.dp, 30.dp)
     ) {
         PizzasImage(
             pizza = pizza,
