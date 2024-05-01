@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.jetbrainsKotlinPluginParcelize)
+    alias(libs.plugins.devtoolsksp)
 }
 
 android {
@@ -64,4 +65,9 @@ dependencies {
 
     //navigation compose
     implementation(libs.androidx.navigation)
+
+    //room
+    implementation(libs.androidx.room)
+    ksp(libs.androidx.room.ksp)
+    implementation(libs.androidx.room.ktx)
 }

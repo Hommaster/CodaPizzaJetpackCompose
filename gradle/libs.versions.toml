@@ -9,13 +9,18 @@ appcompat = "1.6.1"
 material = "1.11.0"
 activity = "1.9.0"
 constraintlayout = "2.1.4"
-compose = "1.6.6"
+compose = "1.6.7"
 activityCompose = "1.9.0"
 parcelize = "1.6.10"
 material3Android = "1.2.1"
 navVersion = "2.7.7"
+room = "2.6.1"
+ksp = "1.9.22-1.0.17"
 
 [libraries]
+androidx-room = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+androidx-room-ksp = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 androidx-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navVersion" }
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "compose" }
 androidx-compose-compiler = { group = "androidx.compose.compiler", name = "compiler", version.ref = "compose" }
@@ -38,5 +43,6 @@ androidx-material3-android = { group = "androidx.compose.material3", name = "mat
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 jetbrainsKotlinPluginParcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "parcelize" }
+devtoolsksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
 
