@@ -46,16 +46,10 @@ import kotlinx.coroutines.launch
 @Composable
 fun ArrayOfPizza(navController: NavHostController) {
 
-    val cartItemString = stringResource(id = R.string.cart)
-    val vkSocItemString = stringResource(id = R.string.contact_vk)
-    val instaSocItemString = stringResource(id = R.string.contact_telegram)
-
     val context = LocalContext.current
     val urlVK = "https://vk.com/xzycoc"
     val urlTG = "https://t.me/Pankratar"
 
-    val items = listOf(cartItemString, vkSocItemString, instaSocItemString)
-    val selectedItem = remember { mutableStateOf(items[0]) }
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     ModalNavigationDrawer(
@@ -88,7 +82,6 @@ fun ArrayOfPizza(navController: NavHostController) {
                             }
                         },
                         selected = false,
-//                        selected = selectedItem.value== stringResource(id = item.nameItem),
                         onClick = {
                             scope.launch { drawerState.close() }
                             when(item.nameItem) {
