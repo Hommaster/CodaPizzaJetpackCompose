@@ -2,8 +2,6 @@ package com.example.codapizza.arraypizza
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.compose.runtime.Composable
-import androidx.navigation.NavHostController
 import com.example.codapizza.R
 
 enum class NavigationDrawerItems(
