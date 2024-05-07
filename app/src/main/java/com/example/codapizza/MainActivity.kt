@@ -16,6 +16,7 @@ import com.example.codapizza.arraypizza.ArrayOfPizza
 import com.example.codapizza.cart.CartUI
 import com.example.codapizza.theme.AppTheme
 import com.example.codapizza.pizza.PizzaBuilderScreen
+import com.example.codapizza.viewmodel.MainActivityViewModel
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,6 +44,7 @@ class MainActivity : AppCompatActivity() {
                     )
                 ) { backstackEntry ->
                     PizzaBuilderScreen(
+                        navController,
                         pizzaName = backstackEntry.arguments?.getString("pizza_name")
                     )
                 }
@@ -52,7 +54,10 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 composable("cart_screen") {
-                    CartUI(navController)
+                    CartUI(
+                        navController,
+                        mainActivityViewModel = MainActivityViewModel()
+                    )
                 }
             }
         }
