@@ -5,12 +5,14 @@ import androidx.room.Room
 import com.example.codapizza.cart.database.Order
 import com.example.codapizza.cart.database.OrderDatabase
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import java.util.UUID
 
-class OrderRepository private constructor(
+class OrderRepository @OptIn(DelicateCoroutinesApi::class)
+private constructor(
     context: Context,
     private val coroutineScope: CoroutineScope = GlobalScope
 ){

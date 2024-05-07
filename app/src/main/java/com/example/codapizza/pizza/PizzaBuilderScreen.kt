@@ -27,6 +27,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -35,19 +36,28 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextMotion
 import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.example.codapizza.R
+import com.example.codapizza.cart.database.Order
 import com.example.codapizza.model.Pizza
+import com.example.codapizza.model.Pizzas
 import com.example.codapizza.model.Topping
+import com.example.codapizza.viewmodel.MainActivityViewModel
+import kotlinx.coroutines.launch
+import java.util.Date
+import java.util.UUID
 
 
 @Composable
 fun PizzaBuilderScreen(
+    navController: NavHostController,
     modifier: Modifier = Modifier,
     pizzaName: String?
 ) {
@@ -90,6 +100,9 @@ fun PizzaBuilderScreen(
         )
         OrderButton(
             pizza = pizza,
+            mainActivityViewModel = MainActivityViewModel(),
+            navController = navController,
+            pizzaName = pizzaName,
             modifier = modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(10.dp)
@@ -154,9 +167,24 @@ private fun ToppingList(
 
 @Composable
 private fun OrderButton(
+    mainActivityViewModel: MainActivityViewModel,
+    navController: NavHostController,
     pizza: Pizza,
+    pizzaName: String?,
     modifier: Modifier = Modifier
 ) {
+
+    val pizzas = when(pizzaName) {
+        stringResource(R.string.margherita) -> Pizzas.Margherita
+        stringResource(R.string.carbonara) -> Pizzas.Carbonara
+        stringResource(R.string.chicago) -> Pizzas.Chicago
+        else -> Pizzas.Margherita
+    }
+
+    val descriptionPizza = stringResource(id = pizzas.pizzaIngredients)
+
+    val coroutineScope = rememberCoroutineScope()
+
     val infiniteTransition = rememberInfiniteTransition(label = "infinite transition")
     val scale by infiniteTransition.animateFloat(
         initialValue = 1f,
@@ -168,7 +196,20 @@ private fun OrderButton(
     Button(
         modifier = modifier
             .width(280.dp),
-        onClick = { /*TODO*/ },
+        onClick = {
+                  coroutineScope.launch {
+                      val newOrder = Order(
+                          id = UUID.randomUUID(),
+                          title = pizza.pizzaName!!,
+                          description = descriptionPizza,
+                          date = Date(),
+                          image = pizzas.pizzaImage,
+                          price = pizza.price.toFloat()
+                      )
+                      mainActivityViewModel.addOrder(newOrder)
+                      navController.navigate("screen_1")
+                  }
+        },
         shape = RoundedCornerShape(23.dp),
         border = BorderStroke(3.dp, Color.Yellow),
         colors = ButtonDefaults.buttonColors(contentColor = Color.White, backgroundColor = Color.Blue)
