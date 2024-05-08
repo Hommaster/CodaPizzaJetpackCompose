@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.runtime.MutableState
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -14,9 +15,11 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.codapizza.arraypizza.ArrayOfPizza
 import com.example.codapizza.cart.CartUI
+import com.example.codapizza.cart.EmptyCartUI
+import com.example.codapizza.cart.database.Order
 import com.example.codapizza.theme.AppTheme
 import com.example.codapizza.pizza.PizzaBuilderScreen
-import com.example.codapizza.viewmodel.MainActivityViewModel
+import com.example.codapizza.cart.viewmodel.MainActivityViewModel
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,13 +53,25 @@ class MainActivity : AppCompatActivity() {
                 }
                 composable("screen_1") {
                     AppTheme {
-                        ArrayOfPizza(navController)
+                        ArrayOfPizza(
+                            navController,
+                            mainActivityViewModel = MainActivityViewModel()
+                        )
                     }
                 }
-                composable("cart_screen") {
+                composable(
+                    "cart_screen",
+                ) {backStackEntry ->
                     CartUI(
                         navController,
                         mainActivityViewModel = MainActivityViewModel()
+                    )
+                }
+                composable(
+                    "cart_screen_empty"
+                ) { navBackStackEntry ->
+                    EmptyCartUI(
+                        navController
                     )
                 }
             }
