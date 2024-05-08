@@ -49,7 +49,7 @@ import com.example.codapizza.cart.database.Order
 import com.example.codapizza.model.Pizza
 import com.example.codapizza.model.Pizzas
 import com.example.codapizza.model.Topping
-import com.example.codapizza.viewmodel.MainActivityViewModel
+import com.example.codapizza.cart.viewmodel.MainActivityViewModel
 import kotlinx.coroutines.launch
 import java.util.Date
 import java.util.UUID
