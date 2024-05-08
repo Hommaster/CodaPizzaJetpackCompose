@@ -33,4 +33,7 @@
     <string name="carbonara_ingredients">Earthy mushrooms, melty cheese, crispy bacon, and most important of all, eggs</string>
     <string name="chicago">Chicago</string>
     <string name="chicago_ingredients">Earthy mushrooms, melty cheese, crispy bacon, and most important of all, eggs</string>
+
+    <string name="cart_is_empty">Your cart is still empty! Maybe you would like to order something?</string>
+    <string name="back_to_menu">Return to menu!</string>
 </resources>
