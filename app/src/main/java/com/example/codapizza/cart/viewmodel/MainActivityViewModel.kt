@@ -1,4 +1,4 @@
-package com.example.codapizza.viewmodel
+package com.example.codapizza.cart.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -32,6 +32,10 @@ class MainActivityViewModel : ViewModel() {
 
     suspend fun addOrder(order: Order) {
         orderRepository.addOrder(order)
+    }
+
+    suspend fun deleteOrder(order: Order) {
+        orderRepository.deleteOrder(order)
     }
 
 
