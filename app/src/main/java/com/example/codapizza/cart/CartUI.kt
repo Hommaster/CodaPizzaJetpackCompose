@@ -26,7 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.codapizza.R
-import com.example.codapizza.cart.database.Order
+import com.example.codapizza.cart.database.Orders
 import com.example.codapizza.cart.viewmodel.MainActivityViewModel
 import kotlinx.coroutines.launch
 
@@ -38,12 +38,8 @@ fun CartUI(
 
     val coroutineScope = rememberCoroutineScope()
 
-    val orderList : MutableState<List<Order>> = rememberSaveable {
+    val orderList : MutableState<List<Orders>> = rememberSaveable {
         mutableStateOf(emptyList())
-    }
-
-    var state: Boolean = rememberSaveable {
-        true
     }
 
     Column(
@@ -76,7 +72,7 @@ fun CartUI(
 fun BoxOfOrder(
     mainActivityViewModel: MainActivityViewModel,
     navController: NavHostController,
-    order: Order
+    order: Orders
 ) {
     val coroutineScope = rememberCoroutineScope()
 
@@ -85,12 +81,18 @@ fun BoxOfOrder(
             painter = painterResource(id = order.image!!),
             contentDescription = order.title
         )
-        Text(
-            text = order.title
-        )
-        Text(
-            text = order.price.toString()
-        )
+        Column{
+            Text(
+                text = order.title
+            )
+            Text(
+                text = order.price.toString()
+            )
+            order.toppings.forEach{
+                Text(text = it.key.toString())
+                Text(text = it.value.toString())
+            }
+        }
         IconButton(
             modifier = Modifier
                 .align(Alignment.Bottom),
