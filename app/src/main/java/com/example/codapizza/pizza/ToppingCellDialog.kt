@@ -50,7 +50,6 @@ fun ToppingCellDialog(
         Card (
             modifier = Modifier
                 .clip(RoundedCornerShape(26.dp))
-                .border(3.dp, Color.Red, RoundedCornerShape(26.dp))
         ) {
             Column (
                 modifier = Modifier

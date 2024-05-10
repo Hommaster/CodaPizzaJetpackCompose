@@ -20,10 +20,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.codapizza.R
 import com.example.codapizza.model.Pizzas
 
 @Composable
@@ -33,10 +36,9 @@ fun BoxOfPizza(
 ) {
     Box(
         modifier = Modifier
-            .padding(4.dp, 10.dp)
+            .padding(14.dp, 6.dp)
             .clip(RoundedCornerShape(23.dp))
-            .border(2.dp, Color.Green, RoundedCornerShape(23.dp))
-            .background(Color.LightGray)
+            .background(Color.White)
             .clickable { onClick() }
     ){
         Column{
@@ -51,6 +53,7 @@ fun BoxOfPizza(
             Row(
                 modifier = Modifier
                     .fillMaxSize()
+                    .background(colorResource(id = R.color.limegreen))
                     .clickable { onClick() }
             ){
                 Column(
@@ -62,11 +65,14 @@ fun BoxOfPizza(
                             .padding(10.dp, 2.dp),
                         text = stringResource(id = pizza.pizzaName),
                         fontStyle = FontStyle.Italic,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White,
                         style = MaterialTheme.typography.body1
                     )
                     Text(
                         text = stringResource(id = pizza.pizzaIngredients),
-                        style = MaterialTheme.typography.body2
+                        style = MaterialTheme.typography.body2,
+                        color = Color.White
                     )
                 }
             }

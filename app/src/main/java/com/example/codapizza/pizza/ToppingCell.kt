@@ -32,6 +32,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -117,6 +118,8 @@ fun ToppingCell(
                 text = stringResource(topping.toppingName),
                 fontStyle = FontStyle.Italic,
                 fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White,
                 style = MaterialTheme.typography.body1
             )
             if (placement != null) {
