@@ -51,6 +51,7 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.material3.android)
+    implementation(libs.firebase.crashlytics.buildtools)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -70,4 +71,7 @@ dependencies {
     implementation(libs.androidx.room)
     ksp(libs.androidx.room.ksp)
     implementation(libs.androidx.room.ktx)
+
+    //json
+    implementation(libs.gson)
 }

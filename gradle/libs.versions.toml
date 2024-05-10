@@ -1,5 +1,6 @@
 [versions]
 agp = "8.3.2"
+gson = "2.10.1"
 kotlin = "1.9.23"
 coreKtx = "1.13.0"
 junit = "4.13.2"
@@ -16,6 +17,7 @@ material3Android = "1.2.1"
 navVersion = "2.7.7"
 room = "2.6.1"
 ksp = "1.9.22-1.0.17"
+firebaseCrashlyticsBuildtools = "3.0.0"
 
 [libraries]
 androidx-room = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
@@ -30,6 +32,7 @@ androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-compose-material = { group = "androidx.compose.material", name = "material", version.ref = "compose" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -38,6 +41,7 @@ material = { group = "com.google.android.material", name = "material", version.r
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 androidx-material3-android = { group = "androidx.compose.material3", name = "material3-android", version.ref = "material3Android" }
+firebase-crashlytics-buildtools = { group = "com.google.firebase", name = "firebase-crashlytics-buildtools", version.ref = "firebaseCrashlyticsBuildtools" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
