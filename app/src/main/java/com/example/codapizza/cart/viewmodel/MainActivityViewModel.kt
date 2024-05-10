@@ -2,7 +2,7 @@ package com.example.codapizza.cart.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.codapizza.cart.database.Order
+import com.example.codapizza.cart.database.Orders
 import com.example.codapizza.cart.repository.OrderRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,9 +13,9 @@ class MainActivityViewModel : ViewModel() {
 
     private val orderRepository = OrderRepository.get()
 
-    private val _orders: MutableStateFlow<List<Order>> = MutableStateFlow(emptyList())
+    private val _orders: MutableStateFlow<List<Orders>> = MutableStateFlow(emptyList())
 
-    val orders: StateFlow<List<Order>>
+    val orders: StateFlow<List<Orders>>
         get() = _orders.asStateFlow()
 
     init {
@@ -30,11 +30,11 @@ class MainActivityViewModel : ViewModel() {
         orderRepository.getOrders()
     }
 
-    suspend fun addOrder(order: Order) {
+    suspend fun addOrder(order: Orders) {
         orderRepository.addOrder(order)
     }
 
-    suspend fun deleteOrder(order: Order) {
+    suspend fun deleteOrder(order: Orders) {
         orderRepository.deleteOrder(order)
     }
 

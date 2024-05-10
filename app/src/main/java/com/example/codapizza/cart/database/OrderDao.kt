@@ -11,19 +11,19 @@ import java.util.UUID
 @Dao
 interface OrderDao {
 
-    @Query("Select * FROM `order`")
-    fun getAllOrders(): Flow<List<Order>>
+    @Query("Select * FROM `orders`")
+    fun getAllOrders(): Flow<List<Orders>>
 
-    @Query("SELECT * FROM `order` WHERE id=(:id)")
-    suspend fun getOneOrderFromCart(id: UUID): Order
+    @Query("SELECT * FROM `orders` WHERE id=(:id)")
+    suspend fun getOneOrderFromCart(id: UUID): Orders
 
     @Update
-    suspend fun updateOrder(order: Order)
+    suspend fun updateOrder(order: Orders)
 
     @Insert
-    suspend fun addOrder(order: Order)
+    suspend fun addOrder(order: Orders)
 
     @Delete
-    suspend fun deleteOrder(order: Order)
+    suspend fun deleteOrder(order: Orders)
 
 }

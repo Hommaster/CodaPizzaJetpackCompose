@@ -2,8 +2,8 @@ package com.example.codapizza.cart.repository
 
 import android.content.Context
 import androidx.room.Room
-import com.example.codapizza.cart.database.Order
 import com.example.codapizza.cart.database.OrderDatabase
+import com.example.codapizza.cart.database.Orders
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
@@ -20,23 +20,23 @@ private constructor(
     private val database : OrderDatabase = Room.databaseBuilder(
         context.applicationContext,
         OrderDatabase::class.java,
-        "order-database"
+        "orders_db"
     ).build()
 
-    fun getOrders(): Flow<List<Order>> = database.orderDao().getAllOrders()
-    suspend fun getOrder(id: UUID): Order = database.orderDao().getOneOrderFromCart(id)
+    fun getOrders(): Flow<List<Orders>> = database.orderDao().getAllOrders()
+    suspend fun getOrder(id: UUID): Orders = database.orderDao().getOneOrderFromCart(id)
 
-    fun updateOrder(order: Order) {
+    fun updateOrder(order: Orders) {
         coroutineScope.launch {
             database.orderDao().updateOrder(order)
         }
     }
 
-    suspend fun addOrder(order: Order) {
+    suspend fun addOrder(order: Orders) {
         database.orderDao().addOrder(order)
     }
 
-    suspend fun deleteOrder(order: Order) {
+    suspend fun deleteOrder(order: Orders) {
         database.orderDao().deleteOrder(order)
     }
 
