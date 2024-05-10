@@ -16,7 +16,6 @@ import androidx.navigation.navArgument
 import com.example.codapizza.arraypizza.ArrayOfPizza
 import com.example.codapizza.cart.CartUI
 import com.example.codapizza.cart.EmptyCartUI
-import com.example.codapizza.cart.database.Order
 import com.example.codapizza.theme.AppTheme
 import com.example.codapizza.pizza.PizzaBuilderScreen
 import com.example.codapizza.cart.viewmodel.MainActivityViewModel
