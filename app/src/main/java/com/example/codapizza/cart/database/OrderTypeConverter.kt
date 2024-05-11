@@ -5,7 +5,6 @@ import com.example.codapizza.model.Topping
 import com.example.codapizza.model.ToppingPlacement
 import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.reflect.TypeToken
 import com.google.gson.Gson
-import com.google.gson.JsonElement
 import java.util.Date
 import java.util.UUID
 
