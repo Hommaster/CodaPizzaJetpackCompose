@@ -17,8 +17,7 @@ data class Orders(
     var description: String = "",
     var date: Date = Date(),
     var image: Int? = null,
-
     var toppings: Map<Topping, ToppingPlacement>,
-
-    var price: Float? = null
+    var price: Float? = null,
+    var quantity: Int = 1
 ): Parcelable
