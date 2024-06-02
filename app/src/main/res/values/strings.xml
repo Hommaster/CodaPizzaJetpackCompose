@@ -6,6 +6,7 @@
     <string name="placement_right">Right half</string>
 
     <string name="place_order_button">Place order (%1$s) руб.</string>
+    <string name="change_order_button">Change order (%1$s) руб.</string>
 
     <string name="placement_whole">Whole pizza</string>
 
@@ -26,6 +27,8 @@
     <string name="contact_telegram">We are on Telegram</string>
 
     <string name="placement_prompt">Where do you want %1$s on your pizza?</string>
+
+    <string name="change_pizza">Change</string>
 
     <string name="margherita">Margherita</string>
     <string name="margherita_ingredients">Main ingredients: mozzarella cheese, ripe tomatoes and fresh basil leaves</string>
