@@ -40,7 +40,9 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.navigation.NavHostController
 import com.example.codapizza.R
 import com.example.codapizza.cart.viewmodel.MainActivityViewModel
+import com.example.codapizza.model.Pizza
 import com.example.codapizza.model.Pizzas
+import com.google.gson.Gson
 import kotlinx.coroutines.launch
 
 @Composable
@@ -154,10 +156,14 @@ fun ArrayOfPizza(
                 LazyColumn {
                     items(Pizzas.entries.toTypedArray()) { pizza ->
                         val pizzaName: String = stringResource(id = pizza.pizzaName)
+                        val pizzaWithArrayOfPizza: Pizza = Pizza(
+                            pizzaName = "pizzaWithArrayOfPizza"
+                        )
+                        val json = Uri.encode(Gson().toJson(pizzaWithArrayOfPizza))
                         BoxOfPizza(
                             pizza = pizza,
                             onClick = {
-                                navController.navigate("screen_2/$pizzaName")
+                                navController.navigate("screen_2/$pizzaName/$json/1")
                             }
                         )
                     }
