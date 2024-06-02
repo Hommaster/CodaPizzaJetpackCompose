@@ -6,7 +6,7 @@ coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
-appcompat = "1.6.1"
+appcompat = "1.7.0"
 material = "1.12.0"
 activity = "1.9.0"
 constraintlayout = "2.1.4"
@@ -18,8 +18,13 @@ navVersion = "2.7.7"
 room = "2.6.1"
 ksp = "1.9.22-1.0.17"
 firebaseCrashlyticsBuildtools = "3.0.0"
+google-services = "4.4.2"
+firebase-bom-version = "33.1.0"
 
 [libraries]
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom-version" }
+firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore-ktx" }
 androidx-room = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 androidx-room-ksp = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
@@ -47,5 +52,4 @@ androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 jetbrainsKotlinPluginParcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "parcelize" }
 devtoolsksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-
-
+googleServices = { id = "com.google.gms.google-services", version.ref = "google-services" }

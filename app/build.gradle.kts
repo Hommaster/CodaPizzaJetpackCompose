@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.jetbrainsKotlinPluginParcelize)
     alias(libs.plugins.devtoolsksp)
+    alias(libs.plugins.googleServices)
 }
 
 android {
@@ -74,4 +75,10 @@ dependencies {
 
     //json
     implementation(libs.gson)
+
+    //firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.firestore)
+
 }

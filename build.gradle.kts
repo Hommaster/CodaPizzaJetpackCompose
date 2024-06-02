@@ -4,4 +4,5 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid) apply false
     alias(libs.plugins.jetbrainsKotlinPluginParcelize) apply false
     alias(libs.plugins.devtoolsksp) apply false
+    alias(libs.plugins.googleServices) apply false
 }
