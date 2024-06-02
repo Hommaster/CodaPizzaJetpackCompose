@@ -23,6 +23,7 @@ import androidx.compose.material.LocalTextStyle
 //noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
@@ -40,6 +41,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextMotion
 import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.navigation.NavHostController
 import com.example.codapizza.R
 import com.example.codapizza.cart.database.Orders
@@ -47,6 +50,8 @@ import com.example.codapizza.model.Pizza
 import com.example.codapizza.model.Pizzas
 import com.example.codapizza.model.Topping
 import com.example.codapizza.cart.viewmodel.MainActivityViewModel
+import com.example.codapizza.cart.viewmodel.OrderDetailViewModel
+import com.example.codapizza.cart.viewmodel.OrderDetailViewModelFactory
 import kotlinx.coroutines.launch
 import java.util.Date
 import java.util.UUID
@@ -56,11 +61,23 @@ import java.util.UUID
 fun PizzaBuilderScreen(
     navController: NavHostController,
     modifier: Modifier = Modifier,
+    pizzaFromOrder: Pizza?,
+    orderID: String?,
     pizzaName: String?
 ) {
+
     var pizza by rememberSaveable {
-        mutableStateOf(Pizza(pizzaName = pizzaName))
+        when(pizzaFromOrder!!.pizzaName) {
+            "pizzaWithArrayOfPizza" -> {
+                mutableStateOf(Pizza(pizzaName = pizzaName))
+            }
+            else -> {
+                mutableStateOf(pizzaFromOrder)
+            }
+        }
     }
+
+    val nameOfPizza = if(pizzaFromOrder!!.pizzaName == "pizzaWithArrayOfPizza") pizzaName else pizzaFromOrder.pizzaName
 
     Column(
         modifier = modifier
@@ -69,7 +86,7 @@ fun PizzaBuilderScreen(
     ) {
         PizzasImage(
             pizza = pizza,
-            pizzaName = pizzaName,
+            pizzaName = nameOfPizza,
             modifier = modifier
         )
         SizeDialog(
@@ -85,9 +102,10 @@ fun PizzaBuilderScreen(
         )
         OrderButton(
             pizza = pizza,
+            orderID = orderID,
             mainActivityViewModel = MainActivityViewModel(),
             navController = navController,
-            pizzaName = pizzaName,
+            pizzaName = nameOfPizza,
             modifier = modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(10.dp)
@@ -153,17 +171,23 @@ private fun ToppingList(
 @Composable
 private fun OrderButton(
     mainActivityViewModel: MainActivityViewModel,
+    orderID: String?,
     navController: NavHostController,
     pizza: Pizza,
     pizzaName: String?,
     modifier: Modifier = Modifier
 ) {
 
+    val orderDetailViewModel: OrderDetailViewModel? = if(orderID!="1") OrderDetailViewModel(UUID.fromString(orderID)) else null
+
     val pizzas = when(pizzaName) {
         stringResource(R.string.margherita) -> Pizzas.Margherita
         stringResource(R.string.carbonara) -> Pizzas.Carbonara
         stringResource(R.string.chicago) -> Pizzas.Chicago
         else -> Pizzas.Margherita
+    }
+    val order: MutableState<Orders?> = rememberSaveable {
+        mutableStateOf(null)
     }
 
     val descriptionPizza = stringResource(id = pizzas.pizzaIngredients)
@@ -178,43 +202,93 @@ private fun OrderButton(
         label = "scale"
     )
 
-    Button(
-        modifier = modifier
-            .width(280.dp),
-        onClick = {
-                  coroutineScope.launch {
-                      val newOrder = Orders(
-                          id = UUID.randomUUID(),
-                          title = pizza.pizzaName!!,
-                          description = descriptionPizza,
-                          date = Date(),
-                          image = pizzas.pizzaImage,
-                          toppings = pizza.toppings,
-                          price = pizza.price.toFloat()
-                      )
-                      mainActivityViewModel.addOrder(newOrder)
-                      navController.navigate("screen_1")
-                  }
-        },
-        shape = RoundedCornerShape(23.dp),
-        colors = ButtonDefaults.buttonColors(contentColor = Color.White, backgroundColor = Color.Blue)
-    ) {
-
-        val price = pizza.price
-        Log.d("changeSize", "$price")
-
-        Text(
-            modifier = modifier
-                .graphicsLayer {
-                    scaleX = scale
-                    scaleY = scale
-                    transformOrigin = TransformOrigin.Center
+    when(orderID){
+        "1" -> {
+            Button(
+                modifier = modifier
+                    .width(280.dp),
+                onClick = {
+                    coroutineScope.launch {
+                        val newOrder = Orders(
+                            id = UUID.randomUUID(),
+                            title = pizza.pizzaName!!,
+                            description = descriptionPizza,
+                            date = Date(),
+                            image = pizzas.pizzaImage,
+                            toppings = pizza.toppings,
+                            price = pizza.price.toFloat()
+                        )
+                        mainActivityViewModel.addOrder(newOrder)
+                        navController.popBackStack("screen_1", inclusive = false)
+                    }
                 },
-            style = LocalTextStyle.current.copy(textMotion = TextMotion.Animated),
-            text = stringResource(R.string.place_order_button, price)
-            .toUpperCase(Locale.current),
-            textAlign = TextAlign.Center
-        )
+                shape = RoundedCornerShape(23.dp),
+                colors = ButtonDefaults.buttonColors(contentColor = Color.White, backgroundColor = Color.Blue)
+            ) {
+
+                val price = pizza.price
+                Log.d("changeSize", "$price")
+
+                Text(
+                    modifier = modifier
+                        .graphicsLayer {
+                            scaleX = scale
+                            scaleY = scale
+                            transformOrigin = TransformOrigin.Center
+                        },
+                    style = LocalTextStyle.current.copy(textMotion = TextMotion.Animated),
+                    text = stringResource(R.string.place_order_button, price)
+                        .toUpperCase(Locale.current),
+                    textAlign = TextAlign.Center
+                )
+            }
+        }
+        else -> {
+            Button(
+                modifier = modifier
+                    .width(280.dp),
+                onClick = {
+                    coroutineScope.launch {
+                        orderDetailViewModel!!.updateOrder { oldOrder->
+                            Log.d("info_order", pizza.toppings.toString())
+                            oldOrder.copy(
+                                date = Date(),
+                                toppings = pizza.toppings,
+                                price = pizza.price.toFloat()
+                            )
+                        }
+                    }
+                    coroutineScope.launch {
+                        orderDetailViewModel!!.order.collect{
+                            order.value = it
+                        }
+                    }
+                    coroutineScope.launch {
+                        mainActivityViewModel.updateOrder(order.value!!)
+                    }
+                    navController.navigate("cart_screen")
+                },
+                shape = RoundedCornerShape(23.dp),
+                colors = ButtonDefaults.buttonColors(contentColor = Color.White, backgroundColor = Color.Blue)
+            ) {
+
+                val price = pizza.price
+                Log.d("changeSize", "$price")
+
+                Text(
+                    modifier = modifier
+                        .graphicsLayer {
+                            scaleX = scale
+                            scaleY = scale
+                            transformOrigin = TransformOrigin.Center
+                        },
+                    style = LocalTextStyle.current.copy(textMotion = TextMotion.Animated),
+                    text = stringResource(R.string.change_order_button, price)
+                        .toUpperCase(Locale.current),
+                    textAlign = TextAlign.Center
+                )
+            }
+        }
     }
 }
 
