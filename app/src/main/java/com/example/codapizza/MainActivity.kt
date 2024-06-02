@@ -23,6 +23,7 @@ import com.example.codapizza.pizza.PizzaBuilderScreen
 import com.example.codapizza.cart.viewmodel.MainActivityViewModel
 import com.example.codapizza.model.Pizza
 import com.example.codapizza.model.PizzaType
+import com.example.codapizza.orderhistory.OrderHistory
 
 class MainActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -85,6 +86,11 @@ class MainActivity : AppCompatActivity() {
                     EmptyCartUI(
                         navController
                     )
+                }
+                composable(
+                    "order_history"
+                ) {
+                    OrderHistory()
                 }
             }
         }

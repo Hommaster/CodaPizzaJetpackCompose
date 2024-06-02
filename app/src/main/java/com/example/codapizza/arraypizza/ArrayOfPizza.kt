@@ -109,6 +109,9 @@ fun ArrayOfPizza(
                                         }
                                     }
                                 }
+                                R.string.order_history -> {
+                                    navController.navigate("order_history")
+                                }
 
                                 R.string.contact_telegram -> {
                                     val browserIntent = Intent(
