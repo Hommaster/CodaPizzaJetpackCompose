@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.util.UUID
 
 class MainActivityViewModel : ViewModel() {
 
@@ -30,12 +31,34 @@ class MainActivityViewModel : ViewModel() {
         orderRepository.getOrders()
     }
 
+    fun getQuantityOrder(order: Orders): Int {
+        return order.quantity
+    }
+
     suspend fun addOrder(order: Orders) {
         orderRepository.addOrder(order)
     }
 
     suspend fun deleteOrder(order: Orders) {
         orderRepository.deleteOrder(order)
+    }
+
+    suspend fun getOrder(id: UUID) {
+        orderRepository.getOrder(id)
+    }
+
+    suspend fun updateOrder(order: Orders){
+        orderRepository.updateOrder(order)
+    }
+
+    suspend fun reductionInQuantity(order: Orders) {
+        order.quantity -= 1
+        orderRepository.updateOrder(order)
+    }
+
+    suspend fun addingQuantity(order: Orders) {
+        order.quantity += 1
+        orderRepository.updateOrder(order)
     }
 
 
