@@ -20,5 +20,9 @@ enum class NavigationDrawerItems(
         nameItem = R.string.contact_vk,
         imageItem = R.drawable.vk
     ),
+    OH(
+        nameItem = R.string.order_history,
+        imageItem = R.drawable.orderhistory
+    )
 
 }
