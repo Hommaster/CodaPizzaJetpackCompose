@@ -41,7 +41,7 @@ fun RowWithQuantityOrder(
     }
     Card(
         modifier = Modifier
-            .padding(100.dp, 0.dp, 0.dp, 0.dp)
+            .padding(0.dp, 0.dp, 0.dp, 0.dp)
             .size(100.dp, 30.dp),
         shape = RoundedCornerShape(23.dp),
         colors = CardColors(Color.Gray, Color.Black, Color.White, Color.White)

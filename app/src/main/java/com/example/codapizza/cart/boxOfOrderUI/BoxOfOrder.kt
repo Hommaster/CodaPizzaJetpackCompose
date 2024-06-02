@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
 import androidx.compose.material3.Icon
@@ -28,6 +29,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -57,53 +59,68 @@ fun BoxOfOrder(
     )
     val json = Uri.encode(Gson().toJson(pizza))
 
-
-    Row(
+    Card(
         modifier = Modifier
-            .fillMaxSize(),
-    ){
-        Image(
-            painter = painterResource(id = order.image!!),
-            contentDescription = order.title
-        )
-        Column(
+            .padding(0.dp, 4.dp),
+        shape = RoundedCornerShape(23.dp),
+        colors = CardColors(Color.Cyan, Color.Black, Color.White, Color.White)
+    ) {
+        Row(
             modifier = Modifier
-                .weight(1f, fill=true)
+                .padding(4.dp, 6.dp)
+                .fillMaxSize(),
+        ){
+            Image(
+                painter = painterResource(id = order.image!!),
+                contentDescription = order.title
+            )
+            Column(
+                modifier = Modifier
+                    .weight(1f, fill=true)
+            ){
+                Text(
+                    modifier = Modifier
+                        .padding(20.dp, 0.dp, 0.dp, 0.dp),
+                    text = order.title,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    fontStyle = FontStyle.Italic
+                )
+                order.toppings.forEach{
+                    Text(text = "${it.key}: ${it.value}")
+                }
+            }
+        }
+        Row(
+            modifier = Modifier
+                .padding(0.dp, 4.dp)
+                .fillMaxSize(),
+            horizontalArrangement = Arrangement.SpaceEvenly,
         ){
             Text(
                 modifier = Modifier
-                    .padding(20.dp, 0.dp, 0.dp, 0.dp),
-                text = order.title,
-                fontWeight = FontWeight.Bold,
-                fontSize = 18.sp,
-                fontStyle = FontStyle.Italic
+                    .padding(10.dp, 0.dp, 0.dp, 0.dp),
+                text = order.price.toString(),
+                fontSize = 23.sp,
+                fontWeight = FontWeight.Bold
             )
-            order.toppings.forEach{
-                Text(text = "${it.key}: ${it.value}")
-            }
+            Text(
+                modifier = Modifier
+                    .clickable {
+                        navController.navigate("screen_2/${pizza.pizzaName}/$json/$orderIdToString")
+                    },
+                text = stringResource(id = R.string.change_pizza),
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White,
+                textAlign = TextAlign.Center
+            )
+            RowWithQuantityOrder(
+                mainActivityViewModel,
+                navController,
+                order
+            )
         }
     }
-    Row(
-        modifier = Modifier
-            .fillMaxSize(),
-        horizontalArrangement = Arrangement.SpaceEvenly,
-    ){
-        Text(
-            text = order.price.toString()
-        )
-        Text(
-            modifier = Modifier
-                .clickable {
-                    navController.navigate("screen_2/${pizza.pizzaName}/$json/$orderIdToString")
-                },
-            text = stringResource(id = R.string.change_pizza),
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold
-        )
-        RowWithQuantityOrder(
-            mainActivityViewModel,
-            navController,
-            order
-        )
-    }
+
 }
