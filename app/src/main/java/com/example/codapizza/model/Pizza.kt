@@ -1,7 +1,13 @@
 package com.example.codapizza.model
 
+import android.os.Build
+import android.os.Bundle
 import android.os.Parcelable
+import androidx.annotation.RequiresApi
+import androidx.compose.ui.util.trace
+import androidx.navigation.NavType
 import com.example.codapizza.model.ToppingPlacement.*
+import com.google.gson.Gson
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import java.math.BigDecimal
@@ -65,5 +71,17 @@ data class Pizza(
             null
         }
     }
+}
 
+class PizzaType : NavType<Pizza>(isNullableAllowed = true) {
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    override fun get(bundle: Bundle, key: String): Pizza? {
+        return bundle.getParcelable(key, Pizza::class.java)
+    }
+    override fun parseValue(value: String): Pizza {
+        return Gson().fromJson(value, Pizza::class.java)
+    }
+    override fun put(bundle: Bundle, key: String, value: Pizza) {
+        bundle.putParcelable(key, value)
+    }
 }
