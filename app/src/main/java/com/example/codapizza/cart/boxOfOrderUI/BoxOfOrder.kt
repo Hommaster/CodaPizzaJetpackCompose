@@ -45,6 +45,7 @@ import kotlinx.coroutines.launch
 fun BoxOfOrder(
     mainActivityViewModel: MainActivityViewModel,
     navController: NavHostController,
+    onClick: () -> Unit,
     order: Orders
 ) {
 
@@ -118,6 +119,7 @@ fun BoxOfOrder(
             RowWithQuantityOrder(
                 mainActivityViewModel,
                 navController,
+                onClick = onClick,
                 order
             )
         }

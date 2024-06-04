@@ -41,5 +41,5 @@
     <string name="cart_is_empty">Your cart is still empty! Maybe you would like to order something?</string>
     <string name="back_to_menu">Return to menu!</string>
 
-    <string name="send_an_order">Send an order</string>
+    <string name="send_an_order">Send an order (%1$s) руб.</string>
 </resources>

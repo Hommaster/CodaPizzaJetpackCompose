@@ -32,6 +32,7 @@ import kotlinx.coroutines.launch
 fun RowWithQuantityOrder(
     mainActivityViewModel: MainActivityViewModel,
     navController: NavHostController,
+    onClick: () -> Unit,
     order: Orders
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -52,10 +53,11 @@ fun RowWithQuantityOrder(
         ){
             IconButton(
                 modifier = Modifier
-                    .padding(10.dp, 5.dp, 2.dp, 0.dp)
+                    .padding(5.dp, 5.dp, 2.dp, 0.dp)
                     .size(20.dp),
                 colors = IconButtonColors(Color.Gray, Color.Red, Color.Blue, Color.Blue),
                 onClick = {
+                    onClick()
                     coroutineScope.launch {
                         if(order.quantity == 1) {
                             mainActivityViewModel.deleteOrder(order)
@@ -78,6 +80,7 @@ fun RowWithQuantityOrder(
                 )
             }
             qS.value = mainActivityViewModel.getQuantityOrder(order)
+            onClick()
             Text(
                 modifier = Modifier
                     .padding(12.dp, 3.dp, 3.dp, 0.dp),
@@ -92,6 +95,7 @@ fun RowWithQuantityOrder(
                     .size(20.dp),
                 colors = IconButtonColors(Color.Gray, Color.Green, Color.Blue, Color.Blue),
                 onClick = {
+                    onClick()
                     coroutineScope.launch {
                         mainActivityViewModel.addingQuantity(order)
                         qS.value = mainActivityViewModel.getQuantityOrder(order)
