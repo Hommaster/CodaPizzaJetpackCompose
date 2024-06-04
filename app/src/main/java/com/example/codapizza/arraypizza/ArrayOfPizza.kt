@@ -13,10 +13,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 //noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material3.Card
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -101,16 +103,22 @@ fun ArrayOfPizza(
                                     scope.launch {
                                         mainActivityViewModel.orders.collect{
                                             if(it.isEmpty()) {
-                                                navController.navigate("cart_screen_empty")
+                                                navController.navigate("cart_screen_empty") {
+                                                    popUpTo("screen_1")
+                                                }
                                             }
                                             else {
-                                                navController.navigate("cart_screen")
+                                                navController.navigate("cart_screen") {
+                                                    popUpTo("screen_1")
+                                                }
                                             }
                                         }
                                     }
                                 }
                                 R.string.order_history -> {
-                                    navController.navigate("order_history")
+                                    navController.navigate("order_history") {
+                                        popUpTo("screen_1")
+                                    }
                                 }
 
                                 R.string.contact_telegram -> {
@@ -139,21 +147,27 @@ fun ArrayOfPizza(
                 modifier = Modifier
                     .background(colorResource(id = R.color.black))
             ){
-                Row(
+                Card(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .height(80.dp)
-                ){
-                    TopAppBar(
+                        .padding(0.dp, 4.dp),
+                    shape = RoundedCornerShape(15.dp),
+                ) {
+                    Row(
                         modifier = Modifier
-                            .fillMaxHeight()
-                    ) {
-                        IconButton(
+                            .fillMaxWidth()
+                            .height(80.dp),
+                    ){
+                        TopAppBar(
                             modifier = Modifier
-                                .align(Alignment.Bottom),
-                            onClick = {scope.launch {drawerState.open()}},
-                            content = { Icon(Icons.Filled.Menu, "Menu") }
-                        )
+                                .fillMaxHeight()
+                        ) {
+                            IconButton(
+                                modifier = Modifier
+                                    .align(Alignment.Bottom),
+                                onClick = {scope.launch {drawerState.open()}},
+                                content = { Icon(Icons.Filled.Menu, "Menu") }
+                            )
+                        }
                     }
                 }
                 LazyColumn {
@@ -166,7 +180,9 @@ fun ArrayOfPizza(
                         BoxOfPizza(
                             pizza = pizza,
                             onClick = {
-                                navController.navigate("screen_2/$pizzaName/$json/1")
+                                navController.navigate("screen_2/$pizzaName/$json/1") {
+                                    popUpTo("screen_1")
+                                }
                             }
                         )
                     }

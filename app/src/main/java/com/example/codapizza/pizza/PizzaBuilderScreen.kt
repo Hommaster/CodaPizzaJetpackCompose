@@ -219,7 +219,7 @@ private fun OrderButton(
                             price = pizza.price.toFloat()
                         )
                         mainActivityViewModel.addOrder(newOrder)
-                        navController.popBackStack("screen_1", inclusive = false)
+                        navController.popBackStack("screen_1", false)
                     }
                 },
                 shape = RoundedCornerShape(23.dp),
@@ -266,7 +266,7 @@ private fun OrderButton(
                     coroutineScope.launch {
                         mainActivityViewModel.updateOrder(order.value!!)
                     }
-                    navController.navigate("cart_screen")
+                    navController.popBackStack("screen_1", false)
                 },
                 shape = RoundedCornerShape(23.dp),
                 colors = ButtonDefaults.buttonColors(contentColor = Color.White, backgroundColor = Color.Blue)
