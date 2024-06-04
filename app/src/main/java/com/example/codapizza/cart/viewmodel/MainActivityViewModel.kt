@@ -1,5 +1,6 @@
 package com.example.codapizza.cart.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.codapizza.cart.database.Orders
@@ -35,6 +36,20 @@ class MainActivityViewModel : ViewModel() {
         return order.quantity
     }
 
+    private fun getTotalPrice(order: Orders): Float {
+        val price = order.price * order.quantity
+        return price
+    }
+
+    fun getOverrideTotalPrice(): Float {
+        var totalPrice = 0f
+        orders.value.forEach {
+            totalPrice += getTotalPrice(it)
+        }
+        Log.d("TotalPrice", totalPrice.toString())
+        return totalPrice
+    }
+
     suspend fun addOrder(order: Orders) {
         orderRepository.addOrder(order)
     }
@@ -60,6 +75,12 @@ class MainActivityViewModel : ViewModel() {
         order.quantity += 1
         orderRepository.updateOrder(order)
     }
+
+    suspend fun deleteAll() {
+        orderRepository.deleteAll()
+    }
+
+
 
 
 
