@@ -75,10 +75,12 @@ class MainActivity : AppCompatActivity() {
                 composable(
                     "cart_screen",
                 ) {backStackEntry ->
-                    CartUI(
-                        navController,
-                        mainActivityViewModel = MainActivityViewModel()
-                    )
+                    AppTheme {
+                        CartUI(
+                            navController,
+                            mainActivityViewModel = MainActivityViewModel()
+                        )
+                    }
                 }
                 composable(
                     "cart_screen_empty"
