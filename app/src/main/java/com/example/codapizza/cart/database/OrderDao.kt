@@ -14,6 +14,9 @@ interface OrderDao {
     @Query("Select * FROM `orders`")
     fun getAllOrders(): Flow<List<Orders>>
 
+    @Query("DELETE FROM orders")
+    suspend fun deleteAll()
+
     @Query("SELECT * FROM `orders` WHERE id=(:id)")
     suspend fun getOneOrderFromCart(id: UUID): Orders
 

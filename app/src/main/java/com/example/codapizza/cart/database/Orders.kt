@@ -18,6 +18,6 @@ data class Orders(
     var date: Date = Date(),
     var image: Int? = null,
     var toppings: Map<Topping, ToppingPlacement>,
-    var price: Float? = null,
+    var price: Float = 0f,
     var quantity: Int = 1
 ): Parcelable

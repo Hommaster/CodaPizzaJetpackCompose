@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.room.Room
 import com.example.codapizza.cart.database.OrderDatabase
 import com.example.codapizza.cart.database.Orders
-import com.example.codapizza.cart.database.migration_2_3
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
@@ -22,11 +21,14 @@ private constructor(
         context.applicationContext,
         OrderDatabase::class.java,
         "orders_db"
-    ).addMigrations(migration_2_3)
-        .build()
+    ).build()
 
     fun getOrders(): Flow<List<Orders>> = database.orderDao().getAllOrders()
     suspend fun getOrder(id: UUID): Orders = database.orderDao().getOneOrderFromCart(id)
+
+    suspend fun deleteAll() {
+        database.orderDao().deleteAll()
+    }
 
     suspend fun updateOrder(order: Orders) {
         coroutineScope.launch {

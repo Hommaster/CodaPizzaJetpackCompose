@@ -6,16 +6,10 @@ import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = [Orders::class], version = 3, exportSchema = false)
+@Database(entities = [Orders::class], version = 1, exportSchema = false)
 @TypeConverters(OrderTypeConverter::class)
 abstract class OrderDatabase : RoomDatabase() {
 
     abstract fun orderDao(): OrderDao
 
-}
-
-val migration_2_3: Migration = object : Migration(2, 3){
-    override fun migrate(db: SupportSQLiteDatabase) {
-        db.execSQL("ALTER TABLE orders ADD COLUMN quantity INT DEFAULT '1'")
-    }
 }
