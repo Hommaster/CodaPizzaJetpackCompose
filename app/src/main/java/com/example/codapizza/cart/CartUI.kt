@@ -67,7 +67,7 @@ fun CartUI(
 
     Column(
         modifier = Modifier
-            .background(colorResource(id = R.color.black))
+            .background(colorResource(id = R.color.orange))
             .fillMaxSize(),
     ){
         Card(
