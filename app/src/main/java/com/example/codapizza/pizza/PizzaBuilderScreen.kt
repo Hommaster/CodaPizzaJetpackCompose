@@ -7,8 +7,12 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.draggable
+import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -25,7 +29,9 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -40,6 +46,7 @@ import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextMotion
 import androidx.compose.ui.text.toUpperCase
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.viewModelFactory
@@ -55,6 +62,7 @@ import com.example.codapizza.cart.viewmodel.OrderDetailViewModelFactory
 import kotlinx.coroutines.launch
 import java.util.Date
 import java.util.UUID
+import kotlin.math.roundToInt
 
 
 @Composable
@@ -79,11 +87,23 @@ fun PizzaBuilderScreen(
 
     val nameOfPizza = if(pizzaFromOrder!!.pizzaName == "pizzaWithArrayOfPizza") pizzaName else pizzaFromOrder.pizzaName
 
+    var xOffset by remember { mutableFloatStateOf(0f) }
+
     Column(
         modifier = modifier
+            .offset { IntOffset(xOffset.roundToInt(), 20) }
             .background(colorResource(id = R.color.limegreen))
             .padding(0.dp, 30.dp)
+            .draggable(
+                orientation = Orientation.Vertical,
+                state = rememberDraggableState { distance ->
+                    xOffset += distance
+                }
+            )
     ) {
+        if(xOffset >= 400.0){
+            navController.popBackStack("screen_1", false)
+        }
         PizzasImage(
             pizza = pizza,
             pizzaName = nameOfPizza,
