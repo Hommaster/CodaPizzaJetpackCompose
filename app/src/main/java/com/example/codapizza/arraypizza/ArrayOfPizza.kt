@@ -66,12 +66,12 @@ fun ArrayOfPizza(
             ModalDrawerSheet(
                 modifier = Modifier
                     .padding(0.dp, 40.dp, 30.dp, 0.dp),
-                drawerContainerColor = colorResource(id = R.color.limegreen)
+                drawerContainerColor = colorResource(id = R.color.orange)
             ){
                 NavigationDrawerItems.entries.forEach { item ->
                     NavigationDrawerItem(
                         colors = NavigationDrawerItemDefaults.colors(
-                            unselectedContainerColor = colorResource(R.color.limegreen)
+                            unselectedContainerColor = colorResource(R.color.orange)
                         ),
                         label= {
                             Row{
@@ -149,8 +149,8 @@ fun ArrayOfPizza(
             ){
                 Card(
                     modifier = Modifier
-                        .padding(0.dp, 4.dp),
-                    shape = RoundedCornerShape(15.dp),
+                        .padding(0.dp, 0.dp),
+                    shape = RoundedCornerShape(0.dp, 0.dp, 15.dp, 15.dp),
                 ) {
                     Row(
                         modifier = Modifier
