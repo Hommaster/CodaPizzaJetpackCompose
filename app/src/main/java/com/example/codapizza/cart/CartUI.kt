@@ -39,11 +39,14 @@ import androidx.navigation.NavHostController
 import com.example.codapizza.R
 import com.example.codapizza.cart.boxOfOrderUI.BoxOfOrder
 import com.example.codapizza.cart.database.Orders
+import com.example.codapizza.cart.topAppBarForCartUI.TopAppBarForCartUI
 import com.example.codapizza.cart.viewmodel.MainActivityViewModel
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
+import kotlin.math.floor
+import kotlin.math.roundToInt
 
 
 @Composable
@@ -67,58 +70,13 @@ fun CartUI(
 
     Column(
         modifier = Modifier
-            .background(colorResource(id = R.color.orange))
+            .background(colorResource(id = R.color.black))
             .fillMaxSize(),
     ){
-        Card(
-            modifier = Modifier
-                .padding(0.dp, 4.dp),
-            shape = RoundedCornerShape(15.dp),
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(80.dp)
-            ) {
-                TopAppBar(
-                    modifier = Modifier
-                        .fillMaxSize()
-                ) {
-                    IconButton(
-                        modifier = Modifier
-                            .align(Alignment.Bottom)
-                            .padding(0.dp, 4.dp, 0.dp, 0.dp),
-                        onClick = {
-                            coroutineScope.launch {
-                                mainActivityViewModel.deleteAll()
-                            }
-                            navController.navigate("cart_screen_empty")
-                        },
-                        content = {
-                            Icon(
-                                Icons.Filled.Delete, "Menu"
-                            )
-                        }
-                    )
-                    IconButton(
-                        modifier = Modifier
-                            .padding(200.dp, 0.dp, 0.dp, 0.dp)
-                            .align(Alignment.Bottom),
-                        onClick = {
-                            coroutineScope.launch {
-                                mainActivityViewModel.deleteAll()
-                            }
-                            navController.navigate("cart_screen_empty")
-                        },
-                        content = {
-                            Icon(
-                                Icons.Filled.Close, "Menu"
-                            )
-                        }
-                    )
-                }
-            }
-        }
+        TopAppBarForCartUI(
+            navController,
+            mainActivityViewModel
+        )
         LazyColumn(
             modifier = Modifier
                 .padding(20.dp, 50.dp)
@@ -128,6 +86,7 @@ fun CartUI(
             coroutineScope.launch {
                 mainActivityViewModel.orders.collect{
                     orderList.value = it
+                    totalCost.value = mainActivityViewModel.getOverrideTotalPrice()
                 }
             }
             item {
@@ -156,8 +115,9 @@ fun CartUI(
                 fs.collection("orders").document().set(mapOf("1" to "1"))
             },
             content = {
+                val d1 = (totalCost.value*100).roundToInt() / 100.0
                 Text(
-                    text = stringResource(id = R.string.send_an_order, totalCost.value),
+                    text = stringResource(id = R.string.send_an_order, d1),
                     textAlign = TextAlign.Center
                 )
             }
