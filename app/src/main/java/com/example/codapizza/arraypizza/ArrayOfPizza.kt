@@ -173,7 +173,7 @@ fun ArrayOfPizza(
                 LazyColumn {
                     items(Pizzas.entries.toTypedArray()) { pizza ->
                         val pizzaName: String = stringResource(id = pizza.pizzaName)
-                        val pizzaWithArrayOfPizza: Pizza = Pizza(
+                        val pizzaWithArrayOfPizza = Pizza(
                             pizzaName = "pizzaWithArrayOfPizza"
                         )
                         val json = Uri.encode(Gson().toJson(pizzaWithArrayOfPizza))

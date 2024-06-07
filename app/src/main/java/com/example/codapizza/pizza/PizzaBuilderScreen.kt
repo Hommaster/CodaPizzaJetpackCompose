@@ -48,8 +48,6 @@ import androidx.compose.ui.text.style.TextMotion
 import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.navigation.NavHostController
 import com.example.codapizza.R
 import com.example.codapizza.cart.database.Orders
@@ -58,7 +56,6 @@ import com.example.codapizza.model.Pizzas
 import com.example.codapizza.model.Topping
 import com.example.codapizza.cart.viewmodel.MainActivityViewModel
 import com.example.codapizza.cart.viewmodel.OrderDetailViewModel
-import com.example.codapizza.cart.viewmodel.OrderDetailViewModelFactory
 import kotlinx.coroutines.launch
 import java.util.Date
 import java.util.UUID
