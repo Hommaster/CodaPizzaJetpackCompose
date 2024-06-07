@@ -7,9 +7,9 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@drawable/logo_pizza"
+        android:icon="@mipmap/ic_launcher_fox"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/logo_pizza"
+        android:roundIcon="@mipmap/ic_launcher_fox_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CodaPizza"
         tools:targetApi="31">
