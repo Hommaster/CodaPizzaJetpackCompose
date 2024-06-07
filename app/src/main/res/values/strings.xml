@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CodaPizza</string>
+    <string name="app_name">FoxPizza</string>
 
     <string name="placement_none">None</string>
     <string name="placement_left">Left half</string>
@@ -42,4 +42,5 @@
     <string name="back_to_menu">Return to menu!</string>
 
     <string name="send_an_order">Send an order (%1$s) руб.</string>
+    <string name="Cart">Cart</string>
 </resources>

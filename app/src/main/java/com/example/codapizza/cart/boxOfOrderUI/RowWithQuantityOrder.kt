@@ -59,6 +59,9 @@ fun RowWithQuantityOrder(
                 onClick = {
                     onClick()
                     coroutineScope.launch {
+                        if(order.price.toInt() == 0) {
+                            onClick()
+                        }
                         if(order.quantity == 1) {
                             mainActivityViewModel.deleteOrder(order)
                         }
