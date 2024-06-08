@@ -8,10 +8,8 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
@@ -28,10 +26,6 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.LocalTextStyle
 //noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.Text
-import androidx.compose.material.contentColorFor
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -46,7 +40,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.intl.Locale
@@ -55,7 +48,6 @@ import androidx.compose.ui.text.style.TextMotion
 import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.util.trace
 import androidx.navigation.NavHostController
 import com.example.codapizza.R
 import com.example.codapizza.cart.database.Orders
@@ -64,14 +56,12 @@ import com.example.codapizza.model.Pizzas
 import com.example.codapizza.model.Topping
 import com.example.codapizza.cart.viewmodel.MainActivityViewModel
 import com.example.codapizza.cart.viewmodel.OrderDetailViewModel
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import java.util.Date
 import java.util.UUID
 import kotlin.math.roundToInt
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PizzaBuilderScreen(
     navController: NavHostController,
