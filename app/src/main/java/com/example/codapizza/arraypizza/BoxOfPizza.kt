@@ -54,7 +54,7 @@ fun BoxOfPizza(
             Row(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(colorResource(id = R.color.limegreen))
+                    .background(colorResource(id = R.color.orange))
                     .clickable { onClick() }
             ){
                 Column(
@@ -70,11 +70,13 @@ fun BoxOfPizza(
                         color = Color.White,
                         style = MaterialTheme.typography.body1
                     )
-                    Text(
-                        text = stringResource(id = pizza.pizzaIngredients),
-                        style = MaterialTheme.typography.body2,
-                        color = Color.White
-                    )
+                    Row {
+                        Text(
+                            text = stringResource(id = pizza.pizzaIngredients),
+                            style = MaterialTheme.typography.body2,
+                            color = Color.White
+                        )
+                    }
                 }
             }
         }
