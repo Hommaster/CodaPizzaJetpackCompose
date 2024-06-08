@@ -25,6 +25,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
@@ -64,7 +65,7 @@ fun BoxOfOrder(
         modifier = Modifier
             .padding(0.dp, 4.dp),
         shape = RoundedCornerShape(23.dp),
-        colors = CardColors(Color.Cyan, Color.Black, Color.White, Color.White)
+        colors = CardColors(colorResource(id = R.color.orange), Color.Black, Color.White, Color.White)
     ) {
         Row(
             modifier = Modifier
@@ -77,6 +78,7 @@ fun BoxOfOrder(
             )
             Column(
                 modifier = Modifier
+                    .padding(10.dp, 0.dp)
                     .weight(1f, fill=true)
             ){
                 Text(
@@ -88,7 +90,10 @@ fun BoxOfOrder(
                     fontStyle = FontStyle.Italic
                 )
                 order.toppings.forEach{
-                    Text(text = "${it.key}: ${it.value}")
+                    Text(
+                        text = "${it.key}: ${it.value}, ",
+                        fontSize = 15.sp
+                    )
                 }
             }
         }
