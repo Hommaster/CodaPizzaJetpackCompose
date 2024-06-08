@@ -8,8 +8,10 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
@@ -26,6 +28,10 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.LocalTextStyle
 //noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.Text
+import androidx.compose.material.contentColorFor
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -40,6 +46,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.intl.Locale
@@ -48,6 +55,7 @@ import androidx.compose.ui.text.style.TextMotion
 import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.trace
 import androidx.navigation.NavHostController
 import com.example.codapizza.R
 import com.example.codapizza.cart.database.Orders
@@ -56,12 +64,14 @@ import com.example.codapizza.model.Pizzas
 import com.example.codapizza.model.Topping
 import com.example.codapizza.cart.viewmodel.MainActivityViewModel
 import com.example.codapizza.cart.viewmodel.OrderDetailViewModel
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import java.util.Date
 import java.util.UUID
 import kotlin.math.roundToInt
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PizzaBuilderScreen(
     navController: NavHostController,
@@ -84,21 +94,52 @@ fun PizzaBuilderScreen(
 
     val nameOfPizza = if(pizzaFromOrder!!.pizzaName == "pizzaWithArrayOfPizza") pizzaName else pizzaFromOrder.pizzaName
 
-    var xOffset by remember { mutableFloatStateOf(0f) }
+    var yOffset by remember { mutableFloatStateOf(0f) }
+
+    var colorBackground: Color by remember {
+        mutableStateOf(Color.Black)
+    }
+
+    colorBackground = if(yOffset >= 0) {
+        Color.Black
+    } else {
+        Color.Transparent
+    }
+//    val modalBottomSheetState = rememberModalBottomSheetState(
+//        skipPartiallyExpanded = true
+//    )
+//    ModalBottomSheet(onDismissRequest = {
+//        navController.popBackStack("screen_1", false)
+//    },
+//        sheetState = modalBottomSheetState,
+//        dragHandle = {
+//
+//        }) {
+//
+//    }
 
     Column(
         modifier = modifier
-            .offset { IntOffset(xOffset.roundToInt(), 20) }
-            .background(colorResource(id = R.color.limegreen))
+            .offset { IntOffset(0, yOffset.roundToInt()) }
+            .background(
+                colorBackground
+            )
             .padding(0.dp, 30.dp)
             .draggable(
                 orientation = Orientation.Vertical,
-                state = rememberDraggableState { distance ->
-                    xOffset += distance
+                state = rememberDraggableState {
+                    if (it <= 0) {
+                        yOffset = 0f
+                    } else {
+                        yOffset += it
+                    }
+                },
+                onDragStopped = {
+                    yOffset = 0f
                 }
             )
     ) {
-        if(xOffset >= 400.0){
+        if(yOffset >= 600.0){
             navController.popBackStack("screen_1", false)
         }
         PizzasImage(
@@ -240,7 +281,9 @@ private fun OrderButton(
                     }
                 },
                 shape = RoundedCornerShape(23.dp),
-                colors = ButtonDefaults.buttonColors(contentColor = Color.White, backgroundColor = Color.Blue)
+                colors = ButtonDefaults.buttonColors(contentColor = Color.White, backgroundColor = colorResource(
+                    id = R.color.orange
+                ))
             ) {
 
                 val price = pizza.price
@@ -283,10 +326,14 @@ private fun OrderButton(
                     coroutineScope.launch {
                         mainActivityViewModel.updateOrder(order.value!!)
                     }
-                    navController.popBackStack("screen_1", false)
+                    navController.navigate("cart_screen") {
+                        popUpTo("screen_1")
+                    }
                 },
                 shape = RoundedCornerShape(23.dp),
-                colors = ButtonDefaults.buttonColors(contentColor = Color.White, backgroundColor = Color.Blue)
+                colors = ButtonDefaults.buttonColors(contentColor = Color.White, backgroundColor = colorResource(
+                    id = R.color.orange
+                ))
             ) {
 
                 val price = pizza.price

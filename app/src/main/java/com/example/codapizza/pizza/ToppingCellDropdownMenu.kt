@@ -16,7 +16,6 @@ import androidx.compose.material.ExposedDropdownMenuBox
 //noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.ExposedDropdownMenuDefaults
 //noinspection UsingMaterialAndMaterial3Libraries
-import androidx.compose.material.MaterialTheme
 //noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.TextField
 import androidx.compose.material3.Text
@@ -30,8 +29,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.codapizza.R
 import com.example.codapizza.model.SizePizza
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -46,9 +49,9 @@ fun ToppingCellDropdownMenu(
     val bigString = stringResource(id = SizePizza.Big.sizeName)
     val veryBigString = stringResource(id = SizePizza.VeryBig.sizeName)
 
-    val coffeeDrinks = arrayOf(smallString, averageString, bigString, veryBigString)
+    val pizzaSizeChane = arrayOf(smallString, averageString, bigString, veryBigString)
     var expanded by remember { mutableStateOf(false) }
-    var selectedText by remember { mutableStateOf(coffeeDrinks[2]) }
+    var selectedText by remember { mutableStateOf(pizzaSizeChane[2]) }
 
     Box(
         modifier = Modifier
@@ -57,20 +60,22 @@ fun ToppingCellDropdownMenu(
     ) {
         ExposedDropdownMenuBox(
             modifier = Modifier
-                .width(140.dp)
+                .width(240.dp)
                 .clip(RoundedCornerShape(26.dp))
-                .border(3.dp, Color.Yellow, RoundedCornerShape(26.dp))
-                .background(Color.Cyan)
+                .background(colorResource(id = R.color.orange))
                 .align(Alignment.Center),
             expanded = expanded,
             onExpandedChange = {
                 expanded = !expanded
-            }
+            },
         ) {
             TextField(
                 modifier = Modifier,
                 value = selectedText,
-                textStyle = MaterialTheme.typography.body1,
+                textStyle = TextStyle(
+                    color = colorResource(id = R.color.white),
+                    fontSize = 18.sp
+                ),
                 onValueChange = {},
                 readOnly = true,
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
@@ -80,10 +85,11 @@ fun ToppingCellDropdownMenu(
                 expanded = expanded,
                 onDismissRequest = { expanded = false },
                 modifier = Modifier
-                    .border(1.5.dp, Color.Yellow)
+                    .clip(RoundedCornerShape(2.dp))
+                    .border(0.dp, Color.White, RoundedCornerShape(2.dp))
                     .background(Color.Transparent),
             ) {
-                coffeeDrinks.forEach { item ->
+                pizzaSizeChane.forEach { item ->
                     DropdownMenuItem(
                         content = { Text(text = item) },
                         onClick = {

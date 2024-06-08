@@ -35,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -99,7 +100,7 @@ fun ToppingPlacementOption(
     modifier: Modifier = Modifier,
     placement: ToppingPlacement?,
     placementIsChoose: ToppingPlacement?,
-    checkedColor: Color = Color.Blue,
+    checkedColor: Color = colorResource(id = R.color.orange),
     uncheckedColor: Color = Color.White,
     size: Float = 24f,
 ) {
@@ -123,7 +124,11 @@ fun ToppingPlacementOption(
                 .size(size.dp)
                 .background(color = checkboxColor, shape = RoundedCornerShape(20.dp))
                 .clickable { onClick() }
-                .border(width = 2.dp, color = Color.Yellow, shape = RoundedCornerShape(20.dp)),
+                .border(
+                    width = 2.dp,
+                    color = colorResource(id = R.color.orange),
+                    shape = RoundedCornerShape(20.dp)
+                ),
             contentAlignment = Alignment.Center
         ) {
             androidx.compose.animation.AnimatedVisibility(

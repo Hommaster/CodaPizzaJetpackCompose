@@ -29,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
@@ -36,6 +37,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.codapizza.R
 import com.example.codapizza.model.Topping
 import com.example.codapizza.model.ToppingPlacement
 
@@ -66,7 +68,7 @@ fun ToppingCell(
     modifier: Modifier = Modifier,
     isChecked: Boolean,
     size: Float = 24f,
-    checkedColor: Color = Color.Blue,
+    checkedColor: Color = colorResource(id = R.color.orange),
     uncheckedColor: Color = Color.White,
     onClickTopping: () -> Unit
 ) {
@@ -88,7 +90,11 @@ fun ToppingCell(
                 .size(size.dp)
                 .background(color = checkboxColor, shape = RoundedCornerShape(20.dp))
                 .clickable { onClickTopping() }
-                .border(width = 2.dp, color = Color.Yellow, shape = RoundedCornerShape(20.dp)),
+                .border(
+                    width = 2.dp,
+                    color = colorResource(id = R.color.orange),
+                    shape = RoundedCornerShape(20.dp)
+                ),
             contentAlignment = Alignment.Center
         ) {
             androidx.compose.animation.AnimatedVisibility(
@@ -124,6 +130,7 @@ fun ToppingCell(
             )
             if (placement != null) {
                 Text(
+                    color = Color.White,
                     text = stringResource(id = placement.label),
                     style = MaterialTheme.typography.body2
                 )
