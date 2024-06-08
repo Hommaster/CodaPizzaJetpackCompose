@@ -2,6 +2,7 @@ package com.example.codapizza.cart
 
 import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -53,33 +54,22 @@ fun EmptyCartUI(
     val dismissState = rememberSwipeToDismissBoxState()
     SwipeToDismissBox(
         state = dismissState,
+        enableDismissFromEndToStart = false,
         backgroundContent = {
             when(dismissState.targetValue){
-                SwipeToDismissBoxValue.EndToStart -> {
-                    AppTheme {
-                        ArrayOfPizza(
-                            rememberNavController(),
-                            MainActivityViewModel()
-                        )
-                    }
-                    if(dismissState.progress.toDouble() == 1.0) {
-                        navController.popBackStack("screen_1", false)
-                    }
-                }
                 SwipeToDismissBoxValue.StartToEnd -> {
-                    AppTheme {
-                        ArrayOfPizza(
-                            rememberNavController(),
-                            MainActivityViewModel()
-                        )
-                    }
-                    if(dismissState.progress.toDouble() == 1.0) {
+                    Box(
+                        contentAlignment = Alignment.CenterEnd,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(colorResource(id = R.color.orange))
+                    ) {}
+                    if(dismissState.progress.toDouble() >= 0.5) {
                         navController.popBackStack("screen_1", false)
                     }
                 }
                 else -> null
             }
-            Log.d("INFOprogress", dismissState.progress.toString())
         }
     ) {
         Column(

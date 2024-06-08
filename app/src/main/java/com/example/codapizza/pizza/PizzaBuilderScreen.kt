@@ -10,7 +10,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -26,6 +28,10 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.LocalTextStyle
 //noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.Text
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxValue
+import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -49,19 +55,23 @@ import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.codapizza.R
+import com.example.codapizza.arraypizza.ArrayOfPizza
 import com.example.codapizza.cart.database.Orders
 import com.example.codapizza.model.Pizza
 import com.example.codapizza.model.Pizzas
 import com.example.codapizza.model.Topping
 import com.example.codapizza.cart.viewmodel.MainActivityViewModel
 import com.example.codapizza.cart.viewmodel.OrderDetailViewModel
+import com.example.codapizza.theme.AppTheme
 import kotlinx.coroutines.launch
 import java.util.Date
 import java.util.UUID
 import kotlin.math.roundToInt
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PizzaBuilderScreen(
     navController: NavHostController,
@@ -84,80 +94,59 @@ fun PizzaBuilderScreen(
 
     val nameOfPizza = if(pizzaFromOrder!!.pizzaName == "pizzaWithArrayOfPizza") pizzaName else pizzaFromOrder.pizzaName
 
-    var yOffset by remember { mutableFloatStateOf(0f) }
-
-    var colorBackground: Color by remember {
-        mutableStateOf(Color.Black)
-    }
-
-    colorBackground = if(yOffset >= 0) {
-        Color.Black
-    } else {
-        Color.Transparent
-    }
-//    val modalBottomSheetState = rememberModalBottomSheetState(
-//        skipPartiallyExpanded = true
-//    )
-//    ModalBottomSheet(onDismissRequest = {
-//        navController.popBackStack("screen_1", false)
-//    },
-//        sheetState = modalBottomSheetState,
-//        dragHandle = {
-//
-//        }) {
-//
-//    }
-
-    Column(
-        modifier = modifier
-            .offset { IntOffset(0, yOffset.roundToInt()) }
-            .background(
-                colorBackground
-            )
-            .padding(0.dp, 30.dp)
-            .draggable(
-                orientation = Orientation.Vertical,
-                state = rememberDraggableState {
-                    if (it <= 0) {
-                        yOffset = 0f
-                    } else {
-                        yOffset += it
+    val dismissState = rememberSwipeToDismissBoxState()
+    SwipeToDismissBox(
+        state = dismissState,
+        enableDismissFromEndToStart = false,
+        backgroundContent = {
+            when(dismissState.targetValue){
+                SwipeToDismissBoxValue.StartToEnd -> {
+                    Box(
+                        contentAlignment = Alignment.CenterEnd,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(colorResource(id = R.color.orange))
+                    ) {}
+                    if(dismissState.progress.toDouble() >= 0.5) {
+                        navController.popBackStack("screen_1", false)
                     }
-                },
-                onDragStopped = {
-                    yOffset = 0f
                 }
-            )
-    ) {
-        if(yOffset >= 600.0){
-            navController.popBackStack("screen_1", false)
+                else -> null
+            }
         }
-        PizzasImage(
-            pizza = pizza,
-            pizzaName = nameOfPizza,
+    ) {
+        Column(
             modifier = modifier
-        )
-        SizeDialog(
-            pizza = pizza,
-            onEditSize = { pizza = it }
-        )
-        ToppingList(
-            pizza = pizza,
-            onEditTopping = { pizza = it },
-            modifier = modifier
-                .fillMaxWidth()
-                .weight(1f, fill = true)
-        )
-        OrderButton(
-            pizza = pizza,
-            orderID = orderID,
-            mainActivityViewModel = MainActivityViewModel(),
-            navController = navController,
-            pizzaName = nameOfPizza,
-            modifier = modifier
-                .align(Alignment.CenterHorizontally)
-                .padding(10.dp)
-        )
+                .background(Color.Black)
+                .padding(0.dp, 30.dp)
+        ) {
+            PizzasImage(
+                pizza = pizza,
+                pizzaName = nameOfPizza,
+                modifier = modifier
+            )
+            SizeDialog(
+                pizza = pizza,
+                onEditSize = { pizza = it }
+            )
+            ToppingList(
+                pizza = pizza,
+                onEditTopping = { pizza = it },
+                modifier = modifier
+                    .fillMaxWidth()
+                    .weight(1f, fill = true)
+            )
+            OrderButton(
+                pizza = pizza,
+                orderID = orderID,
+                mainActivityViewModel = MainActivityViewModel(),
+                navController = navController,
+                pizzaName = nameOfPizza,
+                modifier = modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(10.dp)
+            )
+        }
     }
 }
 
