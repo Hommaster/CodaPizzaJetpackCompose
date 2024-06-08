@@ -18,6 +18,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -45,7 +46,7 @@ fun RowWithQuantityOrder(
             .padding(0.dp, 0.dp, 0.dp, 0.dp)
             .size(100.dp, 30.dp),
         shape = RoundedCornerShape(23.dp),
-        colors = CardColors(Color.Gray, Color.Black, Color.White, Color.White)
+        colors = CardColors(colorResource(id = R.color.white), Color.Black, Color.White, Color.White)
     ){
         Row(
             modifier = Modifier
@@ -55,7 +56,7 @@ fun RowWithQuantityOrder(
                 modifier = Modifier
                     .padding(5.dp, 5.dp, 2.dp, 0.dp)
                     .size(20.dp),
-                colors = IconButtonColors(Color.Gray, Color.Red, Color.Blue, Color.Blue),
+                colors = IconButtonColors(Color.White, colorResource(id = R.color.orange), Color.Blue, Color.Blue),
                 onClick = {
                     onClick()
                     coroutineScope.launch {
@@ -96,7 +97,7 @@ fun RowWithQuantityOrder(
                 modifier = Modifier
                     .padding(12.dp, 5.dp, 2.dp, 0.dp)
                     .size(20.dp),
-                colors = IconButtonColors(Color.Gray, Color.Green, Color.Blue, Color.Blue),
+                colors = IconButtonColors(Color.White, colorResource(id = R.color.orange), Color.Blue, Color.Blue),
                 onClick = {
                     onClick()
                     coroutineScope.launch {

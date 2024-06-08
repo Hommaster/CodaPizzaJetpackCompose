@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -19,10 +20,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.codapizza.R
 import com.example.codapizza.cart.boxOfOrderUI.BoxOfOrder
@@ -95,7 +98,8 @@ fun CartUI(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(0.dp, 40.dp)
-                .width(280.dp),
+                .width(300.dp),
+            colors = ButtonColors(colorResource(id = R.color.orange), Color.White, Color.Yellow, Color.White),
             onClick = {
                 val json = Uri.encode(Gson().toJson(orderList))
                 Log.d("InfoJson", json)
@@ -105,7 +109,8 @@ fun CartUI(
                 val d1 = (totalCost.value*100).roundToInt() / 100.0
                 Text(
                     text = stringResource(id = R.string.send_an_order, d1),
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    fontSize = 15.sp
                 )
             }
         )
