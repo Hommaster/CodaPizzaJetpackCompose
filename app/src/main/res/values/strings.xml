@@ -43,4 +43,7 @@
 
     <string name="send_an_order">Send an order (%1$s) руб.</string>
     <string name="Cart">Cart</string>
+    
+    <string name="Nuggets">Nuggets</string>
+    <string name="french_fries">French fries</string>
 </resources>
