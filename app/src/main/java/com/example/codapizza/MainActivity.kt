@@ -6,7 +6,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.runtime.MutableState
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -15,7 +14,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.codapizza.arraypizza.ArrayOfPizza
+import com.example.codapizza.arraypizza.ArrayOfProducts
 import com.example.codapizza.cart.CartUI
 import com.example.codapizza.cart.EmptyCartUI
 import com.example.codapizza.theme.AppTheme
@@ -66,7 +65,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 composable("screen_1") {
                     AppTheme {
-                        ArrayOfPizza(
+                        ArrayOfProducts(
                             navController,
                             mainActivityViewModel = MainActivityViewModel()
                         )

@@ -1,6 +1,5 @@
 package com.example.codapizza.cart
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,9 +33,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.codapizza.R
-import com.example.codapizza.arraypizza.ArrayOfPizza
-import com.example.codapizza.cart.viewmodel.MainActivityViewModel
-import com.example.codapizza.theme.AppTheme
 
 @Preview
 @Composable

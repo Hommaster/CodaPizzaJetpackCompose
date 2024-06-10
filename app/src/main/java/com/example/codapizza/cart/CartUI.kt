@@ -32,14 +32,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.codapizza.R
-import com.example.codapizza.arraypizza.ArrayOfPizza
 import com.example.codapizza.cart.boxOfOrderUI.BoxOfOrder
 import com.example.codapizza.cart.database.Orders
 import com.example.codapizza.cart.topAppBarForCartUI.TopAppBarForCartUI
 import com.example.codapizza.cart.viewmodel.MainActivityViewModel
-import com.example.codapizza.theme.AppTheme
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
