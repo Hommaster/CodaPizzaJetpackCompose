@@ -26,6 +26,9 @@ import androidx.compose.foundation.pager.VerticalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonColors
+import androidx.compose.material.ButtonDefaults
 //noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
@@ -45,6 +48,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -197,16 +201,45 @@ fun ArrayOfPizza(
                         .align(Alignment.Start)
                         .padding(bottom = 8.dp),
                     horizontalArrangement = Arrangement.Center
-                ) {
-
-                    repeat(pagerState.pageCount) {iteration ->
-                        val color = if(pagerState.currentPage == iteration) colorResource(id = R.color.orange) else Color.White
-                        Box(
+                ){
+                    var color1: Color = Color.White
+                    var color2: Color = Color.White
+                    repeat(pagerState.pageCount) {
+                        color1 = if(pagerState.currentPage == 0) colorResource(id = R.color.orange) else Color.White
+                        color2 = if(pagerState.currentPage == 1) colorResource(id = R.color.orange) else Color.White
+                    }
+                    Button(
+                        modifier = Modifier
+                            .padding(2.dp),
+                        shape = RoundedCornerShape(15.dp),
+                        onClick = {
+                            scope.launch {
+                                pagerState.animateScrollToPage(0)
+                            }
+                        },
+                        colors = ButtonDefaults.buttonColors(color1)
+                    ) {
+                        Text(
                             modifier = Modifier
-                                .padding(2.dp)
-                                .clip(CircleShape)
-                                .background(color)
-                                .size(16.dp)
+                                .background(color1),
+                            text = "Pizza"
+                        )
+                    }
+                    Button(
+                        modifier = Modifier
+                            .padding(2.dp),
+                        shape = RoundedCornerShape(15.dp),
+                        onClick = {
+                            scope.launch {
+                                pagerState.animateScrollToPage(1)
+                            }
+                        },
+                        colors = ButtonDefaults.buttonColors(color2)
+                    ) {
+                        Text(
+                            modifier = Modifier
+                                .background(color2),
+                            text = "Snack"
                         )
                     }
                 }
