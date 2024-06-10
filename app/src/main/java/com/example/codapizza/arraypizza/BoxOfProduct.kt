@@ -27,13 +27,29 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.codapizza.R
 import com.example.codapizza.model.Pizzas
+import com.example.codapizza.snack.SnackInfo
 
 
 @Composable
-fun BoxOfPizza(
-    pizza: Pizzas,
+fun BoxOfProduct(
+    pizza: Pizzas?,
+    snack: SnackInfo?,
     onClick: () -> Unit
 ) {
+    val productImage: Int
+    val productName: Int
+    var productIngredients: Int? = null
+
+    if(snack != null && pizza == null) {
+        productImage = snack.snackImage
+        productName = snack.snackName
+        productIngredients = null
+    }
+    else{
+        productImage = pizza!!.pizzaImage
+        productName = pizza.pizzaName
+        productIngredients = pizza.pizzaIngredients
+    }
     Box(
         modifier = Modifier
             .padding(14.dp, 6.dp)
@@ -47,8 +63,8 @@ fun BoxOfPizza(
                     .align(Alignment.CenterHorizontally)
                     .padding(0.dp, 15.dp)
                     .size(250.dp),
-                painter = painterResource(id = pizza.pizzaImage),
-                contentDescription = stringResource(id = pizza.pizzaName)
+                painter = painterResource(id = productImage),
+                contentDescription = stringResource(id = productName)
             )
             Row(
                 modifier = Modifier
@@ -63,18 +79,20 @@ fun BoxOfPizza(
                     Text(
                         modifier = Modifier
                             .padding(10.dp, 2.dp),
-                        text = stringResource(id = pizza.pizzaName),
+                        text = stringResource(id = productName),
                         fontStyle = FontStyle.Italic,
                         fontWeight = FontWeight.Bold,
                         color = Color.White,
                         style = MaterialTheme.typography.body1
                     )
-                    Row {
-                        Text(
-                            text = stringResource(id = pizza.pizzaIngredients),
-                            style = MaterialTheme.typography.body2,
-                            color = Color.White
-                        )
+                    if(pizza != null && snack == null) {
+                        Row {
+                            Text(
+                                text = stringResource(id = productIngredients!!),
+                                style = MaterialTheme.typography.body2,
+                                color = Color.White
+                            )
+                        }
                     }
                 }
             }

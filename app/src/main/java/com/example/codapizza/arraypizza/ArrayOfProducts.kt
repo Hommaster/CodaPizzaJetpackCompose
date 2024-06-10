@@ -7,12 +7,9 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -20,14 +17,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.pager.PagerDefaults
-import androidx.compose.foundation.pager.PagerSnapDistance
 import androidx.compose.foundation.pager.VerticalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
-import androidx.compose.material.ButtonColors
 import androidx.compose.material.ButtonDefaults
 //noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.TopAppBar
@@ -47,8 +40,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -62,12 +53,13 @@ import com.example.codapizza.R
 import com.example.codapizza.cart.viewmodel.MainActivityViewModel
 import com.example.codapizza.model.Pizza
 import com.example.codapizza.model.Pizzas
+import com.example.codapizza.snack.SnackInfo
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ArrayOfPizza(
+fun ArrayOfProducts(
     navController: NavHostController,
     mainActivityViewModel: MainActivityViewModel,
 ) {
@@ -193,102 +185,11 @@ fun ArrayOfPizza(
                 val pagerState = rememberPagerState( pageCount = {
                     2
                 })
-
-                Row(
-                    modifier = Modifier
-                        .wrapContentHeight()
-                        .fillMaxWidth()
-                        .align(Alignment.Start)
-                        .padding(bottom = 8.dp),
-                    horizontalArrangement = Arrangement.Center
-                ){
-                    var color1: Color = Color.White
-                    var color2: Color = Color.White
-                    repeat(pagerState.pageCount) {
-                        color1 = if(pagerState.currentPage == 0) colorResource(id = R.color.orange) else Color.White
-                        color2 = if(pagerState.currentPage == 1) colorResource(id = R.color.orange) else Color.White
-                    }
-                    Button(
-                        modifier = Modifier
-                            .padding(2.dp),
-                        shape = RoundedCornerShape(15.dp),
-                        onClick = {
-                            scope.launch {
-                                pagerState.animateScrollToPage(0)
-                            }
-                        },
-                        colors = ButtonDefaults.buttonColors(color1)
-                    ) {
-                        Text(
-                            modifier = Modifier
-                                .background(color1),
-                            text = "Pizza"
-                        )
-                    }
-                    Button(
-                        modifier = Modifier
-                            .padding(2.dp),
-                        shape = RoundedCornerShape(15.dp),
-                        onClick = {
-                            scope.launch {
-                                pagerState.animateScrollToPage(1)
-                            }
-                        },
-                        colors = ButtonDefaults.buttonColors(color2)
-                    ) {
-                        Text(
-                            modifier = Modifier
-                                .background(color2),
-                            text = "Snack"
-                        )
-                    }
-                }
-
-                VerticalPager(
-                    state = pagerState
-                ) {page ->
-                    Log.d("InfoPager", page.toString())
-                    when(page){
-                        0 -> {
-                            LazyColumn {
-                                items(Pizzas.entries.toTypedArray()) { pizza ->
-                                    val pizzaName: String = stringResource(id = pizza.pizzaName)
-                                    val pizzaWithArrayOfPizza = Pizza(
-                                        pizzaName = "pizzaWithArrayOfPizza"
-                                    )
-                                    val json = Uri.encode(Gson().toJson(pizzaWithArrayOfPizza))
-                                    BoxOfPizza(
-                                        pizza = pizza,
-                                        onClick = {
-                                            navController.navigate("screen_2/$pizzaName/$json/1") {
-                                                popUpTo("screen_1")
-                                            }
-                                        }
-                                    )
-                                }
-                            }
-                        }
-                        1 -> {
-                            LazyColumn {
-                                items(Pizzas.entries.toTypedArray()) { pizza ->
-                                    val pizzaName: String = stringResource(id = pizza.pizzaName)
-                                    val pizzaWithArrayOfPizza = Pizza(
-                                        pizzaName = "pizzaWithArrayOfPizza"
-                                    )
-                                    val json = Uri.encode(Gson().toJson(pizzaWithArrayOfPizza))
-                                    BoxOfPizza(
-                                        pizza = pizza,
-                                        onClick = {
-                                            navController.navigate("screen_2/$pizzaName/$json/1") {
-                                                popUpTo("screen_1")
-                                            }
-                                        }
-                                    )
-                                }
-                            }
-                        }
-                    }
-                }
+                ViewPager(
+                    pagerState = pagerState,
+                    scope = scope,
+                    navController = navController
+                )
             }
         }
     )
