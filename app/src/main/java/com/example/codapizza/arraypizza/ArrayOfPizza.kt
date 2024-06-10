@@ -2,9 +2,12 @@ package com.example.codapizza.arraypizza
 
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,6 +16,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.pager.PagerDefaults
+import androidx.compose.foundation.pager.PagerSnapDistance
+import androidx.compose.foundation.pager.VerticalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 //noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.TopAppBar
@@ -47,6 +54,7 @@ import com.example.codapizza.model.Pizzas
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ArrayOfPizza(
     navController: NavHostController,
@@ -170,21 +178,56 @@ fun ArrayOfPizza(
                         }
                     }
                 }
-                LazyColumn {
-                    items(Pizzas.entries.toTypedArray()) { pizza ->
-                        val pizzaName: String = stringResource(id = pizza.pizzaName)
-                        val pizzaWithArrayOfPizza = Pizza(
-                            pizzaName = "pizzaWithArrayOfPizza"
-                        )
-                        val json = Uri.encode(Gson().toJson(pizzaWithArrayOfPizza))
-                        BoxOfPizza(
-                            pizza = pizza,
-                            onClick = {
-                                navController.navigate("screen_2/$pizzaName/$json/1") {
-                                    popUpTo("screen_1")
+
+                val pagerState = rememberPagerState( pageCount = {
+                    2
+                })
+
+                Image(painter = painterResource(id = R.drawable.french_fries_standart), contentDescription = "no")
+
+                VerticalPager(
+                    state = pagerState
+                ) {page ->
+                    Log.d("InfoPager", page.toString())
+                    when(page){
+                        0 -> {
+                            LazyColumn {
+                                items(Pizzas.entries.toTypedArray()) { pizza ->
+                                    val pizzaName: String = stringResource(id = pizza.pizzaName)
+                                    val pizzaWithArrayOfPizza = Pizza(
+                                        pizzaName = "pizzaWithArrayOfPizza"
+                                    )
+                                    val json = Uri.encode(Gson().toJson(pizzaWithArrayOfPizza))
+                                    BoxOfPizza(
+                                        pizza = pizza,
+                                        onClick = {
+                                            navController.navigate("screen_2/$pizzaName/$json/1") {
+                                                popUpTo("screen_1")
+                                            }
+                                        }
+                                    )
                                 }
                             }
-                        )
+                        }
+                        1 -> {
+                            LazyColumn {
+                                items(Pizzas.entries.toTypedArray()) { pizza ->
+                                    val pizzaName: String = stringResource(id = pizza.pizzaName)
+                                    val pizzaWithArrayOfPizza = Pizza(
+                                        pizzaName = "pizzaWithArrayOfPizza"
+                                    )
+                                    val json = Uri.encode(Gson().toJson(pizzaWithArrayOfPizza))
+                                    BoxOfPizza(
+                                        pizza = pizza,
+                                        onClick = {
+                                            navController.navigate("screen_2/$pizzaName/$json/1") {
+                                                popUpTo("screen_1")
+                                            }
+                                        }
+                                    )
+                                }
+                            }
+                        }
                     }
                 }
             }
