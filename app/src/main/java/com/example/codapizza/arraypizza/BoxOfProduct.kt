@@ -38,7 +38,7 @@ fun BoxOfProduct(
 ) {
     val productImage: Int
     val productName: Int
-    var productIngredients: Int? = null
+    val productIngredients: Int?
 
     if(snack != null && pizza == null) {
         productImage = snack.snackImage

@@ -52,6 +52,7 @@ fun EmptyCartUI(
         state = dismissState,
         enableDismissFromEndToStart = false,
         backgroundContent = {
+            @Suppress("UNUSED_EXPRESSION")
             when(dismissState.targetValue){
                 SwipeToDismissBoxValue.StartToEnd -> {
                     Box(
