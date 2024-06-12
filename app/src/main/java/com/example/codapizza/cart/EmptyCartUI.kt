@@ -96,10 +96,10 @@ fun EmptyCartUI(
             ) {
                 Card(
                     shape = RoundedCornerShape(15.dp),
-                    colors = CardColors(colorResource(id = R.color.springgreen), Color.Cyan, Color.Cyan, Color.Cyan)
+                    colors = CardColors(colorResource(id = R.color.orange), Color.Cyan, Color.Cyan, Color.Cyan)
                 ) {
                     Text(
-                        color = colorResource(id = R.color.orange),
+                        color = colorResource(id = R.color.white),
                         text = stringResource(id = R.string.cart_is_empty),
                         fontStyle = FontStyle.Italic,
                         fontWeight = FontWeight.Bold,
@@ -114,6 +114,7 @@ fun EmptyCartUI(
                             navController.popBackStack("screen_1", false)
                         }) {
                             Text(
+                                color = colorResource(id = R.color.black),
                                 text = stringResource(id = R.string.back_to_menu),
                                 fontStyle = FontStyle.Italic,
                                 fontWeight = FontWeight.Bold,
