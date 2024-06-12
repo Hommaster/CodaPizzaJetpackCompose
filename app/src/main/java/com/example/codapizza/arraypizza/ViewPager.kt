@@ -48,42 +48,32 @@ fun ViewPager(
         var color1: Color = Color.White
         var color2: Color = Color.White
         repeat(pagerState.pageCount) {
-            color1 = if(pagerState.currentPage == 0) colorResource(id = R.color.orange) else Color.White
-            color2 = if(pagerState.currentPage == 1) colorResource(id = R.color.orange) else Color.White
-        }
-        Button(
-            modifier = Modifier
-                .padding(2.dp),
-            shape = RoundedCornerShape(15.dp),
-            onClick = {
-                scope.launch {
-                    pagerState.animateScrollToPage(0)
-                }
-            },
-            colors = ButtonDefaults.buttonColors(color1)
-        ) {
-            Text(
-                modifier = Modifier
-                    .background(color1),
-                text = stringResource(id = R.string.view_pager_info_pizzas)
+            val color = if(pagerState.currentPage == it) colorResource(id = R.color.orange) else colorResource(
+                id = R.color.white
             )
-        }
-        Button(
-            modifier = Modifier
-                .padding(2.dp),
-            shape = RoundedCornerShape(15.dp),
-            onClick = {
-                scope.launch {
-                    pagerState.animateScrollToPage(1)
-                }
-            },
-            colors = ButtonDefaults.buttonColors(color2)
-        ) {
-            Text(
+            var textButton: Int = R.string.view_pager_info_pizzas
+            when(it) {
+                0 -> textButton = R.string.view_pager_info_pizzas
+                1 -> textButton = R.string.view_pager_info_snacks
+            }
+
+            Button(
                 modifier = Modifier
-                    .background(color2),
-                text = stringResource(id = R.string.view_pager_info_snacks)
-            )
+                    .padding(2.dp),
+                shape = RoundedCornerShape(15.dp),
+                onClick = {
+                    scope.launch {
+                        pagerState.animateScrollToPage(it)
+                    }
+                },
+                colors = ButtonDefaults.buttonColors(color)
+            ) {
+                Text(
+                    modifier = Modifier
+                        .background(color),
+                    text = stringResource(id = textButton)
+                )
+            }
         }
     }
 
