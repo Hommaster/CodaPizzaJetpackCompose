@@ -18,7 +18,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -49,6 +48,9 @@ fun ViewPager(
             val color = if(pagerState.currentPage == it) colorResource(id = R.color.orange) else colorResource(
                 id = R.color.white
             )
+            val colorText = if(pagerState.currentPage == it) colorResource(id = R.color.white) else colorResource(
+                id = R.color.orange
+            )
             var textButton: Int = R.string.view_pager_info_pizzas
             when(it) {
                 0 -> textButton = R.string.view_pager_info_pizzas
@@ -70,7 +72,7 @@ fun ViewPager(
                     modifier = Modifier
                         .background(color),
                     text = stringResource(id = textButton),
-                    color = Color.Black
+                    color = colorText
                 )
             }
         }
