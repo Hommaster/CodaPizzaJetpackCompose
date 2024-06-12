@@ -69,7 +69,8 @@ fun ViewPager(
                 Text(
                     modifier = Modifier
                         .background(color),
-                    text = stringResource(id = textButton)
+                    text = stringResource(id = textButton),
+                    color = Color.Black
                 )
             }
         }
