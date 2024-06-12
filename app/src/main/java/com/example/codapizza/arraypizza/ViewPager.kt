@@ -13,8 +13,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.VerticalPager
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -45,8 +45,6 @@ fun ViewPager(
             .padding(bottom = 8.dp),
         horizontalArrangement = Arrangement.Center
     ){
-        var color1: Color = Color.White
-        var color2: Color = Color.White
         repeat(pagerState.pageCount) {
             val color = if(pagerState.currentPage == it) colorResource(id = R.color.orange) else colorResource(
                 id = R.color.white
