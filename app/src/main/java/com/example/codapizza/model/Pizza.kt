@@ -15,6 +15,7 @@ import java.math.BigDecimal
 @Parcelize
 data class Pizza(
     val toppings: Map<Topping, ToppingPlacement> = emptyMap(),
+    val sauce: Map<Sauce, Int> = emptyMap(),
     val sizePizza: SizePizza? = null,
     val pizzaName: String?
 ): Parcelable {
