@@ -3,7 +3,6 @@ package com.example.codapizza.model
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.example.codapizza.R
-
 enum class Topping (
     @StringRes val toppingName: Int,
     @DrawableRes val toppingDrawable: Int,
