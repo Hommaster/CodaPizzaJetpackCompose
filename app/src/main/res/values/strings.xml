@@ -51,4 +51,10 @@
     <string name="french_fries">French fries</string>
     <string name="size_small_snack">Standard</string>
     <string name="size_big_snack">Big</string>
+
+    <string name="sauce_barbecue">Barbecue</string>
+    <string name="sauce_cheese">Cheese</string>
+    <string name="sauce_garlic">Garlic</string>
+    <string name="sauce_ketchup">Ketchup</string>
+    <string name="sauce_sweet_chili">Sweet chili</string>
 </resources>
