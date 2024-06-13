@@ -55,6 +55,9 @@ import com.example.codapizza.model.Pizzas
 import com.example.codapizza.model.Topping
 import com.example.codapizza.cart.viewmodel.MainActivityViewModel
 import com.example.codapizza.cart.viewmodel.OrderDetailViewModel
+import com.example.codapizza.model.Sauce
+import com.example.codapizza.sauce.SauceCell
+import com.example.codapizza.snack.Snack
 import kotlinx.coroutines.launch
 import java.util.Date
 import java.util.UUID
@@ -159,6 +162,10 @@ private fun ToppingList(
         mutableStateOf<Topping?>(null)
     }
 
+    var sauceBeingAdd by rememberSaveable {
+        mutableStateOf<Sauce?>(null)
+    }
+
     toppingBeingAdd?.let {
         ToppingCellDialog(
             topping = it,
@@ -172,6 +179,10 @@ private fun ToppingList(
         )
     }
 
+    sauceBeingAdd?.let {
+
+    }
+
 
     LazyColumn(
         modifier = modifier
@@ -183,6 +194,23 @@ private fun ToppingList(
                 isChecked = pizza.toppings[topping] != null,
                 onClickTopping = {
                     toppingBeingAdd = topping
+                },
+                modifier = modifier
+                    .graphicsLayer {
+                        scaleX = scale
+                        scaleY = scale
+                        transformOrigin = TransformOrigin.Center
+                    }
+            )
+        }
+
+        items(Sauce.entries.toTypedArray()) {sauce ->
+            SauceCell(
+                sauce = sauce,
+                quantity = pizza.sauce[sauce],
+                isChecked = pizza.sauce[sauce] != null,
+                onClickSauce = {
+                    sauceBeingAdd = sauce
                 },
                 modifier = modifier
                     .graphicsLayer {
@@ -243,6 +271,7 @@ private fun OrderButton(
                             date = Date(),
                             image = pizzas.pizzaImage,
                             toppings = pizza.toppings,
+                            sauce = pizza.sauce,
                             price = pizza.price.toFloat()
                         )
                         mainActivityViewModel.addOrder(newOrder)
