@@ -20,7 +20,7 @@ private constructor(
     private val database : OrderDatabase = Room.databaseBuilder(
         context.applicationContext,
         OrderDatabase::class.java,
-        "orders_db"
+        "orders_db2"
     ).build()
 
     fun getOrders(): Flow<List<Orders>> = database.orderDao().getAllOrders()

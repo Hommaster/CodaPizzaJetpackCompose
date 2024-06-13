@@ -1,6 +1,7 @@
 package com.example.codapizza.cart.database
 
 import androidx.room.TypeConverter
+import com.example.codapizza.model.Sauce
 import com.example.codapizza.model.Topping
 import com.example.codapizza.model.ToppingPlacement
 import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.reflect.TypeToken
@@ -38,5 +39,13 @@ class OrderTypeConverter {
 
     @TypeConverter
     fun fromHashMap(value: Map<Topping, ToppingPlacement>): String =
+        Gson().toJson(value)
+
+    @TypeConverter
+    fun toHashMapSauce(value: String): Map<Sauce, Int> =
+        Gson().fromJson(value, object : TypeToken<Map<Sauce, Int>>() {}.type)
+
+    @TypeConverter
+    fun fromHashMapSauce(value: Map<Sauce, Int>): String =
         Gson().toJson(value)
 }
