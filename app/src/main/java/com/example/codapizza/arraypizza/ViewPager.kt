@@ -51,11 +51,8 @@ fun ViewPager(
             val colorText = if(pagerState.currentPage == it) colorResource(id = R.color.white) else colorResource(
                 id = R.color.orange
             )
-            var textButton: Int = R.string.view_pager_info_pizzas
-            when(it) {
-                0 -> textButton = R.string.view_pager_info_pizzas
-                1 -> textButton = R.string.view_pager_info_snacks
-            }
+            val textButton: MutableList<Int> = mutableListOf(R.string.view_pager_info_pizzas, R.string.view_pager_info_snacks)
+
 
             Button(
                 modifier = Modifier
@@ -71,7 +68,7 @@ fun ViewPager(
                 Text(
                     modifier = Modifier
                         .background(color),
-                    text = stringResource(id = textButton),
+                    text = stringResource(id = textButton[it]),
                     color = colorText
                 )
             }
