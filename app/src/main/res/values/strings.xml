@@ -33,10 +33,13 @@
 
     <string name="margherita">Margherita</string>
     <string name="margherita_ingredients">Main ingredients: mozzarella cheese, ripe tomatoes and fresh basil leaves</string>
+    <string name="price_margherita">14.99</string>
     <string name="carbonara">Carbonara</string>
     <string name="carbonara_ingredients">Earthy mushrooms, melty cheese, crispy bacon, and most important of all, eggs</string>
+    <string name="price_carbonara">16.99</string>
     <string name="chicago">Chicago</string>
     <string name="chicago_ingredients">Earthy mushrooms, melty cheese, crispy bacon, and most important of all, eggs</string>
+    <string name="price_chicago">15.99</string>
 
     <string name="cart_is_empty">Your cart is still empty! Maybe you would like to order something?</string>
     <string name="back_to_menu">Return to menu!</string>
@@ -48,7 +51,9 @@
     <string name="view_pager_info_snacks">Snacks</string>
 
     <string name="Nuggets">Nuggets</string>
+    <string name="price_nuggets">4.00</string>
     <string name="french_fries">French fries</string>
+    <string name="price_french_fries">4.00</string>
     <string name="size_small_snack">Standard</string>
     <string name="size_big_snack">Big</string>
 

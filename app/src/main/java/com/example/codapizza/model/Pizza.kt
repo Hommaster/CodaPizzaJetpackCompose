@@ -15,7 +15,7 @@ import java.math.BigDecimal
 @Parcelize
 data class Pizza(
     val toppings: Map<Topping, ToppingPlacement> = emptyMap(),
-    val sauce: Map<Sauce, Int> = emptyMap(),
+    val sauces: Map<Sauce, Int> = emptyMap(),
     val sizePizza: SizePizza? = null,
     val pizzaName: String?
 ): Parcelable {
@@ -46,8 +46,19 @@ data class Pizza(
             }
         }.toBigDecimal()
 
+    @IgnoredOnParcel
+    private val saucesPrice: BigDecimal = sauces.asSequence()
+        .sumOf {
+            (_, quantity) ->
+            when(quantity) {
+                0 -> 0.0
+                1 -> 1.20
+                else -> quantity * 1.20
+            }
+        }.toBigDecimal()
+
     val price: BigDecimal
-        get() = pizzaNamePrice + sizePizzaPrice + toppingsPrice
+        get() = pizzaNamePrice + sizePizzaPrice + toppingsPrice + saucesPrice
 
     fun withTopping(topping: Topping, placement: ToppingPlacement?): Pizza {
         return copy(
@@ -55,6 +66,16 @@ data class Pizza(
                 toppings - topping
             } else {
                 toppings + (topping to placement)
+            }
+        )
+    }
+
+    fun withQuantity(sauce: Sauce, quantity: Int?): Pizza {
+        return copy(
+            sauces = if(quantity == null) {
+                sauces - sauce
+            } else {
+                sauces + (sauce to quantity)
             }
         )
     }
