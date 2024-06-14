@@ -163,7 +163,7 @@ private fun ToppingList(
     }
 
     var sauceBeingAdd by rememberSaveable {
-        mutableStateOf<Sauce?>(null)
+        mutableStateOf<Map<Sauce?, Int?>>(emptyMap())
     }
 
     toppingBeingAdd?.let {
@@ -179,8 +179,10 @@ private fun ToppingList(
         )
     }
 
-    sauceBeingAdd?.let {
-
+    sauceBeingAdd.let{
+        for((key, value) in it) {
+            onEditTopping(pizza.withQuantity(key!!, value))
+        }
     }
 
 
@@ -207,10 +209,10 @@ private fun ToppingList(
         items(Sauce.entries.toTypedArray()) {sauce ->
             SauceCell(
                 sauce = sauce,
-                quantity = pizza.sauce[sauce],
-                isChecked = pizza.sauce[sauce] != null,
+                quantity = pizza.sauces[sauce],
+                isChecked = pizza.sauces[sauce] != null,
                 onClickSauce = {
-                    sauceBeingAdd = sauce
+                    sauceBeingAdd = mapOf(sauce to it)
                 },
                 modifier = modifier
                     .graphicsLayer {
@@ -271,7 +273,7 @@ private fun OrderButton(
                             date = Date(),
                             image = pizzas.pizzaImage,
                             toppings = pizza.toppings,
-                            sauce = pizza.sauce,
+                            sauce = pizza.sauces,
                             price = pizza.price.toFloat()
                         )
                         mainActivityViewModel.addOrder(newOrder)

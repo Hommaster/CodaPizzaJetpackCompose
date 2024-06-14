@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.codapizza.R
 import com.example.codapizza.model.Sauce
+import com.example.codapizza.model.ToppingPlacement
 
 @Composable
 fun SauceCell(
@@ -45,7 +46,7 @@ fun SauceCell(
     size: Float = 24f,
     checkedColor: Color = colorResource(id = R.color.orange),
     uncheckedColor: Color = Color.White,
-    onClickSauce: () -> Unit
+    onClickSauce: (placement: Int?) -> Unit
 ) {
 
     val checkboxColor: Color by animateColorAsState(if (isChecked) checkedColor else uncheckedColor,
@@ -57,14 +58,26 @@ fun SauceCell(
     Row (
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
-            .clickable { onClickSauce() }
             .padding(horizontal = 16.dp, vertical = 4.dp)
+            .clickable {
+                if(quantity == null) {
+                    onClickSauce(1)
+                } else {
+                    onClickSauce(null)
+                }
+            }
     ) {
         Box(
             modifier = Modifier
                 .size(size.dp)
                 .background(color = checkboxColor, shape = RoundedCornerShape(20.dp))
-                .clickable { onClickSauce() }
+                .clickable {
+                    if(quantity == null) {
+                        onClickSauce(1)
+                    } else {
+                        onClickSauce(null)
+                    }
+                }
                 .border(
                     width = 2.dp,
                     color = colorResource(id = R.color.orange),
