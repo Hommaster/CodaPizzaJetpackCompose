@@ -46,6 +46,7 @@ fun BoxOfOrder(
 
     val pizza = Pizza(
         pizzaName = order.title,
+        sauces = order.sauce,
         toppings = order.toppings,
         sizePizza = SizePizza.Big
     )
