@@ -24,7 +24,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.codapizza.R
 import com.example.codapizza.model.Pizzas
 import com.example.codapizza.snack.SnackInfo
@@ -86,10 +88,18 @@ fun BoxOfProduct(
                         style = MaterialTheme.typography.body1
                     )
                     if(pizza != null && snack == null) {
-                        Row {
+                        Column {
+                            Row {
+                                Text(
+                                    text = stringResource(id = productIngredients!!),
+                                    style = MaterialTheme.typography.body2,
+                                    color = Color.White
+                                )
+                            }
                             Text(
-                                text = stringResource(id = productIngredients!!),
+                                text = stringResource(id = pizza.pricePizza),
                                 style = MaterialTheme.typography.body2,
+                                fontSize = 20.sp,
                                 color = Color.White
                             )
                         }
