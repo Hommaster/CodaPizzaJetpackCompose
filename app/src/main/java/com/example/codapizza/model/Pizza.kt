@@ -4,7 +4,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import androidx.annotation.RequiresApi
-import androidx.compose.ui.util.trace
 import androidx.navigation.NavType
 import com.example.codapizza.model.ToppingPlacement.*
 import com.google.gson.Gson

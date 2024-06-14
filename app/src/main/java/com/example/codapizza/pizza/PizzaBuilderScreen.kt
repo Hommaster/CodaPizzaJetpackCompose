@@ -57,7 +57,6 @@ import com.example.codapizza.cart.viewmodel.MainActivityViewModel
 import com.example.codapizza.cart.viewmodel.OrderDetailViewModel
 import com.example.codapizza.model.Sauce
 import com.example.codapizza.sauce.SauceCell
-import com.example.codapizza.snack.Snack
 import kotlinx.coroutines.launch
 import java.util.Date
 import java.util.UUID

@@ -35,7 +35,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.codapizza.R
 import com.example.codapizza.model.Sauce
-import com.example.codapizza.model.ToppingPlacement
 
 @Composable
 fun SauceCell(
