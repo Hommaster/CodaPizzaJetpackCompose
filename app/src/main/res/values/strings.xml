@@ -42,6 +42,7 @@
     <string name="price_chicago">15.99</string>
 
     <string name="cart_is_empty">Your cart is still empty! Maybe you would like to order something?</string>
+    <string name="order_history_is_empty">Haven\'t ordered our pizza yet?</string>
     <string name="back_to_menu">Return to menu!</string>
 
     <string name="send_an_order">Send an order (%1$s) руб.</string>

@@ -91,7 +91,9 @@ class MainActivity : AppCompatActivity() {
                 composable(
                     "order_history"
                 ) {
-                    OrderHistory()
+                    OrderHistory(
+                        navController
+                    )
                 }
             }
         }
