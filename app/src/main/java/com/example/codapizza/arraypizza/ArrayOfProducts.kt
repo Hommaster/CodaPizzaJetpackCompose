@@ -63,7 +63,7 @@ fun ArrayOfProducts(
         drawerContent = {
             ModalDrawerSheet(
                 modifier = Modifier
-                    .padding(0.dp, 40.dp, 30.dp, 0.dp),
+                    .padding(0.dp, 40.dp, 67.dp, 0.dp),
                 drawerContainerColor = colorResource(id = R.color.orange)
             ){
                 NavigationDrawerItems.entries.forEach { item ->
