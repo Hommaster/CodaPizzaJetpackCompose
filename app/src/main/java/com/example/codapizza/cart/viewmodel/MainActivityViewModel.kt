@@ -1,6 +1,5 @@
 package com.example.codapizza.cart.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.codapizza.cart.database.Orders
@@ -8,7 +7,6 @@ import com.example.codapizza.cart.repository.OrderRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.util.UUID
 
@@ -29,10 +27,6 @@ class MainActivityViewModel : ViewModel() {
         }
     }
 
-    suspend fun getSizeOrders(): Int {
-        return orders.value.size
-    }
-
     fun getOrders() {
         orderRepository.getOrders()
     }
@@ -51,7 +45,6 @@ class MainActivityViewModel : ViewModel() {
         orders.value.forEach {
             totalPrice += getTotalPrice(it)
         }
-        Log.d("TotalPrice", totalPrice.toString())
         return totalPrice
     }
 
