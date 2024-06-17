@@ -35,7 +35,7 @@ import androidx.navigation.NavHostController
 import com.example.codapizza.R
 import com.example.codapizza.cart.boxOfOrderUI.BoxOfOrder
 import com.example.codapizza.cart.database.Orders
-import com.example.codapizza.cart.topAppBarForCartUI.TopAppBarForCartUI
+import com.example.codapizza.desygnfiles.TopAppBarForCartUI
 import com.example.codapizza.cart.viewmodel.MainActivityViewModel
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -133,9 +133,9 @@ fun CartUI(
                     fs.collection("orders").document().set(mapOf("1" to "1"))
                 },
                 content = {
-                    val d1 = (totalCost.value*100).roundToInt() / 100.0
+                    val totalCostAfterRounded = (totalCost.value*100).roundToInt() / 100.0
                     Text(
-                        text = stringResource(id = R.string.send_an_order, d1),
+                        text = stringResource(id = R.string.send_an_order, totalCostAfterRounded),
                         textAlign = TextAlign.Center,
                         fontSize = 15.sp
                     )
