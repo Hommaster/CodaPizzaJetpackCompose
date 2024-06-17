@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.codapizza.R
+import com.example.codapizza.desygnfiles.InfoForTopAppBar
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -77,7 +78,11 @@ fun OrderHistory(
                         .background(colorResource(id = R.color.orange))
                         .height(80.dp)
                 ) {
-
+                    InfoForTopAppBar(
+                        modifier = Modifier
+                            .align(Alignment.Bottom),
+                        textID = R.string.order_history
+                    )
                 }
             }
             Column(

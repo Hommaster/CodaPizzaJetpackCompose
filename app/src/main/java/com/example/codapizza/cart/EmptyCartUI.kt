@@ -33,6 +33,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.codapizza.R
+import com.example.codapizza.desygnfiles.BoxWithImageScrollToDismiss
+import com.example.codapizza.desygnfiles.InfoForTopAppBar
 
 @Preview
 @Composable
@@ -85,7 +87,11 @@ fun EmptyCartUI(
                         .background(colorResource(id = R.color.orange))
                         .height(80.dp)
                 ) {
-
+                    InfoForTopAppBar(
+                        modifier = Modifier
+                            .align(Alignment.Bottom),
+                        textID = R.string.cart
+                    )
                 }
             }
 
