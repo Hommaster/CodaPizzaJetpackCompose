@@ -55,6 +55,7 @@ import com.example.codapizza.model.Pizzas
 import com.example.codapizza.model.Topping
 import com.example.codapizza.cart.viewmodel.MainActivityViewModel
 import com.example.codapizza.cart.viewmodel.OrderDetailViewModel
+import com.example.codapizza.desygnfiles.BoxWithImageScrollToDismiss
 import com.example.codapizza.model.Sauce
 import com.example.codapizza.sauce.SauceCell
 import kotlinx.coroutines.launch
@@ -99,7 +100,7 @@ fun PizzaBuilderScreen(
                             .fillMaxSize()
                             .background(colorResource(id = R.color.orange))
                     ) {}
-                    if(dismissState.progress.toDouble() >= 0.5) {
+                    if(dismissState.progress.toDouble() >= 0.65) {
                         navController.popBackStack("screen_1", false)
                     }
                 }
@@ -107,38 +108,44 @@ fun PizzaBuilderScreen(
             }
         }
     ) {
-        Column(
-            modifier = modifier
-                .background(Color.Black)
-                .padding(0.dp, 30.dp)
-        ) {
-            PizzasImage(
-                pizza = pizza,
-                pizzaName = nameOfPizza,
+        Box {
+            Column(
                 modifier = modifier
-            )
-            SizeDialog(
-                pizza = pizza,
-                onEditSize = { pizza = it }
-            )
-            ToppingList(
-                pizza = pizza,
-                onEditTopping = { pizza = it },
-                modifier = modifier
-                    .fillMaxWidth()
-                    .weight(1f, fill = true)
-            )
-            OrderButton(
-                pizza = pizza,
-                orderID = orderID,
-                mainActivityViewModel = MainActivityViewModel(),
-                navController = navController,
-                pizzaName = nameOfPizza,
-                modifier = modifier
-                    .align(Alignment.CenterHorizontally)
-                    .padding(10.dp)
+                    .background(Color.Black)
+                    .padding(0.dp, 30.dp)
+            ) {
+                PizzasImage(
+                    pizza = pizza,
+                    pizzaName = nameOfPizza,
+                    modifier = modifier
+                )
+                SizeDialog(
+                    pizza = pizza,
+                    onEditSize = { pizza = it }
+                )
+                ToppingList(
+                    pizza = pizza,
+                    onEditTopping = { pizza = it },
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .weight(1f, fill = true)
+                )
+                OrderButton(
+                    pizza = pizza,
+                    orderID = orderID,
+                    mainActivityViewModel = MainActivityViewModel(),
+                    navController = navController,
+                    pizzaName = nameOfPizza,
+                    modifier = modifier
+                        .align(Alignment.CenterHorizontally)
+                        .padding(10.dp)
+                )
+            }
+            BoxWithImageScrollToDismiss(
+                colorFilter = R.color.orange
             )
         }
+
     }
 }
 
