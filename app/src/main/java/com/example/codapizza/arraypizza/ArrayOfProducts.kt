@@ -5,6 +5,7 @@ import android.net.Uri
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,6 +26,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonColors
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
@@ -34,16 +36,20 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
@@ -51,6 +57,7 @@ import androidx.navigation.NavHostController
 import com.example.codapizza.R
 import com.example.codapizza.cart.viewmodel.MainActivityViewModel
 import kotlinx.coroutines.launch
+import kotlin.math.roundToInt
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -67,7 +74,11 @@ fun ArrayOfProducts(
     val scope = rememberCoroutineScope()
 
     val haveOrder: MutableState<Int> = rememberSaveable {
-        mutableStateOf(0)
+        mutableIntStateOf(0)
+    }
+
+    val totalCost : MutableState<Float> = rememberSaveable {
+        mutableFloatStateOf(0f)
     }
 
         ModalNavigationDrawer(
@@ -84,16 +95,46 @@ fun ArrayOfProducts(
                                 unselectedContainerColor = colorResource(R.color.orange)
                             ),
                             label = {
+                                LaunchedEffect(key1 = Unit) {
+                                    scope.launch {
+                                        mainActivityViewModel.orders.collect{
+                                            totalCost.value = mainActivityViewModel.getOverrideTotalPrice()
+                                        }
+                                    }
+                                }
                                 Row {
-                                    Image(
-                                        modifier = Modifier
-                                            .size(35.dp),
-                                        painter = painterResource(id = item.imageItem),
-                                        contentDescription = stringResource(id = item.nameItem)
-                                    )
+                                    Box {
+                                        Image(
+                                            modifier = Modifier
+                                                .padding(0.dp, 0.dp, 20.dp, 0.dp)
+                                                .size(35.dp),
+                                            painter = painterResource(id = item.imageItem),
+                                            contentDescription = stringResource(id = item.nameItem)
+                                        )
+                                        if(item.nameItem == R.string.cart && haveOrder.value > 0) {
+                                            Box(
+                                                modifier = Modifier
+                                                    .padding(25.dp, 0.dp, 0.dp, 0.dp)
+                                                    .size(20.dp)
+                                                    .border(
+                                                        width = 0.dp,
+                                                        color = colorResource(id = R.color.white),
+                                                        shape = RoundedCornerShape(15.dp)
+                                                    )
+                                                    .clip(RoundedCornerShape(15.dp))
+                                                    .background(Color.White),
+                                                contentAlignment = Alignment.Center,
+                                            ) {
+                                                Text(
+                                                    textAlign = TextAlign.Center,
+                                                    text = haveOrder.value.toString()
+                                                )
+                                            }
+                                        }
+                                    }
                                     Column(
                                         modifier = Modifier
-                                            .padding(20.dp, 0.dp)
+                                            .padding(0.dp, 0.dp)
                                             .size(250.dp, 30.dp)
                                     ) {
                                         Text(
@@ -203,12 +244,14 @@ fun ArrayOfProducts(
                         Box(
                             modifier = Modifier
                                 .background(Color.Transparent)
-                                .padding(270.dp, 720.dp, 0.dp, 0.dp)
-                                .size(120.dp, 60.dp),
+                                .padding(250.dp, 720.dp, 0.dp, 0.dp)
+                                .size(140.dp, 100.dp),
                         ) {
                             Button(
                                 modifier = Modifier
-                                    .padding(2.dp),
+                                    .size(150.dp, 60.dp)
+                                    .align(Alignment.TopStart)
+                                    .padding(0.dp),
                                 shape = RoundedCornerShape(15.dp),
                                 onClick = {
                                     navController.navigate("cart_screen") {
@@ -217,10 +260,21 @@ fun ArrayOfProducts(
                                 },
                                 colors = ButtonDefaults.buttonColors(colorResource(id = R.color.black))
                             ) {
+                                Image(
+                                    modifier = Modifier
+                                        .padding(0.dp, 0.dp, 4.dp, 0.dp)
+                                        .size(30.dp),
+                                    colorFilter = ColorFilter.tint(color = colorResource(id = R.color.orange)),
+                                    painter = painterResource(id = R.drawable.cart),
+                                    contentDescription = stringResource(id = R.string.cart)
+                                )
+                                val totalCostAfterRounded = (totalCost.value*100).roundToInt() / 100.0
                                 Text(
                                     modifier = Modifier
+                                        .padding(0.dp)
                                         .background(colorResource(id = R.color.black)),
-                                    text = stringResource(id = R.string.cart),
+                                    text = totalCostAfterRounded.toString(),
+                                    fontSize = 15.sp,
                                     color = colorResource(id = R.color.orange)
                                 )
                             }
