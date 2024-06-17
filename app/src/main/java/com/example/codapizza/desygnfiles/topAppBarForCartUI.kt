@@ -1,4 +1,4 @@
-package com.example.codapizza.cart.topAppBarForCartUI
+package com.example.codapizza.desygnfiles
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,16 +13,11 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.codapizza.R
 import com.example.codapizza.cart.viewmodel.MainActivityViewModel
@@ -50,17 +45,15 @@ fun TopAppBarForCartUI(
                 modifier = Modifier
                     .fillMaxSize()
             ) {
-                Text(
+                InfoForTopAppBar(
                     modifier = Modifier
-                        .align(Alignment.Bottom)
-                        .padding(160.dp, 0.dp, 0.dp, 10.dp),
-                    text = stringResource(id = R.string.cart),
-                    fontSize = 25.sp
-                    )
+                        .align(Alignment.Bottom),
+                    textID = R.string.cart
+                )
                 IconButton(
                     modifier = Modifier
                         .align(Alignment.Bottom)
-                        .padding(60.dp, 4.dp, 0.dp, 0.dp),
+                        .padding(0.dp, 20.dp, 0.dp, 0.dp),
                     onClick = {
                         coroutineScope.launch {
                             mainActivityViewModel.deleteAll()
@@ -70,22 +63,6 @@ fun TopAppBarForCartUI(
                     content = {
                         Icon(
                             Icons.Filled.Delete, "Menu"
-                        )
-                    }
-                )
-                IconButton(
-                    modifier = Modifier
-                        .align(Alignment.Bottom)
-                        .padding(10.dp, 4.dp, 0.dp, 4.dp),
-                    onClick = {
-                        navController.popBackStack("screen_1", false)
-                    },
-                    content = {
-                        Icon(
-                            modifier = Modifier
-                                .scale(1.7f),
-                            painter = painterResource(id = R.drawable.button_close),
-                            contentDescription = "return_to_menu",
                         )
                     }
                 )
