@@ -1,22 +1,16 @@
 package com.example.codapizza.cart
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.SwipeToDismissBox
-import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,7 +27,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.codapizza.R
-import com.example.codapizza.desygnfiles.InfoForTopAppBar
+import com.example.codapizza.cart.swipetodismiss.SwipeToDismiss
+import com.example.codapizza.cart.viewmodel.MainActivityViewModel
+import com.example.codapizza.desygnfiles.TopAppBarForScreens
 
 @Preview
 @Composable
@@ -48,49 +44,20 @@ fun PreviewEmptyCartUI(
 fun EmptyCartUI(
     navController: NavController
 ){
-    val dismissState = rememberSwipeToDismissBoxState()
-    SwipeToDismissBox(
-        state = dismissState,
-        enableDismissFromEndToStart = false,
-        backgroundContent = {
-            @Suppress("UNUSED_EXPRESSION")
-            when(dismissState.targetValue){
-                SwipeToDismissBoxValue.StartToEnd -> {
-                    Box(
-                        contentAlignment = Alignment.CenterEnd,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(colorResource(id = R.color.orange))
-                    ) {}
-                    if(dismissState.progress.toDouble() >= 0.5) {
-                        navController.popBackStack("screen_1", false)
-                    }
-                }
-                else -> null
-            }
-        }
+    SwipeToDismiss(
+        navController
     ) {
         Column(
             modifier = Modifier
                 .background(colorResource(id = R.color.black))
                 .fillMaxSize(),
         ) {
-            Card(
-                modifier = Modifier
-                    .padding(0.dp, 0.dp),
-                shape = RoundedCornerShape(0.dp, 0.dp, 15.dp, 15.dp),
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(colorResource(id = R.color.orange))
-                        .height(80.dp)
-                ) {
-                    InfoForTopAppBar(
-                        textID = R.string.cart
-                    )
-                }
-            }
+            TopAppBarForScreens(
+                textID = R.string.cart,
+                navController = navController,
+                mainActivityViewModel = MainActivityViewModel(),
+                cartNotEmpty = false
+            )
             Column(
                 modifier = Modifier
                     .padding(30.dp, 250.dp)

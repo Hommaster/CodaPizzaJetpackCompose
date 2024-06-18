@@ -3,7 +3,6 @@ package com.example.codapizza.cart
 import android.net.Uri
 import android.util.Log
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,11 +11,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.SwipeToDismissBox
-import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableFloatStateOf
@@ -35,8 +30,9 @@ import androidx.navigation.NavHostController
 import com.example.codapizza.R
 import com.example.codapizza.cart.boxOfOrderUI.BoxOfOrder
 import com.example.codapizza.cart.database.Orders
-import com.example.codapizza.desygnfiles.TopAppBarForCartUI
+import com.example.codapizza.cart.swipetodismiss.SwipeToDismiss
 import com.example.codapizza.cart.viewmodel.MainActivityViewModel
+import com.example.codapizza.desygnfiles.TopAppBarForScreens
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
@@ -44,7 +40,6 @@ import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CartUI(
     navController: NavHostController,
@@ -63,36 +58,20 @@ fun CartUI(
     val totalCost : MutableState<Float> = rememberSaveable {
         mutableFloatStateOf(0f)
     }
-    val dismissState = rememberSwipeToDismissBoxState()
-    SwipeToDismissBox(
-        state = dismissState,
-        enableDismissFromEndToStart = false,
-        backgroundContent = {
-            @Suppress("UNUSED_EXPRESSION")
-            when(dismissState.targetValue){
-                SwipeToDismissBoxValue.StartToEnd -> {
-                    Box(
-                        contentAlignment = Alignment.CenterEnd,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(colorResource(id = R.color.orange))
-                    ) {}
-                    if(dismissState.progress.toDouble() >= 0.5) {
-                        navController.popBackStack("screen_1", false)
-                    }
-                }
-                else -> null
-            }
-        }
+
+    SwipeToDismiss(
+        navController
     ) {
         Column(
             modifier = Modifier
                 .background(colorResource(id = R.color.black))
                 .fillMaxSize(),
         ){
-            TopAppBarForCartUI(
+            TopAppBarForScreens(
+                R.string.cart,
                 navController,
-                mainActivityViewModel
+                mainActivityViewModel,
+                true
             )
             LazyColumn(
                 modifier = Modifier
