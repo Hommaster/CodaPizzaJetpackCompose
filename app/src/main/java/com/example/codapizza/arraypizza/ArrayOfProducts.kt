@@ -9,15 +9,12 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
-//noinspection UsingMaterialAndMaterial3Libraries
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Button
@@ -55,6 +52,7 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.navigation.NavHostController
 import com.example.codapizza.R
 import com.example.codapizza.cart.viewmodel.MainActivityViewModel
+import com.example.codapizza.desygnfiles.TopAppBarCustom
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
@@ -216,17 +214,16 @@ fun ArrayOfProducts(
                                     .fillMaxWidth()
                                     .height(80.dp),
                             ) {
-                                TopAppBar(
-                                    modifier = Modifier
-                                        .fillMaxHeight()
-                                ) {
-                                    IconButton(
-                                        modifier = Modifier
-                                            .align(Alignment.Bottom),
-                                        onClick = { scope.launch { drawerState.open() } },
-                                        content = { Icon(Icons.Filled.Menu, "Menu") }
-                                    )
-                                }
+                                TopAppBarCustom(
+                                    title = {
+                                        IconButton(
+                                            modifier = Modifier
+                                                .align(Alignment.Bottom),
+                                            onClick = { scope.launch { drawerState.open() } },
+                                            content = { Icon(Icons.Filled.Menu, "Menu") }
+                                        )
+                                    }
+                                )
                             }
                         }
 

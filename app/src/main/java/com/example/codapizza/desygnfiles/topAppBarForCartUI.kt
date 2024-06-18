@@ -38,35 +38,30 @@ fun TopAppBarForCartUI(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .align(Alignment.End)
                 .height(80.dp),
-        ){
-            TopAppBar(
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
-                InfoForTopAppBar(
-                    modifier = Modifier
-                        .align(Alignment.Bottom),
-                    textID = R.string.cart
-                )
-                IconButton(
-                    modifier = Modifier
-                        .align(Alignment.Bottom)
-                        .padding(0.dp, 20.dp, 0.dp, 0.dp),
-                    onClick = {
-                        coroutineScope.launch {
-                            mainActivityViewModel.deleteAll()
+        ) {
+            TopAppBarCustom(
+                title = {
+                    InfoForTopAppBar(
+                        textID = R.string.cart
+                    )
+                    IconButton(
+                        modifier = Modifier
+                            .padding(300.dp, 20.dp, 0.dp, 0.dp),
+                        onClick = {
+                            coroutineScope.launch {
+                                mainActivityViewModel.deleteAll()
+                            }
+                            navController.navigate("cart_screen_empty")
+                        },
+                        content = {
+                            Icon(
+                                Icons.Filled.Delete, "Menu"
+                            )
                         }
-                        navController.navigate("cart_screen_empty")
-                    },
-                    content = {
-                        Icon(
-                            Icons.Filled.Delete, "Menu"
-                        )
-                    }
-                )
-            }
+                    )
+                }
+            )
         }
     }
 }
