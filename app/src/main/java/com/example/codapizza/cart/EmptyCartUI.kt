@@ -87,13 +87,10 @@ fun EmptyCartUI(
                         .height(80.dp)
                 ) {
                     InfoForTopAppBar(
-                        modifier = Modifier
-                            .align(Alignment.Bottom),
                         textID = R.string.cart
                     )
                 }
             }
-
             Column(
                 modifier = Modifier
                     .padding(30.dp, 250.dp)

@@ -2,7 +2,6 @@ package com.example.codapizza.desygnfiles
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
@@ -17,7 +16,6 @@ import com.example.codapizza.R
 
 @Composable
 fun InfoForTopAppBar(
-    modifier: Modifier,
     textID: Int
 ) {
     BoxWithImageScrollToDismiss(
@@ -25,13 +23,13 @@ fun InfoForTopAppBar(
     )
     Box(
         modifier = Modifier
-            .padding(0.dp, 35.dp, 0.dp, 0.dp)
-            .size(250.dp, 50.dp)
+            .padding(0.dp, 15.dp, 0.dp, 0.dp)
+            .size(350.dp, 50.dp)
             .background(Color.Transparent),
         contentAlignment = Alignment.Center
     ) {
         Text(
-            modifier = modifier
+            modifier = Modifier
                 .align(Alignment.Center)
                 .padding(0.dp, 0.dp, 0.dp, 10.dp),
             text = stringResource(id = textID),

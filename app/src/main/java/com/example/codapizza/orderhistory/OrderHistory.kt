@@ -79,8 +79,6 @@ fun OrderHistory(
                         .height(80.dp)
                 ) {
                     InfoForTopAppBar(
-                        modifier = Modifier
-                            .align(Alignment.Bottom),
                         textID = R.string.order_history
                     )
                 }
