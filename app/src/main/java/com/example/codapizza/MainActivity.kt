@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 composable(
                     "cart_screen",
-                ) {backStackEntry ->
+                ) {
                     AppTheme {
                         CartUI(
                             navController,
@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 composable(
                     "cart_screen_empty"
-                ) { navBackStackEntry ->
+                ) {
                     EmptyCartUI(
                         navController
                     )
