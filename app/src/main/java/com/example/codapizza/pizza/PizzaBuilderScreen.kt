@@ -9,7 +9,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -24,10 +23,6 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.LocalTextStyle
 //noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.Text
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.SwipeToDismissBox
-import androidx.compose.material3.SwipeToDismissBoxValue
-import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -50,6 +45,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.codapizza.R
 import com.example.codapizza.cart.database.Orders
+import com.example.codapizza.cart.swipetodismiss.SwipeToDismiss
 import com.example.codapizza.model.Pizza
 import com.example.codapizza.model.Pizzas
 import com.example.codapizza.model.Topping
@@ -63,7 +59,6 @@ import java.util.Date
 import java.util.UUID
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PizzaBuilderScreen(
     navController: NavHostController,
@@ -86,27 +81,8 @@ fun PizzaBuilderScreen(
 
     val nameOfPizza = if(pizzaFromOrder!!.pizzaName == "pizzaWithArrayOfPizza") pizzaName else pizzaFromOrder.pizzaName
 
-    val dismissState = rememberSwipeToDismissBoxState()
-    SwipeToDismissBox(
-        state = dismissState,
-        enableDismissFromEndToStart = false,
-        backgroundContent = {
-            @Suppress("UNUSED_EXPRESSION")
-            when(dismissState.targetValue){
-                SwipeToDismissBoxValue.StartToEnd -> {
-                    Box(
-                        contentAlignment = Alignment.CenterEnd,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(colorResource(id = R.color.orange))
-                    ) {}
-                    if(dismissState.progress.toDouble() >= 0.65) {
-                        navController.popBackStack("screen_1", false)
-                    }
-                }
-                else -> null
-            }
-        }
+    SwipeToDismiss(
+        navController
     ) {
         Box {
             Column(
@@ -142,6 +118,8 @@ fun PizzaBuilderScreen(
                 )
             }
             BoxWithImageScrollToDismiss(
+                modifier = Modifier
+                    .padding(0.dp, 30.dp),
                 colorFilter = R.color.orange
             )
         }
