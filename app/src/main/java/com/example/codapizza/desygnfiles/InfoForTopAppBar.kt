@@ -19,6 +19,7 @@ fun InfoForTopAppBar(
     textID: Int
 ) {
     BoxWithImageScrollToDismiss(
+        modifier = Modifier,
         colorFilter = R.color.black
     )
     Box(
