@@ -1,4 +1,4 @@
-package com.example.codapizza.arraypizza
+package com.example.codapizza.model
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
