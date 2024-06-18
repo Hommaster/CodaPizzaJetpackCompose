@@ -15,10 +15,11 @@ import com.example.codapizza.R
 
 @Composable
 fun BoxWithImageScrollToDismiss(
+    modifier: Modifier,
     colorFilter: Int
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .background(Color.Transparent)
     ) {
         Image(
