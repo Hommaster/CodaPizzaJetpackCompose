@@ -28,29 +28,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.codapizza.R
 import com.example.codapizza.model.Pizzas
-import com.example.codapizza.snack.SnackInfo
+import com.example.codapizza.productInfo.drinks.DrinkInfo
+import com.example.codapizza.productInfo.snack.SnackInfo
 
 
 @Composable
 fun BoxOfProduct(
     pizza: Pizzas?,
     snack: SnackInfo?,
+    drink: DrinkInfo?,
     onClick: () -> Unit
 ) {
-    val productImage: Int
-    val productName: Int
-    val productIngredients: Int?
 
-    if(snack != null && pizza == null) {
-        productImage = snack.snackImage
-        productName = snack.snackName
-        productIngredients = null
-    }
-    else{
-        productImage = pizza!!.pizzaImage
-        productName = pizza.pizzaName
-        productIngredients = pizza.pizzaIngredients
-    }
+    val product = ProductCheck(pizza, snack, drink)
+
     Box(
         modifier = Modifier
             .padding(14.dp, 6.dp)
@@ -64,8 +55,8 @@ fun BoxOfProduct(
                     .align(Alignment.CenterHorizontally)
                     .padding(0.dp, 15.dp)
                     .size(250.dp),
-                painter = painterResource(id = productImage),
-                contentDescription = stringResource(id = productName)
+                painter = painterResource(id = product.getProductImageInt()),
+                contentDescription = stringResource(id = product.getProductNameInt())
             )
             Row(
                 modifier = Modifier
@@ -80,7 +71,7 @@ fun BoxOfProduct(
                     Text(
                         modifier = Modifier
                             .padding(10.dp, 2.dp),
-                        text = stringResource(id = productName),
+                        text = stringResource(id = product.getProductNameInt()),
                         fontStyle = FontStyle.Italic,
                         fontWeight = FontWeight.Bold,
                         color = Color.White,
@@ -90,7 +81,7 @@ fun BoxOfProduct(
                         Column {
                             Row {
                                 Text(
-                                    text = stringResource(id = productIngredients!!),
+                                    text = stringResource(id = product.getProductIngredientsInt()!!),
                                     style = MaterialTheme.typography.body2,
                                     color = Color.White
                                 )
