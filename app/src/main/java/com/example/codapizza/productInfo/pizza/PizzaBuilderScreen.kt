@@ -1,4 +1,4 @@
-package com.example.codapizza.pizza
+package com.example.codapizza.productInfo.pizza
 
 import android.util.Log
 import androidx.compose.animation.core.RepeatMode

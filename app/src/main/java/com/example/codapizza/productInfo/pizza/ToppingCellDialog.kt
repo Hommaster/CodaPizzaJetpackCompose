@@ -1,4 +1,4 @@
-package com.example.codapizza.pizza
+package com.example.codapizza.productInfo.pizza
 
 import androidx.annotation.StringRes
 import androidx.compose.animation.animateColorAsState

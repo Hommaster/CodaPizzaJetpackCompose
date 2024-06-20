@@ -1,4 +1,4 @@
-package com.example.codapizza.snack
+package com.example.codapizza.productInfo.snack
 
 import android.os.Build
 import android.os.Bundle

@@ -1,4 +1,4 @@
-package com.example.codapizza.pizza
+package com.example.codapizza.productInfo.pizza
 
 import android.widget.Toast
 import androidx.compose.foundation.background

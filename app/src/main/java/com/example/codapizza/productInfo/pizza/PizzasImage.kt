@@ -1,4 +1,4 @@
-package com.example.codapizza.pizza
+package com.example.codapizza.productInfo.pizza
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.focusable
