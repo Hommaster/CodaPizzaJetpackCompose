@@ -42,7 +42,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextMotion
 import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
+import androidx.navigation.NavController
 import com.example.codapizza.R
 import com.example.codapizza.cart.database.Orders
 import com.example.codapizza.cart.swipetodismiss.SwipeToDismiss
@@ -61,7 +61,7 @@ import java.util.UUID
 
 @Composable
 fun PizzaBuilderScreen(
-    navController: NavHostController,
+    navController: NavController,
     modifier: Modifier = Modifier,
     pizzaFromOrder: Pizza?,
     orderID: String?,
@@ -213,7 +213,7 @@ private fun ToppingList(
 private fun OrderButton(
     mainActivityViewModel: MainActivityViewModel,
     orderID: String?,
-    navController: NavHostController,
+    navController: NavController,
     pizza: Pizza,
     pizzaName: String?,
     modifier: Modifier = Modifier
