@@ -27,6 +27,7 @@ import com.example.codapizza.arraypizza.BoxOfProduct
 import com.example.codapizza.model.Pizza
 import com.example.codapizza.model.Pizzas
 import com.example.codapizza.productInfo.drinks.DrinkInfo
+import com.example.codapizza.productInfo.snack.ProductInfoData
 import com.example.codapizza.productInfo.snack.SnackInfo
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
@@ -103,24 +104,45 @@ fun ViewPager(
                 }
                 1 -> {
                     items(SnackInfo.entries.toTypedArray()) { snack ->
+
+                        val snackName = snack.snackName
+
+                        val productFromMainScreen = ProductInfoData(
+                             productName = 0
+                        )
+                        val json = Uri.encode(Gson().toJson(productFromMainScreen))
+
                         BoxOfProduct(
                             pizza = null,
                             snack = snack,
                             drink = null,
                             onClick = {
-
+                                navController.navigate("product_np_builder_screen/$snackName/1/$json"){
+                                    popUpTo("screen_1")
+                                }
                             }
                         )
                     }
                 }
                 2 -> {
                     items(DrinkInfo.entries.toTypedArray()) { drink ->
+
+                        val drinkName = drink.drinkName
+
+
+                        val productFromMainScreen = ProductInfoData(
+                            productName = 0
+                        )
+                        val json = Uri.encode(Gson().toJson(productFromMainScreen))
+
                         BoxOfProduct(
                             pizza = null,
                             snack = null,
                             drink = drink,
                             onClick = {
-
+                                navController.navigate("product_np_builder_screen/$drinkName/1/$json"){
+                                    popUpTo("screen_1")
+                                }
                             }
                         )
                     }
