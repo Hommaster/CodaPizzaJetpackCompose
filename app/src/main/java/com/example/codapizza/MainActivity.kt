@@ -23,6 +23,9 @@ import com.example.codapizza.cart.viewmodel.MainActivityViewModel
 import com.example.codapizza.model.Pizza
 import com.example.codapizza.model.PizzaType
 import com.example.codapizza.orderhistory.OrderHistory
+import com.example.codapizza.productInfo.snack.ProductInfoData
+import com.example.codapizza.productInfo.snack.ProductNPBuilderScreen
+import com.example.codapizza.productInfo.snack.SnackType
 
 class MainActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -93,6 +96,29 @@ class MainActivity : AppCompatActivity() {
                 ) {
                     OrderHistory(
                         navController
+                    )
+                }
+                composable(
+                    "product_np_builder_screen/{product_name}/{order_ID}/{product_np_from_order}",
+                    arguments = listOf(
+                        navArgument(name = "product_name"){
+                            type = NavType.IntType
+                        },
+                        navArgument(name = "product_np_from_order"){
+                            type = SnackType()
+                        },
+                        navArgument(name = "order_ID"){
+                            type = NavType.StringType
+                        }
+                    )
+
+                ) { backStackEntry ->
+
+                    ProductNPBuilderScreen(
+                        navController,
+                        productName = backStackEntry.arguments?.getInt("product_name"),
+                        orderID = backStackEntry.arguments?.getString("order_ID"),
+                        productNPFromOrder = backStackEntry.arguments?.getParcelable("product_np_from_order", ProductInfoData::class.java)
                     )
                 }
             }
