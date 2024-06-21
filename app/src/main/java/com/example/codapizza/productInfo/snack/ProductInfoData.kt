@@ -13,10 +13,10 @@ import kotlinx.parcelize.Parcelize
 import java.math.BigDecimal
 
 @Parcelize
-data class Snack(
+data class ProductInfoData(
     val toppings: Map<Topping, ToppingPlacement> = emptyMap(),
-    val sizeSnack: SizeSnack = SizeSnack.Standard,
-    val snackName: String?,
+    val productSize: SizeProductNotPizza = SizeProductNotPizza.Standard,
+    val productName: Int?,
 ): Parcelable {
 
 //    @IgnoredOnParcel
@@ -28,9 +28,9 @@ data class Snack(
 //    }.toBigDecimal()
 
     @IgnoredOnParcel
-    private val sizeSnackPrice: BigDecimal = when (sizeSnack) {
-        SizeSnack.Standard -> 4.0
-        SizeSnack.Big -> 5.0
+    private val sizeSnackPrice: BigDecimal = when (productSize) {
+        SizeProductNotPizza.Standard -> 4.0
+        SizeProductNotPizza.Big -> 5.0
     }.toBigDecimal()
 
     @IgnoredOnParcel
@@ -45,7 +45,7 @@ data class Snack(
     val price: BigDecimal
         get() = sizeSnackPrice + toppingsPrice
 
-    fun withTopping(topping: Topping, placement: ToppingPlacement?): Snack {
+    fun withTopping(topping: Topping, placement: ToppingPlacement?): ProductInfoData {
         return copy(
             toppings = if(placement == null) {
                 toppings - topping
@@ -55,9 +55,9 @@ data class Snack(
         )
     }
 
-    fun changeSizePizza(size: SizeSnack): Snack {
+    fun changeSizePizza(size: SizeProductNotPizza): ProductInfoData {
         return copy(
-            sizeSnack = size
+            productSize = size
         )
     }
 
@@ -70,15 +70,15 @@ data class Snack(
     }
 }
 
-class SnackType : NavType<Snack>(isNullableAllowed = true) {
+class ProductInfoType : NavType<ProductInfoData>(isNullableAllowed = true) {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-    override fun get(bundle: Bundle, key: String): Snack? {
-        return bundle.getParcelable(key, Snack::class.java)
+    override fun get(bundle: Bundle, key: String): ProductInfoData? {
+        return bundle.getParcelable(key, ProductInfoData::class.java)
     }
-    override fun parseValue(value: String): Snack {
-        return Gson().fromJson(value, Snack::class.java)
+    override fun parseValue(value: String): ProductInfoData {
+        return Gson().fromJson(value, ProductInfoData::class.java)
     }
-    override fun put(bundle: Bundle, key: String, value: Snack) {
+    override fun put(bundle: Bundle, key: String, value: ProductInfoData) {
         bundle.putParcelable(key, value)
     }
 }
