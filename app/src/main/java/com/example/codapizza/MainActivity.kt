@@ -25,7 +25,7 @@ import com.example.codapizza.model.PizzaType
 import com.example.codapizza.orderhistory.OrderHistory
 import com.example.codapizza.productInfo.snack.ProductInfoData
 import com.example.codapizza.productInfo.snack.ProductNPBuilderScreen
-import com.example.codapizza.productInfo.snack.SnackType
+import com.example.codapizza.productInfo.snack.ProductInfoType
 
 class MainActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -105,7 +105,7 @@ class MainActivity : AppCompatActivity() {
                             type = NavType.IntType
                         },
                         navArgument(name = "product_np_from_order"){
-                            type = SnackType()
+                            type = ProductInfoType()
                         },
                         navArgument(name = "order_ID"){
                             type = NavType.StringType
