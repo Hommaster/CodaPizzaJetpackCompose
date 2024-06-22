@@ -14,59 +14,32 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.example.codapizza.R
 import com.example.codapizza.model.Pizza
 import com.example.codapizza.model.Pizzas
-import com.example.codapizza.model.SizePizza
 import com.example.codapizza.model.ToppingPlacement
 
-
-
 @Composable
-fun PizzasImage(
+fun PizzaImages(
     pizza: Pizza,
-    modifier: Modifier,
-    pizzaName: String?
+    pizzaInfo: Pizzas,
 ) {
-
-    val sizeImagePizza = when (pizza.sizePizza) {
-        SizePizza.Small -> 270.dp
-        SizePizza.Average -> 320.dp
-        SizePizza.Big -> 370.dp
-        SizePizza.VeryBig -> 420.dp
-        else -> 370.dp
-    }
     Row(
-        modifier = modifier
-            .padding(when(sizeImagePizza) {
-                270.dp -> 100.dp
-                320.dp -> 64.dp
-                370.dp -> 32.dp
-                420.dp -> 10.dp
-                else -> 32.dp
-            }, 0.5.dp)
+        modifier = Modifier
+            .padding(32.dp, 0.5.dp)
     ){
-
-        val pizzas = when(pizzaName) {
-            stringResource(R.string.margherita) -> Pizzas.Margherita
-            stringResource(R.string.carbonara) -> Pizzas.Carbonara
-            stringResource(R.string.chicago) -> Pizzas.Chicago
-            else -> Pizzas.Margherita
-        }
 
         Box(
             contentAlignment = Alignment.Center,
-            modifier = modifier
+            modifier = Modifier
                 .align(Alignment.CenterVertically)
-//                .size(sizeImagePizza)
                 .aspectRatio(1f),
         ) {
             Image(
-                painter = painterResource(id = pizzas.pizzaImage),
-                contentDescription = "${pizzas.pizzaName}",
-                modifier = modifier
+                painter = painterResource(id = pizzaInfo.pizzaImage),
+                contentDescription = "${pizzaInfo.pizzaName}",
+                modifier = Modifier
                     .align(Alignment.Center)
-                    .size(sizeImagePizza)
+                    .size(370.dp)
             )
             pizza.toppings.forEach { (topping, placement) ->
                 Image(
