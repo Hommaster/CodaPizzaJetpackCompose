@@ -29,6 +29,7 @@ import com.example.codapizza.R
 import com.example.codapizza.cart.database.Orders
 import com.example.codapizza.cart.viewmodel.MainActivityViewModel
 import com.example.codapizza.model.Pizza
+import com.example.codapizza.model.Pizzas
 import com.example.codapizza.model.SizePizza
 import com.google.gson.Gson
 
@@ -51,6 +52,9 @@ fun BoxOfOrder(
         sizePizza = SizePizza.Big
     )
     val json = Uri.encode(Gson().toJson(pizza))
+
+    val pizzaInfo = Pizzas.valueOf(order.title)
+    val json2 = Uri.encode(Gson().toJson(pizzaInfo))
 
     Card(
         modifier = Modifier
@@ -104,7 +108,7 @@ fun BoxOfOrder(
             Text(
                 modifier = Modifier
                     .clickable {
-                        navController.navigate("screen_2/${pizza.pizzaName}/$json/$orderIdToString")
+                        navController.navigate("screen_2_v_2/$json2/$json/${pizza.pizzaName}/$orderIdToString")
                     },
                 text = stringResource(id = R.string.change_pizza),
                 fontSize = 18.sp,

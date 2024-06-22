@@ -18,11 +18,13 @@ import com.example.codapizza.arraypizza.ArrayOfProducts
 import com.example.codapizza.cart.CartUI
 import com.example.codapizza.cart.EmptyCartUI
 import com.example.codapizza.theme.AppTheme
-import com.example.codapizza.productInfo.pizza.PizzaBuilderScreen
 import com.example.codapizza.cart.viewmodel.MainActivityViewModel
 import com.example.codapizza.model.Pizza
+import com.example.codapizza.model.PizzaInfoType
 import com.example.codapizza.model.PizzaType
+import com.example.codapizza.model.Pizzas
 import com.example.codapizza.orderhistory.OrderHistory
+import com.example.codapizza.productInfo.pizza.PizzaBuilderScreen
 import com.example.codapizza.productInfo.snack.ProductInfoData
 import com.example.codapizza.productInfo.snack.ProductNPBuilderScreen
 import com.example.codapizza.productInfo.snack.ProductInfoType
@@ -46,24 +48,28 @@ class MainActivity : AppCompatActivity() {
 
             NavHost(navController = navController, startDestination = "screen_1") {
                 composable(
-                    "screen_2/{pizza_name}/{pizza_from_order}/{order_id}",
+                    "screen_2_v_2/{pizza_info}/{pizza_from_order}/{pizza_name}/{order_id}",
                     arguments = listOf(
-                        navArgument(name = "pizza_name"){
-                            type = NavType.StringType
+                        navArgument(name = "pizza_info"){
+                            type = PizzaInfoType()
                         },
                         navArgument(name = "pizza_from_order"){
                             type = PizzaType()
+                        },
+                        navArgument(name = "pizza_name"){
+                            type = NavType.StringType
                         },
                         navArgument(name = "order_id"){
                             type = NavType.StringType
                         }
                     )
-                ) { backstackEntry ->
+                ) {navBackStackEntry ->
                     PizzaBuilderScreen(
                         navController,
-                        pizzaFromOrder = backstackEntry.arguments?.getParcelable("pizza_from_order", Pizza::class.java),
-                        pizzaName = backstackEntry.arguments?.getString("pizza_name"),
-                        orderID = backstackEntry.arguments?.getString("order_id")
+                        pizzaInfo = navBackStackEntry.arguments?.getParcelable("pizza_info", Pizzas::class.java),
+                        pizzaFromOrder = navBackStackEntry.arguments?.getParcelable("pizza_from_order", Pizza::class.java),
+                        pizzaName = navBackStackEntry.arguments?.getString("pizza_name"),
+                        orderID = navBackStackEntry.arguments?.getString("order_id")
                     )
                 }
                 composable("screen_1") {

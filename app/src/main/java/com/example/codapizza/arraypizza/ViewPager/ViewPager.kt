@@ -90,12 +90,14 @@ fun ViewPager(
                             pizzaName = "pizzaWithArrayOfPizza"
                         )
                         val json = Uri.encode(Gson().toJson(pizzaWithArrayOfPizza))
+
+                        val json2 = Uri.encode(Gson().toJson(pizza))
                         BoxOfProduct(
                             pizza = pizza,
                             snack = null,
                             drink = null,
                             onClick = {
-                                navController.navigate("screen_2/$pizzaName/$json/1") {
+                                navController.navigate("screen_2_v_2/$json2/$json/$pizzaName/1") {
                                     popUpTo("screen_1")
                                 }
                             }
