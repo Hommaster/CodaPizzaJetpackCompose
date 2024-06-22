@@ -1,15 +1,23 @@
 package com.example.codapizza.model
 
+import android.os.Build
+import android.os.Bundle
+import android.os.Parcelable
 import androidx.annotation.DrawableRes
+import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
+import androidx.navigation.NavType
 import com.example.codapizza.R
+import com.google.gson.Gson
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 enum class Pizzas(
     @StringRes val pizzaName: Int,
     @StringRes val pizzaIngredients: Int,
     @DrawableRes val pizzaImage: Int,
     @StringRes val pricePizza: Int
-) {
+): Parcelable {
     Margherita(
         pizzaName = R.string.margherita,
         pizzaIngredients = R.string.margherita_ingredients,
@@ -28,4 +36,19 @@ enum class Pizzas(
         pizzaImage = R.drawable.chicago,
         pricePizza = R.string.price_chicago
     )
+}
+
+class PizzaInfoType : NavType<Pizzas>(isNullableAllowed = true) {
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    override fun get(bundle: Bundle, key: String): Pizzas? {
+        return bundle.getParcelable(key, Pizzas::class.java)
+    }
+
+    override fun parseValue(value: String): Pizzas {
+        return Gson().fromJson(value, Pizzas::class.java)
+    }
+
+    override fun put(bundle: Bundle, key: String, value: Pizzas) {
+        bundle.putParcelable(key, value)
+    }
 }
