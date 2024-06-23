@@ -1,6 +1,5 @@
 package com.example.codapizza.productInfo.pizza
 
-import android.util.Log
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
