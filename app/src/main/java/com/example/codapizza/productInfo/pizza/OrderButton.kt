@@ -8,10 +8,10 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.LocalTextStyle
-import androidx.compose.material.Text
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -90,7 +90,7 @@ fun OrderButton(
                     }
                 },
                 shape = RoundedCornerShape(23.dp),
-                colors = ButtonDefaults.buttonColors(contentColor = Color.White, backgroundColor = colorResource(
+                colors = ButtonDefaults.buttonColors(contentColor = Color.White, containerColor = colorResource(
                     id = R.color.orange
                 )
                 )
@@ -141,7 +141,7 @@ fun OrderButton(
                     }
                 },
                 shape = RoundedCornerShape(23.dp),
-                colors = ButtonDefaults.buttonColors(contentColor = Color.White, backgroundColor = colorResource(
+                colors = ButtonDefaults.buttonColors(contentColor = Color.White, containerColor = colorResource(
                     id = R.color.orange
                 )
                 )
