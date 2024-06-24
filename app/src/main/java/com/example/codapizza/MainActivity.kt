@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
 
             NavHost(navController = navController, startDestination = "screen_1") {
                 composable(
-                    "screen_2_v_2/{pizza_info}/{pizza_from_order}/{pizza_name}/{order_id}",
+                    "screen_2_v_2/{pizza_info}/{pizza_from_order}/{pizza_name}/{order_id}/{product_np_from_order}/{product_name}",
                     arguments = listOf(
                         navArgument(name = "pizza_info"){
                             type = PizzaInfoType()
@@ -61,7 +61,13 @@ class MainActivity : AppCompatActivity() {
                         },
                         navArgument(name = "order_id"){
                             type = NavType.StringType
-                        }
+                        },
+                        navArgument(name = "product_name"){
+                            type = NavType.IntType
+                        },
+                        navArgument(name = "product_np_from_order"){
+                            type = ProductInfoType()
+                        },
                     )
                 ) {navBackStackEntry ->
                     PizzaBuilderScreen(
@@ -69,7 +75,9 @@ class MainActivity : AppCompatActivity() {
                         pizzaInfo = navBackStackEntry.arguments?.getParcelable("pizza_info", Pizzas::class.java),
                         pizzaFromOrder = navBackStackEntry.arguments?.getParcelable("pizza_from_order", Pizza::class.java),
                         pizzaName = navBackStackEntry.arguments?.getString("pizza_name"),
-                        orderID = navBackStackEntry.arguments?.getString("order_id")
+                        orderID = navBackStackEntry.arguments?.getString("order_id"),
+                        productInfoData = navBackStackEntry.arguments?.getParcelable("product_np_from_order", ProductInfoData::class.java),
+                        productName = navBackStackEntry.arguments?.getInt("product_name"),
                     )
                 }
                 composable("screen_1") {
