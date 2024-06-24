@@ -3,6 +3,7 @@ package com.example.codapizza.model
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.navigation.NavType
 import com.example.codapizza.model.ToppingPlacement.*
@@ -20,12 +21,7 @@ data class Pizza(
 ): Parcelable {
 
     @IgnoredOnParcel
-    private val pizzaNamePrice: BigDecimal = when(pizzaName) {
-        "Carbonara" -> 11.99
-        "Margherita" -> 9.99
-        "Chicago" -> 10.99
-        else -> 9.99
-    }.toBigDecimal()
+    private val pizzaNamePrice: BigDecimal? = if(pizzaName!= null && pizzaName != "pizzaWithArrayOfPizza") Pizzas.valueOf(pizzaName).pricePizza.toBigDecimal() else null
 
     @IgnoredOnParcel
     private val sizePizzaPrice: BigDecimal = when (sizePizza) {
@@ -57,7 +53,7 @@ data class Pizza(
         }.toBigDecimal()
 
     val price: BigDecimal
-        get() = pizzaNamePrice + sizePizzaPrice + toppingsPrice + saucesPrice
+        get() = pizzaNamePrice!! + sizePizzaPrice + toppingsPrice + saucesPrice
 
     fun withTopping(topping: Topping, placement: ToppingPlacement?): Pizza {
         return copy(
