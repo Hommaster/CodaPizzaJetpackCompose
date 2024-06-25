@@ -19,9 +19,7 @@ import com.example.codapizza.cart.CartUI
 import com.example.codapizza.cart.EmptyCartUI
 import com.example.codapizza.theme.AppTheme
 import com.example.codapizza.cart.viewmodel.MainActivityViewModel
-import com.example.codapizza.model.Pizza
 import com.example.codapizza.model.PizzaInfoType
-import com.example.codapizza.model.PizzaType
 import com.example.codapizza.model.Pizzas
 import com.example.codapizza.orderhistory.OrderHistory
 import com.example.codapizza.productInfo.pizza.PizzaBuilderScreen
@@ -48,13 +46,10 @@ class MainActivity : AppCompatActivity() {
 
             NavHost(navController = navController, startDestination = "screen_1") {
                 composable(
-                    "screen_2_v_2/{pizza_info}/{pizza_from_order}/{pizza_name}/{order_id}/{product_np_from_order}/{product_name}",
+                    "screen_2_v_2/{pizza_info}/{pizza_name}/{order_id}/{product_np_from_order}/{product_name}",
                     arguments = listOf(
                         navArgument(name = "pizza_info"){
                             type = PizzaInfoType()
-                        },
-                        navArgument(name = "pizza_from_order"){
-                            type = PizzaType()
                         },
                         navArgument(name = "pizza_name"){
                             type = NavType.StringType
@@ -73,7 +68,6 @@ class MainActivity : AppCompatActivity() {
                     PizzaBuilderScreen(
                         navController,
                         pizzaInfo = navBackStackEntry.arguments?.getParcelable("pizza_info", Pizzas::class.java),
-                        pizzaFromOrder = navBackStackEntry.arguments?.getParcelable("pizza_from_order", Pizza::class.java),
                         pizzaName = navBackStackEntry.arguments?.getString("pizza_name"),
                         orderID = navBackStackEntry.arguments?.getString("order_id"),
                         productInfoData = navBackStackEntry.arguments?.getParcelable("product_np_from_order", ProductInfoData::class.java),
