@@ -4,8 +4,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import androidx.annotation.DrawableRes
-import androidx.annotation.FloatRange
-import androidx.annotation.IntRange
 import androidx.annotation.IntegerRes
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
@@ -13,7 +11,6 @@ import androidx.navigation.NavType
 import com.example.codapizza.R
 import com.google.gson.Gson
 import kotlinx.parcelize.Parcelize
-import org.checkerframework.common.value.qual.DoubleVal
 
 @Parcelize
 enum class Pizzas(

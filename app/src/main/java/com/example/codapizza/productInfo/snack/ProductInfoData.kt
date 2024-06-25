@@ -49,7 +49,6 @@ data class ProductInfoData(
             when (toppingPlacement) {
                 Left, Right -> 0.5
                 All -> 1.0
-                else -> 0.0
             }
         }.toBigDecimal()
 
@@ -66,7 +65,6 @@ data class ProductInfoData(
     private val sizeProductPrice: BigDecimal = when(productSize) {
         SizeProductNotPizza.Standard -> 0.0
         SizeProductNotPizza.Big -> 1.0
-        else -> 0.0
     }.toBigDecimal()
 
     @IgnoredOnParcel
