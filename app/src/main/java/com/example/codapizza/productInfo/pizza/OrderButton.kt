@@ -34,8 +34,8 @@ import com.example.codapizza.R
 import com.example.codapizza.cart.database.Orders
 import com.example.codapizza.cart.viewmodel.MainActivityViewModel
 import com.example.codapizza.cart.viewmodel.OrderDetailViewModel
-import com.example.codapizza.model.Pizza
 import com.example.codapizza.model.Pizzas
+import com.example.codapizza.productInfo.snack.ProductInfoData
 import kotlinx.coroutines.launch
 import java.util.Date
 import java.util.UUID
@@ -45,7 +45,7 @@ fun OrderButton(
     mainActivityViewModel: MainActivityViewModel,
     orderID: String?,
     navController: NavController,
-    pizza: Pizza,
+    product: ProductInfoData,
     pizzaInfo: Pizzas,
     modifier: Modifier = Modifier
 ) {
@@ -77,13 +77,13 @@ fun OrderButton(
                     coroutineScope.launch {
                         val newOrder = Orders(
                             id = UUID.randomUUID(),
-                            title = pizza.pizzaName!!,
+                            title = product.pizzaName!!,
                             description = descriptionPizza,
                             date = Date(),
                             image = pizzaInfo.pizzaImage,
-                            toppings = pizza.toppings,
-                            sauce = pizza.sauces,
-                            price = pizza.price.toFloat()
+                            toppings = product.toppings,
+                            sauce = product.sauces,
+                            price = product.price.toFloat()
                         )
                         mainActivityViewModel.addOrder(newOrder)
                         navController.popBackStack("screen_1", false)
@@ -96,7 +96,7 @@ fun OrderButton(
                 )
             ) {
 
-                val price = pizza.price
+                val price = product.price
                 Log.d("changeSize", "$price")
 
                 Text(
@@ -120,11 +120,11 @@ fun OrderButton(
                 onClick = {
                     coroutineScope.launch {
                         orderDetailViewModel!!.updateOrder { oldOrder->
-                            Log.d("info_order", pizza.toppings.toString())
+                            Log.d("info_order", product.toppings.toString())
                             oldOrder.copy(
                                 date = Date(),
-                                toppings = pizza.toppings,
-                                price = pizza.price.toFloat()
+                                toppings = product.toppings,
+                                price = product.price.toFloat()
                             )
                         }
                     }
@@ -146,7 +146,7 @@ fun OrderButton(
                 )
                 )
             ) {
-                val price = pizza.price
+                val price = product.price
                 Text(
                     modifier = modifier
                         .graphicsLayer {

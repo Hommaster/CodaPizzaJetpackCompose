@@ -14,13 +14,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.example.codapizza.model.Pizza
 import com.example.codapizza.model.Pizzas
 import com.example.codapizza.model.ToppingPlacement
+import com.example.codapizza.productInfo.snack.ProductInfoData
 
 @Composable
 fun PizzaImages(
-    pizza: Pizza,
+    pizza: ProductInfoData,
     pizzaInfo: Pizzas,
 ) {
     Row(

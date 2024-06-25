@@ -1,5 +1,6 @@
 package com.example.codapizza.productInfo.pizza
 
+import android.util.Log
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
@@ -28,28 +29,47 @@ import com.example.codapizza.R
 import com.example.codapizza.cart.swipetodismiss.SwipeToDismiss
 import com.example.codapizza.cart.viewmodel.MainActivityViewModel
 import com.example.codapizza.desygnfiles.BoxWithImageScrollToDismiss
-import com.example.codapizza.model.Pizza
 import com.example.codapizza.model.Pizzas
 import com.example.codapizza.model.Sauce
 import com.example.codapizza.model.Topping
+import com.example.codapizza.productInfo.snack.ProductInfoData
 import com.example.codapizza.sauce.SauceCell
 
 @Composable
 fun PizzaBuilderScreen(
     navController: NavController,
     pizzaInfo: Pizzas?,
-    pizzaFromOrder: Pizza?,
     pizzaName: String?,
-    orderID: String?
+    orderID: String?,
+    productInfoData: ProductInfoData?,
+    productName: Int?,
 ) {
 
-    var pizza by rememberSaveable {
-        when(pizzaFromOrder!!.pizzaName) {
-            "pizzaWithArrayOfPizza" -> {
-                mutableStateOf(Pizza(pizzaName = pizzaName))
+    var product by rememberSaveable {
+        if(productName == -1) {
+            when(productInfoData!!.pizzaName) {
+                "pizzaWithArrayOfPizza" -> {
+                    Log.d("info444", "$pizzaName")
+                    mutableStateOf(ProductInfoData(
+                        pizzaName = pizzaName,
+                        productName = null))
+                }
+                else -> {
+                    mutableStateOf(productInfoData)
+                }
             }
-            else -> {
-                mutableStateOf(pizzaFromOrder)
+        } else {
+            Log.d("info2", "$pizzaName")
+            when(productInfoData!!.productName) {
+                0 -> {
+                    mutableStateOf(ProductInfoData(
+                        pizzaName = null,
+                        productName = productName
+                    ))
+                }
+                else -> {
+                    mutableStateOf(productInfoData)
+                }
             }
         }
     }
@@ -64,22 +84,22 @@ fun PizzaBuilderScreen(
                     .padding(0.dp, 30.dp)
             ) {
                 PizzaImages(
-                    pizza = pizza,
+                    pizza = product,
                     pizzaInfo = pizzaInfo!!
                 )
                 SizeDialog(
-                    pizza = pizza,
-                    onEditSize = { pizza = it }
+                    pizza = product,
+                    onEditSize = { product = it }
                 )
                 ToppingList(
-                    pizza = pizza,
-                    onEditTopping = { pizza = it },
+                    pizza = product,
+                    onEditTopping = { product = it },
                     modifier = Modifier
                         .fillMaxWidth()
                         .weight(1f, fill = true)
                 )
                 OrderButton(
-                    pizza = pizza,
+                    product = product,
                     orderID = orderID,
                     mainActivityViewModel = MainActivityViewModel(),
                     navController = navController,
@@ -100,8 +120,8 @@ fun PizzaBuilderScreen(
 
 @Composable
 private fun ToppingList(
-    pizza: Pizza,
-    onEditTopping: (Pizza) -> Unit,
+    pizza: ProductInfoData,
+    onEditTopping: (ProductInfoData) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val infiniteTransition = rememberInfiniteTransition(label = "infinite transition")
@@ -182,8 +202,8 @@ private fun ToppingList(
 
 @Composable
 private fun SizeDialog(
-    pizza: Pizza,
-    onEditSize: (Pizza) -> Unit
+    pizza: ProductInfoData,
+    onEditSize: (ProductInfoData) -> Unit
 ) {
     ToppingCellDropdownMenu(
         setSizePizza = {sizePizza ->

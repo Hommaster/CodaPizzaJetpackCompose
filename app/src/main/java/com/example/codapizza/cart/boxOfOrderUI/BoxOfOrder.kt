@@ -28,9 +28,9 @@ import androidx.navigation.NavHostController
 import com.example.codapizza.R
 import com.example.codapizza.cart.database.Orders
 import com.example.codapizza.cart.viewmodel.MainActivityViewModel
-import com.example.codapizza.model.Pizza
 import com.example.codapizza.model.Pizzas
 import com.example.codapizza.model.SizePizza
+import com.example.codapizza.productInfo.snack.ProductInfoData
 import com.google.gson.Gson
 
 @Composable
@@ -45,16 +45,18 @@ fun BoxOfOrder(
 
     Log.d("info_order", order.toppings.toString())
 
-    val pizza = Pizza(
+    val pizzaInfo = Pizzas.valueOf(order.title)
+    val json2 = Uri.encode(Gson().toJson(pizzaInfo))
+
+    val productFromMainScreen = ProductInfoData(
         pizzaName = order.title,
         sauces = order.sauce,
         toppings = order.toppings,
+        productName = null,
         sizePizza = SizePizza.Big
     )
-    val json = Uri.encode(Gson().toJson(pizza))
-
-    val pizzaInfo = Pizzas.valueOf(order.title)
-    val json2 = Uri.encode(Gson().toJson(pizzaInfo))
+    val json3 = Uri.encode(Gson().toJson(productFromMainScreen))
+    val productName: Int = -1
 
     Card(
         modifier = Modifier
@@ -108,7 +110,7 @@ fun BoxOfOrder(
             Text(
                 modifier = Modifier
                     .clickable {
-                        navController.navigate("screen_2_v_2/$json2/$json/${pizza.pizzaName}/$orderIdToString")
+                        navController.navigate("screen_2_v_2/$json2/${productFromMainScreen.pizzaName}/$orderIdToString/$json3/$productName")
                     },
                 text = stringResource(id = R.string.change_pizza),
                 fontSize = 18.sp,
