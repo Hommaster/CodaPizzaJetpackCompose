@@ -1,31 +1,42 @@
 package com.example.codapizza.productInfo.snack
 
+import androidx.compose.ui.res.stringResource
 import com.example.codapizza.R
+import com.example.codapizza.model.Pizzas
 import com.example.codapizza.productInfo.drinks.DrinkInfo
 
 class ProcessingOfProductInformation(
-    productName: Int?
+    productName: String,
+    pizzaName: String
 ) {
     private var productImage: Int = 0
     private var productDescription: Int = 0
+    private var productIngredients: Int = 0
 
 
-    private fun checkProductClass(productName: Int?) {
-        productImage = when (productName) {
-            R.string.coca_cola -> DrinkInfo.CocaCola.drinkImage
-            R.string.fanta -> DrinkInfo.Fanta.drinkImage
-            R.string.sprite -> DrinkInfo.Sprite.drinkImage
-            R.string.Nuggets -> SnackInfo.Nuggets.snackImage
-            R.string.french_fries -> SnackInfo.FrenchFries.snackImage
-            else -> SnackInfo.FrenchFries.snackImage
+    private fun checkProductClass(productName: String, pizzaName: String) {
+        productImage = if(productName != "null") {
+            try {
+                DrinkInfo.valueOf(productName).drinkImage
+            } catch (e: Exception) {
+                SnackInfo.valueOf(productName).snackImage
+            }
+        } else {
+            Pizzas.valueOf(pizzaName).pizzaImage
         }
-        productDescription = when (productName) {
-            R.string.coca_cola -> DrinkInfo.CocaCola.drinkName
-            R.string.fanta -> DrinkInfo.Fanta.drinkName
-            R.string.sprite -> DrinkInfo.Sprite.drinkName
-            R.string.Nuggets -> SnackInfo.Nuggets.snackName
-            R.string.french_fries -> SnackInfo.FrenchFries.snackName
-            else -> SnackInfo.FrenchFries.snackName
+        productDescription = if(productName != "null") {
+            try {
+                DrinkInfo.valueOf(productName).drinkName
+            } catch (e: Exception) {
+                SnackInfo.valueOf(productName).snackName
+            }
+        } else {
+            Pizzas.valueOf(pizzaName).pizzaName
+        }
+        productIngredients = if(pizzaName != "null") {
+            Pizzas.valueOf(pizzaName).pizzaIngredients
+        } else {
+            0
         }
     }
 
@@ -37,7 +48,11 @@ class ProcessingOfProductInformation(
         return productDescription
     }
 
+    fun getProductIngredients(): Int {
+        return productIngredients
+    }
+
     init {
-        checkProductClass(productName)
+        checkProductClass(productName, pizzaName)
     }
 }

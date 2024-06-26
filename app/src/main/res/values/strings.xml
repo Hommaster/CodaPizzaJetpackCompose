@@ -54,12 +54,12 @@
 
     <string name="Nuggets">Nuggets</string>
     <string name="price_nuggets">4.00</string>
-    <string name="french_fries">French fries</string>
+    <string name="french_fries">FrenchFries</string>
     <string name="price_french_fries">4.00</string>
     <string name="size_small_snack">Standard</string>
     <string name="size_big_snack">Big</string>
 
-    <string name="coca_cola">Coca-Cola</string>
+    <string name="coca_cola">CocaCola</string>
     <string name="sprite">Sprite</string>
     <string name="fanta">Fanta</string>
     <string name="price_drinks_standard">3.00</string>
