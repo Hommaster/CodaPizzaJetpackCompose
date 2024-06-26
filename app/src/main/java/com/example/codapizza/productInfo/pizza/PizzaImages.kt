@@ -16,12 +16,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.codapizza.model.Pizzas
 import com.example.codapizza.model.ToppingPlacement
+import com.example.codapizza.productInfo.snack.ProcessingOfProductInformation
 import com.example.codapizza.productInfo.snack.ProductInfoData
 
 @Composable
 fun PizzaImages(
     pizza: ProductInfoData,
-    pizzaInfo: Pizzas,
+    productInfo: ProcessingOfProductInformation,
 ) {
     Row(
         modifier = Modifier
@@ -35,8 +36,8 @@ fun PizzaImages(
                 .aspectRatio(1f),
         ) {
             Image(
-                painter = painterResource(id = pizzaInfo.pizzaImage),
-                contentDescription = "${pizzaInfo.pizzaName}",
+                painter = painterResource(id = productInfo.getProductImage()),
+                contentDescription = "${productInfo.getProductDescription()}",
                 modifier = Modifier
                     .align(Alignment.Center)
                     .size(370.dp)

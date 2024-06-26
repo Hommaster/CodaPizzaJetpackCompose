@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.codapizza.R
@@ -32,6 +33,7 @@ import com.example.codapizza.desygnfiles.BoxWithImageScrollToDismiss
 import com.example.codapizza.model.Pizzas
 import com.example.codapizza.model.Sauce
 import com.example.codapizza.model.Topping
+import com.example.codapizza.productInfo.snack.ProcessingOfProductInformation
 import com.example.codapizza.productInfo.snack.ProductInfoData
 import com.example.codapizza.sauce.SauceCell
 
@@ -44,6 +46,11 @@ fun PizzaBuilderScreen(
     productInfoData: ProductInfoData?,
     productName: Int?,
 ) {
+
+    val productNameString: String = if(productName != -1 && productName != null) stringResource(id = productName) else "null"
+    val pizzaNameString: String = if(pizzaInfo != null) stringResource(id = pizzaInfo.pizzaName) else "null"
+
+    val productInfo = ProcessingOfProductInformation(productNameString, pizzaNameString)
 
     var product by rememberSaveable {
         if(productName == -1) {
@@ -85,7 +92,7 @@ fun PizzaBuilderScreen(
             ) {
                 PizzaImages(
                     pizza = product,
-                    pizzaInfo = pizzaInfo!!
+                    productInfo = productInfo
                 )
                 SizeDialog(
                     pizza = product,
@@ -103,7 +110,7 @@ fun PizzaBuilderScreen(
                     orderID = orderID,
                     mainActivityViewModel = MainActivityViewModel(),
                     navController = navController,
-                    pizzaInfo = pizzaInfo,
+                    productInfo = productInfo,
                     modifier = Modifier
                         .align(Alignment.CenterHorizontally)
                         .padding(10.dp)

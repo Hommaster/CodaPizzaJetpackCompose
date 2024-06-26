@@ -35,6 +35,7 @@ import com.example.codapizza.cart.database.Orders
 import com.example.codapizza.cart.viewmodel.MainActivityViewModel
 import com.example.codapizza.cart.viewmodel.OrderDetailViewModel
 import com.example.codapizza.model.Pizzas
+import com.example.codapizza.productInfo.snack.ProcessingOfProductInformation
 import com.example.codapizza.productInfo.snack.ProductInfoData
 import kotlinx.coroutines.launch
 import java.util.Date
@@ -46,7 +47,7 @@ fun OrderButton(
     orderID: String?,
     navController: NavController,
     product: ProductInfoData,
-    pizzaInfo: Pizzas,
+    productInfo: ProcessingOfProductInformation,
     modifier: Modifier = Modifier
 ) {
 
@@ -56,7 +57,9 @@ fun OrderButton(
         mutableStateOf(null)
     }
 
-    val descriptionPizza = stringResource(id = pizzaInfo.pizzaIngredients)
+    val descriptionPizza = stringResource(id = productInfo.getProductIngredients())
+    val titleProduct = stringResource(id = productInfo.getProductDescription())
+    val imageProduct = productInfo.getProductImage()
 
     val coroutineScope = rememberCoroutineScope()
 
@@ -77,10 +80,10 @@ fun OrderButton(
                     coroutineScope.launch {
                         val newOrder = Orders(
                             id = UUID.randomUUID(),
-                            title = product.pizzaName!!,
+                            title = titleProduct,
                             description = descriptionPizza,
                             date = Date(),
-                            image = pizzaInfo.pizzaImage,
+                            image = imageProduct,
                             toppings = product.toppings,
                             sauce = product.sauces,
                             price = product.price.toFloat()
