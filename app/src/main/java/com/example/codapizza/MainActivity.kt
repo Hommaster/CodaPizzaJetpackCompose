@@ -46,11 +46,8 @@ class MainActivity : AppCompatActivity() {
 
             NavHost(navController = navController, startDestination = "screen_1") {
                 composable(
-                    "screen_2_v_2/{pizza_info}/{pizza_name}/{order_id}/{product_np_from_order}/{product_name}",
+                    "screen_2_v_2/{pizza_name}/{order_id}/{product_np_from_order}/{product_name}",
                     arguments = listOf(
-                        navArgument(name = "pizza_info"){
-                            type = PizzaInfoType()
-                        },
                         navArgument(name = "pizza_name"){
                             type = NavType.StringType
                         },
@@ -67,7 +64,6 @@ class MainActivity : AppCompatActivity() {
                 ) {navBackStackEntry ->
                     PizzaBuilderScreen(
                         navController,
-                        pizzaInfo = navBackStackEntry.arguments?.getParcelable("pizza_info", Pizzas::class.java),
                         pizzaName = navBackStackEntry.arguments?.getString("pizza_name"),
                         orderID = navBackStackEntry.arguments?.getString("order_id"),
                         productInfoData = navBackStackEntry.arguments?.getParcelable("product_np_from_order", ProductInfoData::class.java),
