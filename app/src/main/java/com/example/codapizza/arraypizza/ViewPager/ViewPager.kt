@@ -107,7 +107,7 @@ fun ViewPager(
                 1 -> {
                     items(SnackInfo.entries.toTypedArray()) { snack ->
 
-                        val pizzaName: String = "pizzaWithArrayOfPizza"
+                        val pizzaName = "pizzaWithArrayOfPizza"
 
                         val snackName = snack.snackName
 

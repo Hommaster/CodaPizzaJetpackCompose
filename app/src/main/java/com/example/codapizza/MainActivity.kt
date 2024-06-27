@@ -19,8 +19,6 @@ import com.example.codapizza.cart.CartUI
 import com.example.codapizza.cart.EmptyCartUI
 import com.example.codapizza.theme.AppTheme
 import com.example.codapizza.cart.viewmodel.MainActivityViewModel
-import com.example.codapizza.model.PizzaInfoType
-import com.example.codapizza.model.Pizzas
 import com.example.codapizza.orderhistory.OrderHistory
 import com.example.codapizza.productInfo.pizza.PizzaBuilderScreen
 import com.example.codapizza.productInfo.snack.ProductInfoData

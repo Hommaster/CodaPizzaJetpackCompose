@@ -30,7 +30,6 @@ import com.example.codapizza.R
 import com.example.codapizza.cart.swipetodismiss.SwipeToDismiss
 import com.example.codapizza.cart.viewmodel.MainActivityViewModel
 import com.example.codapizza.desygnfiles.BoxWithImageScrollToDismiss
-import com.example.codapizza.model.Pizzas
 import com.example.codapizza.model.Sauce
 import com.example.codapizza.model.Topping
 import com.example.codapizza.productInfo.snack.ProcessingOfProductInformation
@@ -57,7 +56,7 @@ fun PizzaBuilderScreen(
 
     var product by rememberSaveable {
         if(productName == -1) {
-            when(productInfoData!!.pizzaName) {
+            when(productInfoData.pizzaName) {
                 "pizzaWithArrayOfPizza" -> {
                     Log.d("info444", "$pizzaName")
                     mutableStateOf(ProductInfoData(
@@ -70,7 +69,7 @@ fun PizzaBuilderScreen(
             }
         } else {
             Log.d("info2", "$pizzaName")
-            when(productInfoData!!.productName) {
+            when(productInfoData.productName) {
                 0 -> {
                     mutableStateOf(ProductInfoData(
                         pizzaName = null,
