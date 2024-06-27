@@ -14,14 +14,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.example.codapizza.model.Pizzas
 import com.example.codapizza.model.ToppingPlacement
 import com.example.codapizza.productInfo.snack.ProcessingOfProductInformation
 import com.example.codapizza.productInfo.snack.ProductInfoData
 
 @Composable
 fun PizzaImages(
-    pizza: ProductInfoData,
+    product: ProductInfoData,
     productInfo: ProcessingOfProductInformation,
 ) {
     Row(
@@ -42,7 +41,7 @@ fun PizzaImages(
                     .align(Alignment.Center)
                     .size(370.dp)
             )
-            pizza.toppings.forEach { (topping, placement) ->
+            product.toppings.forEach { (topping, placement) ->
                 Image(
                     painter = painterResource(id = topping.pizzaOverlayImage),
                     contentDescription = stringResource(id = topping.toppingName),
