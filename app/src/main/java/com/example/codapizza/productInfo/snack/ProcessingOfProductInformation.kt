@@ -1,7 +1,6 @@
 package com.example.codapizza.productInfo.snack
 
-import androidx.compose.ui.res.stringResource
-import com.example.codapizza.R
+import android.util.Log
 import com.example.codapizza.model.Pizzas
 import com.example.codapizza.productInfo.drinks.DrinkInfo
 
@@ -15,6 +14,7 @@ class ProcessingOfProductInformation(
 
 
     private fun checkProductClass(productName: String, pizzaName: String) {
+        Log.d("info_order", "$productName , $pizzaName")
         productImage = if(productName != "null") {
             try {
                 DrinkInfo.valueOf(productName).drinkImage
