@@ -72,4 +72,6 @@
     <string name="sauce_garlic">Garlic</string>
     <string name="sauce_ketchup">Ketchup</string>
     <string name="sauce_sweet_chili">Sweet chili</string>
+
+    <string name="null_pointer_string">None</string>
 </resources>
