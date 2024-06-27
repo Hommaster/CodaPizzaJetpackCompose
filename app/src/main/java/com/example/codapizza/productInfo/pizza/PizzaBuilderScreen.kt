@@ -40,7 +40,6 @@ import com.example.codapizza.sauce.SauceCell
 @Composable
 fun PizzaBuilderScreen(
     navController: NavController,
-    pizzaInfo: Pizzas?,
     pizzaName: String?,
     orderID: String?,
     productInfoData: ProductInfoData?,
@@ -48,9 +47,13 @@ fun PizzaBuilderScreen(
 ) {
 
     val productNameString: String = if(productName != -1 && productName != null) stringResource(id = productName) else "null"
-    val pizzaNameString: String = if(pizzaInfo != null) stringResource(id = pizzaInfo.pizzaName) else "null"
+    val pizzaNameString: String = if(productInfoData!!.pizzaName != null && productInfoData.pizzaName != "None") productInfoData.pizzaName!! else "null"
+
+    Log.d("info_order", "$productName , ${productInfoData.pizzaName}")
+    Log.d("info_gr2", "$productName , $pizzaName")
 
     val productInfo = ProcessingOfProductInformation(productNameString, pizzaNameString)
+
 
     var product by rememberSaveable {
         if(productName == -1) {
@@ -91,15 +94,15 @@ fun PizzaBuilderScreen(
                     .padding(0.dp, 30.dp)
             ) {
                 PizzaImages(
-                    pizza = product,
+                    product = product,
                     productInfo = productInfo
                 )
                 SizeDialog(
-                    pizza = product,
+                    product = product,
                     onEditSize = { product = it }
                 )
                 ToppingList(
-                    pizza = product,
+                    product = product,
                     onEditTopping = { product = it },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -127,7 +130,7 @@ fun PizzaBuilderScreen(
 
 @Composable
 private fun ToppingList(
-    pizza: ProductInfoData,
+    product: ProductInfoData,
     onEditTopping: (ProductInfoData) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -151,9 +154,9 @@ private fun ToppingList(
     toppingBeingAdd?.let {
         ToppingCellDialog(
             topping = it,
-            placementIsChoose = pizza.isPlacement(it),
+            placementIsChoose = product.isPlacement(it),
             onSetToppingPlacement = {placement ->
-                onEditTopping(pizza.withTopping(it, placement))
+                onEditTopping(product.withTopping(it, placement))
             },
             onDismissRequest = {
                 toppingBeingAdd = null
@@ -163,7 +166,7 @@ private fun ToppingList(
 
     sauceBeingAdd.let{
         for((key, value) in it) {
-            onEditTopping(pizza.withQuantity(key!!, value))
+            onEditTopping(product.withQuantity(key!!, value))
         }
     }
 
@@ -171,28 +174,30 @@ private fun ToppingList(
     LazyColumn(
         modifier = modifier
     ) {
-        items(Topping.entries.toTypedArray()) { topping ->
-            ToppingCell(
-                topping = topping,
-                placement = pizza.toppings[topping],
-                isChecked = pizza.toppings[topping] != null,
-                onClickTopping = {
-                    toppingBeingAdd = topping
-                },
-                modifier = modifier
-                    .graphicsLayer {
-                        scaleX = scale
-                        scaleY = scale
-                        transformOrigin = TransformOrigin.Center
-                    }
-            )
+        if(product.productName == null) {
+            items(Topping.entries.toTypedArray()) { topping ->
+                ToppingCell(
+                    topping = topping,
+                    placement = product.toppings[topping],
+                    isChecked = product.toppings[topping] != null,
+                    onClickTopping = {
+                        toppingBeingAdd = topping
+                    },
+                    modifier = modifier
+                        .graphicsLayer {
+                            scaleX = scale
+                            scaleY = scale
+                            transformOrigin = TransformOrigin.Center
+                        }
+                )
+            }
         }
 
         items(Sauce.entries.toTypedArray()) { sauce ->
             SauceCell(
                 sauce = sauce,
-                quantity = pizza.sauces[sauce],
-                isChecked = pizza.sauces[sauce] != null,
+                quantity = product.sauces[sauce],
+                isChecked = product.sauces[sauce] != null,
                 onClickSauce = {
                     sauceBeingAdd = mapOf(sauce to it)
                 },
@@ -209,12 +214,16 @@ private fun ToppingList(
 
 @Composable
 private fun SizeDialog(
-    pizza: ProductInfoData,
+    product: ProductInfoData,
     onEditSize: (ProductInfoData) -> Unit
 ) {
     ToppingCellDropdownMenu(
+        product = product,
         setSizePizza = {sizePizza ->
-            onEditSize(pizza.changeSizePizza(sizePizza))
+            onEditSize(product.changeSizePizza(sizePizza))
+        },
+        setSizeProduct = {sizeProduct->
+            onEditSize(product.changeSizeProduct(sizeProduct))
         }
     )
 }
