@@ -30,7 +30,10 @@ import com.example.codapizza.cart.database.Orders
 import com.example.codapizza.cart.viewmodel.MainActivityViewModel
 import com.example.codapizza.model.Pizzas
 import com.example.codapizza.model.SizePizza
+import com.example.codapizza.productInfo.drinks.DrinkInfo
 import com.example.codapizza.productInfo.snack.ProductInfoData
+import com.example.codapizza.productInfo.snack.SizeProductNotPizza
+import com.example.codapizza.productInfo.snack.SnackInfo
 import com.google.gson.Gson
 
 @Composable
@@ -45,18 +48,34 @@ fun BoxOfOrder(
 
     Log.d("info_order", order.toppings.toString())
 
-    val pizzaInfo = Pizzas.valueOf(order.title)
-    val json2 = Uri.encode(Gson().toJson(pizzaInfo))
+    val title = stringResource(id = try {
+        Pizzas.valueOf(order.title).pizzaName
+    } catch (e:Exception){
+        R.string.null_pointer_string
+    })
+
+    val titleAnother = if(title == "None") {
+        try {
+            DrinkInfo.valueOf(order.title).drinkName
+        } catch (e: Exception) {
+            SnackInfo.valueOf(order.title).snackName
+        }
+    } else {
+        null
+    }
+
+    Log.d("info_oer", titleAnother.toString())
 
     val productFromMainScreen = ProductInfoData(
-        pizzaName = order.title,
+        pizzaName = title,
         sauces = order.sauce,
         toppings = order.toppings,
-        productName = null,
-        sizePizza = SizePizza.Big
+        productName = titleAnother,
+        sizePizza = SizePizza.Big,
+        productSize = SizeProductNotPizza.Standard
     )
     val json3 = Uri.encode(Gson().toJson(productFromMainScreen))
-    val productName: Int = -1
+    val productName: Int? = if( title != "None") -1 else titleAnother
 
     Card(
         modifier = Modifier
@@ -76,7 +95,7 @@ fun BoxOfOrder(
             Column(
                 modifier = Modifier
                     .padding(10.dp, 0.dp)
-                    .weight(1f, fill=true)
+                    .weight(1f, fill = true)
             ){
                 Text(
                     modifier = Modifier
@@ -110,7 +129,7 @@ fun BoxOfOrder(
             Text(
                 modifier = Modifier
                     .clickable {
-                        navController.navigate("screen_2_v_2/$json2/${productFromMainScreen.pizzaName}/$orderIdToString/$json3/$productName")
+                        navController.navigate("screen_2_v_2/${productFromMainScreen.pizzaName}/$orderIdToString/$json3/$productName")
                     },
                 text = stringResource(id = R.string.change_pizza),
                 fontSize = 18.sp,
