@@ -85,17 +85,10 @@ fun ViewPager(
                 0 -> {
                     items(Pizzas.entries.toTypedArray()) { pizza ->
                         val pizzaName: String = stringResource(id = pizza.pizzaName)
-//                        val pizzaWithArrayOfPizza = ProductInfoData(
-//                            pizzaName = "pizzaWithArrayOfPizza",
-//                            productName = null
-//                        )
-//                        val json = Uri.encode(Gson().toJson(pizzaWithArrayOfPizza))
-
-                        val json2 = Uri.encode(Gson().toJson(pizza))
 
                         val productFromMainScreen = ProductInfoData(
                             pizzaName = pizzaName,
-                            productName = 0
+                            productName = null
                         )
                         val json3 = Uri.encode(Gson().toJson(productFromMainScreen))
                         val productName: Int = -1
@@ -104,7 +97,7 @@ fun ViewPager(
                             snack = null,
                             drink = null,
                             onClick = {
-                                navController.navigate("screen_2_v_2/$json2/$pizzaName/1/$json3/$productName") {
+                                navController.navigate("screen_2_v_2/$pizzaName/1/$json3/$productName") {
                                     popUpTo("screen_1")
                                 }
                             }
@@ -114,20 +107,23 @@ fun ViewPager(
                 1 -> {
                     items(SnackInfo.entries.toTypedArray()) { snack ->
 
+                        val pizzaName: String = "pizzaWithArrayOfPizza"
+
                         val snackName = snack.snackName
 
                         val productFromMainScreen = ProductInfoData(
                             pizzaName = null,
-                            productName = 0
+                            productName = snackName
                         )
-                        val json = Uri.encode(Gson().toJson(productFromMainScreen))
+
+                        val json3 = Uri.encode(Gson().toJson(productFromMainScreen))
 
                         BoxOfProduct(
                             pizza = null,
                             snack = snack,
                             drink = null,
                             onClick = {
-                                navController.navigate("product_np_builder_screen/$snackName/1/$json"){
+                                navController.navigate("screen_2_v_2/$pizzaName/1/$json3/$snackName") {
                                     popUpTo("screen_1")
                                 }
                             }
