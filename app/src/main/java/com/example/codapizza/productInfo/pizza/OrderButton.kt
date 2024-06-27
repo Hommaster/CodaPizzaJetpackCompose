@@ -34,7 +34,6 @@ import com.example.codapizza.R
 import com.example.codapizza.cart.database.Orders
 import com.example.codapizza.cart.viewmodel.MainActivityViewModel
 import com.example.codapizza.cart.viewmodel.OrderDetailViewModel
-import com.example.codapizza.model.Pizzas
 import com.example.codapizza.productInfo.snack.ProcessingOfProductInformation
 import com.example.codapizza.productInfo.snack.ProductInfoData
 import kotlinx.coroutines.launch
@@ -57,7 +56,9 @@ fun OrderButton(
         mutableStateOf(null)
     }
 
-    val descriptionPizza = stringResource(id = productInfo.getProductIngredients())
+    val ingredients = productInfo.getProductIngredients()
+
+    val descriptionPizza = if(ingredients != 0) stringResource(id = productInfo.getProductIngredients()) else ""
     val titleProduct = stringResource(id = productInfo.getProductDescription())
     val imageProduct = productInfo.getProductImage()
 
@@ -127,6 +128,7 @@ fun OrderButton(
                             oldOrder.copy(
                                 date = Date(),
                                 toppings = product.toppings,
+                                sauce = product.sauces,
                                 price = product.price.toFloat()
                             )
                         }
