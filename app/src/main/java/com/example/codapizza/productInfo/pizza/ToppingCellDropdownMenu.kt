@@ -1,5 +1,6 @@
 package com.example.codapizza.productInfo.pizza
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -36,11 +37,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.codapizza.R
 import com.example.codapizza.model.SizePizza
+import com.example.codapizza.productInfo.snack.ProductInfoData
+import com.example.codapizza.productInfo.snack.SizeProductNotPizza
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ToppingCellDropdownMenu(
-    setSizePizza: (sizePizza: SizePizza) -> Unit
+    product: ProductInfoData,
+    setSizePizza: (sizePizza: SizePizza) -> Unit,
+    setSizeProduct: (sizeProduct: SizeProductNotPizza) -> Unit
 ) {
     val context = LocalContext.current
 
@@ -49,9 +54,16 @@ fun ToppingCellDropdownMenu(
     val bigString = stringResource(id = SizePizza.Big.sizeName)
     val veryBigString = stringResource(id = SizePizza.VeryBig.sizeName)
 
-    val pizzaSizeChane = arrayOf(smallString, averageString, bigString, veryBigString)
+    val standardSizeProduct = stringResource(id = SizeProductNotPizza.Standard.sizeProduct)
+    val bigSizeProduct = stringResource(id = SizeProductNotPizza.Big.sizeProduct)
+
+    val pizzaSizeChane = if(product.productName == null) {
+        arrayOf(smallString, averageString, bigString, veryBigString)
+    } else {
+        arrayOf(standardSizeProduct, bigSizeProduct)
+    }
     var expanded by remember { mutableStateOf(false) }
-    var selectedText by remember { mutableStateOf(pizzaSizeChane[2]) }
+    var selectedText by remember { mutableStateOf(pizzaSizeChane[0]) }
 
     Box(
         modifier = Modifier
@@ -99,9 +111,17 @@ fun ToppingCellDropdownMenu(
                             when (selectedText) {
                                 smallString -> setSizePizza(SizePizza.Small)
                                 averageString -> setSizePizza(SizePizza.Average)
-                                bigString -> setSizePizza(SizePizza.Big)
+                                bigString -> {
+                                    if(product.productName == null){
+                                        setSizePizza(SizePizza.Big)
+                                    } else {
+                                        setSizeProduct(SizeProductNotPizza.Big)
+                                    }
+                                }
                                 veryBigString -> setSizePizza(SizePizza.VeryBig)
+                                standardSizeProduct -> setSizeProduct(SizeProductNotPizza.Standard)
                             }
+                            Log.d("InfoSize", selectedText)
                             Toast.makeText(context, item, Toast.LENGTH_SHORT).show()
                         },
                     )
