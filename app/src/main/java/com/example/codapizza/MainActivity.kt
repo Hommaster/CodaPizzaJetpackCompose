@@ -20,9 +20,8 @@ import com.example.codapizza.cart.EmptyCartUI
 import com.example.codapizza.theme.AppTheme
 import com.example.codapizza.cart.viewmodel.MainActivityViewModel
 import com.example.codapizza.orderhistory.OrderHistory
-import com.example.codapizza.productInfo.pizza.PizzaBuilderScreen
+import com.example.codapizza.productInfo.pizza.ProductBuilderScreen
 import com.example.codapizza.productInfo.snack.ProductInfoData
-import com.example.codapizza.productInfo.snack.ProductNPBuilderScreen
 import com.example.codapizza.productInfo.snack.ProductInfoType
 
 class MainActivity : AppCompatActivity() {
@@ -60,7 +59,7 @@ class MainActivity : AppCompatActivity() {
                         },
                     )
                 ) {navBackStackEntry ->
-                    PizzaBuilderScreen(
+                    ProductBuilderScreen(
                         navController,
                         pizzaName = navBackStackEntry.arguments?.getString("pizza_name"),
                         orderID = navBackStackEntry.arguments?.getString("order_id"),
@@ -98,29 +97,6 @@ class MainActivity : AppCompatActivity() {
                 ) {
                     OrderHistory(
                         navController
-                    )
-                }
-                composable(
-                    "product_np_builder_screen/{product_name}/{order_ID}/{product_np_from_order}",
-                    arguments = listOf(
-                        navArgument(name = "product_name"){
-                            type = NavType.IntType
-                        },
-                        navArgument(name = "product_np_from_order"){
-                            type = ProductInfoType()
-                        },
-                        navArgument(name = "order_ID"){
-                            type = NavType.StringType
-                        }
-                    )
-
-                ) { backStackEntry ->
-
-                    ProductNPBuilderScreen(
-                        navController,
-                        productName = backStackEntry.arguments?.getInt("product_name"),
-                        orderID = backStackEntry.arguments?.getString("order_ID"),
-                        productNPFromOrder = backStackEntry.arguments?.getParcelable("product_np_from_order", ProductInfoData::class.java)
                     )
                 }
             }
