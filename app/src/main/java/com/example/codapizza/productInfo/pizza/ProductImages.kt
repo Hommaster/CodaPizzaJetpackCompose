@@ -19,7 +19,7 @@ import com.example.codapizza.productInfo.snack.ProcessingOfProductInformation
 import com.example.codapizza.productInfo.snack.ProductInfoData
 
 @Composable
-fun PizzaImages(
+fun ProductImages(
     product: ProductInfoData,
     productInfo: ProcessingOfProductInformation,
 ) {
