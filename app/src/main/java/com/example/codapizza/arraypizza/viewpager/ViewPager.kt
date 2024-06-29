@@ -1,4 +1,4 @@
-package com.example.codapizza.arraypizza.ViewPager
+package com.example.codapizza.arraypizza.viewpager
 
 import android.net.Uri
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -25,8 +25,10 @@ import androidx.navigation.NavController
 import com.example.codapizza.R
 import com.example.codapizza.arraypizza.BoxOfProduct
 import com.example.codapizza.model.Pizzas
+import com.example.codapizza.model.SizePizza
 import com.example.codapizza.productInfo.drinks.DrinkInfo
 import com.example.codapizza.productInfo.snack.ProductInfoData
+import com.example.codapizza.productInfo.snack.SizeProductNotPizza
 import com.example.codapizza.productInfo.snack.SnackInfo
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
@@ -88,7 +90,10 @@ fun ViewPager(
 
                         val productFromMainScreen = ProductInfoData(
                             pizzaName = pizzaName,
-                            productName = null
+                            productName = null,
+                            productSize = null,
+                            sizePizza = SizePizza.Small,
+                            priceProduct = pizza.price.toFloat()
                         )
                         val json3 = Uri.encode(Gson().toJson(productFromMainScreen))
                         val productName: Int = -1
@@ -113,7 +118,10 @@ fun ViewPager(
 
                         val productFromMainScreen = ProductInfoData(
                             pizzaName = null,
-                            productName = snackName
+                            productName = snackName,
+                            productSize = SizeProductNotPizza.Standard,
+                            sizePizza = null,
+                            priceProduct = snack.price.toFloat()
                         )
 
                         val json3 = Uri.encode(Gson().toJson(productFromMainScreen))
@@ -133,12 +141,16 @@ fun ViewPager(
                 2 -> {
                     items(DrinkInfo.entries.toTypedArray()) { drink ->
 
-                        val drinkName = drink.drinkName
+                        val pizzaName = "pizzaWithArrayOfPizza"
 
+                        val drinkName = drink.drinkName
 
                         val productFromMainScreen = ProductInfoData(
                             pizzaName = null,
-                            productName = 0
+                            productName = drinkName,
+                            productSize = SizeProductNotPizza.Standard,
+                            sizePizza = null,
+                            priceProduct = drink.price.toFloat()
                         )
                         val json = Uri.encode(Gson().toJson(productFromMainScreen))
 
@@ -147,7 +159,7 @@ fun ViewPager(
                             snack = null,
                             drink = drink,
                             onClick = {
-                                navController.navigate("product_np_builder_screen/$drinkName/1/$json"){
+                                navController.navigate("screen_2_v_2/$pizzaName/1/$json/$drinkName") {
                                     popUpTo("screen_1")
                                 }
                             }
