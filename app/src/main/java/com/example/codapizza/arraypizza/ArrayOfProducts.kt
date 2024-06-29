@@ -51,7 +51,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
 import androidx.navigation.NavHostController
 import com.example.codapizza.R
-import com.example.codapizza.arraypizza.ViewPager.ViewPager
+import com.example.codapizza.arraypizza.viewpager.ViewPager
 import com.example.codapizza.cart.viewmodel.MainActivityViewModel
 import com.example.codapizza.desygnfiles.TopAppBarCustom
 import com.example.codapizza.model.NavigationDrawerItems
