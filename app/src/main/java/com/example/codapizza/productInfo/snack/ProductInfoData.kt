@@ -3,10 +3,8 @@ package com.example.codapizza.productInfo.snack
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.navigation.NavType
-import com.example.codapizza.model.Pizzas
 import com.example.codapizza.model.Sauce
 import com.example.codapizza.model.SizePizza
 import com.example.codapizza.model.Topping
@@ -23,25 +21,12 @@ import java.math.BigDecimal
 data class ProductInfoData(
     val toppings: Map<Topping, ToppingPlacement> = emptyMap(),
     val sauces: Map<Sauce, Int> = emptyMap(),
-    val productSize: SizeProductNotPizza = SizeProductNotPizza.Standard,
+    val productSize: SizeProductNotPizza? = null,
     val productName: Int?,
     val sizePizza: SizePizza? = null,
-    val pizzaName: String?
+    val pizzaName: String?,
+    val priceProduct: Float?
 ): Parcelable {
-
-    init {
-        Log.d("infoPizzaName", "$pizzaName")
-    }
-
-    @IgnoredOnParcel
-    private val productPrice: BigDecimal? = if(pizzaName != null && pizzaName != "pizzaWithArrayOfPizza") {
-        Pizzas.valueOf(pizzaName).price.toBigDecimal()
-    } else if (pizzaName == null && productName != null && productName != 0) {
-        when (productSize) {
-            SizeProductNotPizza.Standard -> 4.0
-            SizeProductNotPizza.Big -> 5.0
-        }.toBigDecimal()
-    } else null
 
     @IgnoredOnParcel
     private val toppingsPrice: BigDecimal = toppings.asSequence()
@@ -53,18 +38,21 @@ data class ProductInfoData(
         }.toBigDecimal()
 
     @IgnoredOnParcel
-    private val sizePizzaPrice: BigDecimal = when (sizePizza) {
-        SizePizza.Small -> 0.99
-        SizePizza.Average -> 6.0
-        SizePizza.Big -> 7.0
-        SizePizza.VeryBig -> 8.0
-        else -> 0.0
-    }.toBigDecimal()
+    private val sizePizzaPrice: BigDecimal = if(pizzaName != null && pizzaName != "pizzaWithArrayOfPizza" && pizzaName != "None" && pizzaName != "null") {
+        when (sizePizza) {
+            SizePizza.Small -> 0.99
+            SizePizza.Average -> 2.99
+            SizePizza.Big -> 4.99
+            SizePizza.VeryBig -> 6.99
+            else -> 0.0
+        }.toBigDecimal()
+    } else 0.toBigDecimal()
 
     @IgnoredOnParcel
     private val sizeProductPrice: BigDecimal = when(productSize) {
         SizeProductNotPizza.Standard -> 0.0
         SizeProductNotPizza.Big -> 1.0
+        else -> 0.0
     }.toBigDecimal()
 
     @IgnoredOnParcel
@@ -79,7 +67,7 @@ data class ProductInfoData(
         }.toBigDecimal()
 
     val price: BigDecimal
-        get() = productPrice!! + toppingsPrice + saucesPrice + sizePizzaPrice + sizeProductPrice
+        get() = priceProduct!!.toBigDecimal() + sizeProductPrice + toppingsPrice + saucesPrice + sizePizzaPrice
 
     fun withTopping(topping: Topping, placement: ToppingPlacement?): ProductInfoData {
         return copy(
