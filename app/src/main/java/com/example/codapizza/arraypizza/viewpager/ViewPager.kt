@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.VerticalPager
@@ -41,42 +42,45 @@ fun ViewPager(
     scope: CoroutineScope,
     navController: NavController,
 ) {
-    Row(
+    LazyRow(
         modifier = Modifier
             .wrapContentHeight()
             .fillMaxWidth()
             .padding(bottom = 8.dp),
         horizontalArrangement = Arrangement.Center
     ){
-        repeat(pagerState.pageCount) {
-            val color = if(pagerState.currentPage == it) colorResource(id = R.color.orange) else colorResource(
-                id = R.color.white
-            )
-            val colorText = if(pagerState.currentPage == it) colorResource(id = R.color.white) else colorResource(
-                id = R.color.orange
-            )
-            val textButton: MutableList<Int> = mutableListOf(R.string.view_pager_info_pizzas, R.string.view_pager_info_snacks, R.string.view_pager_info_drinks)
-
-
-            Button(
-                modifier = Modifier
-                    .padding(2.dp),
-                shape = RoundedCornerShape(15.dp),
-                onClick = {
-                    scope.launch {
-                        pagerState.animateScrollToPage(it)
-                    }
-                },
-                colors = ButtonDefaults.buttonColors(color)
-            ) {
-                Text(
-                    modifier = Modifier
-                        .background(color),
-                    text = stringResource(id = textButton[it]),
-                    color = colorText
+        item {
+            repeat(pagerState.pageCount) {
+                val color = if(pagerState.currentPage == it) colorResource(id = R.color.orange) else colorResource(
+                    id = R.color.white
                 )
+                val colorText = if(pagerState.currentPage == it) colorResource(id = R.color.white) else colorResource(
+                    id = R.color.orange
+                )
+                val textButton: MutableList<Int> = mutableListOf(R.string.view_pager_info_pizzas, R.string.view_pager_info_snacks, R.string.view_pager_info_drinks)
+
+
+                Button(
+                    modifier = Modifier
+                        .padding(2.dp),
+                    shape = RoundedCornerShape(15.dp),
+                    onClick = {
+                        scope.launch {
+                            pagerState.animateScrollToPage(it)
+                        }
+                    },
+                    colors = ButtonDefaults.buttonColors(color)
+                ) {
+                    Text(
+                        modifier = Modifier
+                            .background(color),
+                        text = stringResource(id = textButton[it]),
+                        color = colorText
+                    )
+                }
             }
         }
+
     }
 
     VerticalPager(
@@ -102,7 +106,7 @@ fun ViewPager(
                             snack = null,
                             drink = null,
                             onClick = {
-                                navController.navigate("screen_2_v_2/$pizzaName/1/$json3/$productName") {
+                                navController.navigate("screen_2_v_2/$pizzaName/1/$json3/$productName/$page") {
                                     popUpTo("screen_1")
                                 }
                             }
@@ -131,7 +135,7 @@ fun ViewPager(
                             snack = snack,
                             drink = null,
                             onClick = {
-                                navController.navigate("screen_2_v_2/$pizzaName/1/$json3/$snackName") {
+                                navController.navigate("screen_2_v_2/$pizzaName/1/$json3/$snackName/$page") {
                                     popUpTo("screen_1")
                                 }
                             }
@@ -159,7 +163,7 @@ fun ViewPager(
                             snack = null,
                             drink = drink,
                             onClick = {
-                                navController.navigate("screen_2_v_2/$pizzaName/1/$json/$drinkName") {
+                                navController.navigate("screen_2_v_2/$pizzaName/1/$json/$drinkName/$page") {
                                     popUpTo("screen_1")
                                 }
                             }
