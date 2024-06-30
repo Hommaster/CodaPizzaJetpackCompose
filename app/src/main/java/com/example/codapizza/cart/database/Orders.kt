@@ -21,5 +21,6 @@ data class Orders(
     var toppings: Map<Topping, ToppingPlacement>,
     var sauce: Map<Sauce, Int>,
     var price: Float = 0f,
-    var quantity: Int = 1
+    var quantity: Int = 1,
+    var productID: Int
 ): Parcelable
