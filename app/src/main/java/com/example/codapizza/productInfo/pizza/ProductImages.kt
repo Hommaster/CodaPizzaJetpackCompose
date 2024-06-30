@@ -36,7 +36,7 @@ fun ProductImages(
         ) {
             Image(
                 painter = painterResource(id = productInfo.getProductImage()),
-                contentDescription = "${productInfo.getProductDescription()}",
+                contentDescription = "${productInfo.getProductName()}",
                 modifier = Modifier
                     .align(Alignment.Center)
                     .size(370.dp)
