@@ -37,12 +37,13 @@ import com.example.codapizza.productInfo.snack.ProductInfoData
 import com.example.codapizza.sauce.SauceCell
 
 @Composable
-fun PizzaBuilderScreen(
+fun ProductBuilderScreen(
     navController: NavController,
     pizzaName: String?,
     orderID: String?,
     productInfoData: ProductInfoData?,
     productName: Int?,
+    productID: Int
 ) {
 
     val productNameString: String = if(productName != -1 && productName != null) stringResource(id = productName) else "null"
@@ -51,7 +52,7 @@ fun PizzaBuilderScreen(
     Log.d("info_order", "$productName , ${productInfoData.pizzaName}")
     Log.d("info_gr2", "$productName , $pizzaName")
 
-    val productInfo = ProcessingOfProductInformation(productNameString, pizzaNameString)
+    val productInfo = ProcessingOfProductInformation(productNameString, pizzaNameString, productID)
 
 
     var product by rememberSaveable {
@@ -61,7 +62,9 @@ fun PizzaBuilderScreen(
                     Log.d("info444", "$pizzaName")
                     mutableStateOf(ProductInfoData(
                         pizzaName = pizzaName,
-                        productName = null))
+                        productName = null,
+                        priceProduct = productInfo.getPriceProduct().toFloat()
+                    ))
                 }
                 else -> {
                     mutableStateOf(productInfoData)
@@ -73,7 +76,8 @@ fun PizzaBuilderScreen(
                 0 -> {
                     mutableStateOf(ProductInfoData(
                         pizzaName = null,
-                        productName = productName
+                        productName = productName,
+                        priceProduct = productInfo.getPriceProduct().toFloat()
                     ))
                 }
                 else -> {
@@ -92,7 +96,7 @@ fun PizzaBuilderScreen(
                     .background(Color.Black)
                     .padding(0.dp, 30.dp)
             ) {
-                PizzaImages(
+                ProductImages(
                     product = product,
                     productInfo = productInfo
                 )
@@ -100,19 +104,28 @@ fun PizzaBuilderScreen(
                     product = product,
                     onEditSize = { product = it }
                 )
-                ToppingList(
-                    product = product,
-                    onEditTopping = { product = it },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f, fill = true)
-                )
+                if(!productInfo.getDrinkInfo()) {
+                    ToppingList(
+                        product = product,
+                        onEditTopping = { product = it },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f, fill = true)
+                    )
+                } else {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f, fill = true)
+                    )
+                }
                 OrderButton(
                     product = product,
                     orderID = orderID,
                     mainActivityViewModel = MainActivityViewModel(),
                     navController = navController,
                     productInfo = productInfo,
+                    productID = productID,
                     modifier = Modifier
                         .align(Alignment.CenterHorizontally)
                         .padding(10.dp)
