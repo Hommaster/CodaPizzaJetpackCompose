@@ -47,7 +47,8 @@ fun OrderButton(
     navController: NavController,
     product: ProductInfoData,
     productInfo: ProcessingOfProductInformation,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    productID: Int
 ) {
 
     val orderDetailViewModel: OrderDetailViewModel? = if(orderID!="1") OrderDetailViewModel(UUID.fromString(orderID)) else null
@@ -59,7 +60,7 @@ fun OrderButton(
     val ingredients = productInfo.getProductIngredients()
 
     val descriptionPizza = if(ingredients != 0) stringResource(id = productInfo.getProductIngredients()) else ""
-    val titleProduct = stringResource(id = productInfo.getProductDescription())
+    val titleProduct = stringResource(id = productInfo.getProductName())
     val imageProduct = productInfo.getProductImage()
 
     val coroutineScope = rememberCoroutineScope()
@@ -87,6 +88,7 @@ fun OrderButton(
                             image = imageProduct,
                             toppings = product.toppings,
                             sauce = product.sauces,
+                            productID = productID,
                             price = product.price.toFloat()
                         )
                         mainActivityViewModel.addOrder(newOrder)
