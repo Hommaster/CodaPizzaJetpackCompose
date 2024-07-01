@@ -58,6 +58,9 @@ fun CartUI(
     val totalCost : MutableState<Float> = rememberSaveable {
         mutableFloatStateOf(0f)
     }
+    var productInfo: HashMap<String, String> = hashMapOf()
+    val product: HashMap<String, Map<String, HashMap<String, String>>> = hashMapOf()
+
 
     SwipeToDismiss(
         navController
@@ -86,7 +89,32 @@ fun CartUI(
                     }
                 }
                 item {
+
                     orderList.value.forEach {
+                        val toppingProduct: HashMap<String, String> = hashMapOf()
+                        val sauceProduct: HashMap<String, String> = hashMapOf()
+                        productInfo = hashMapOf(
+                            "product_name" to it.title,
+                            "product_date" to it.date.toString(),
+                            "product_quantity" to it.quantity.toString(),
+                            "product_price" to it.price.toString(),
+                        )
+
+                        it.toppings.forEach { toppings ->
+                            toppingProduct[toppings.key.toString()] = toppings.value.toString()
+                        }
+                        it.sauce.forEach { sauce ->
+                            sauceProduct[sauce.key.toString()] = sauce.value.toString()
+
+                        }
+                        product.set(
+                            key = it.id.toString(),
+                            value = mapOf(
+                                "product_${it.title}" to productInfo,
+                                "toppings" to toppingProduct,
+                                "sauces" to sauceProduct
+                            )
+                        )
                         BoxOfOrder(
                             mainActivityViewModel,
                             navController,
@@ -109,7 +137,7 @@ fun CartUI(
                 onClick = {
                     val json = Uri.encode(Gson().toJson(orderList))
                     Log.d("InfoJson", json)
-                    fs.collection("orders").document().set(mapOf("1" to "1"))
+                    fs.collection("drink_info").document().set(product)
                 },
                 content = {
                     val totalCostAfterRounded = (totalCost.value*100).roundToInt() / 100.0
