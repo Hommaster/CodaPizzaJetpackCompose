@@ -38,9 +38,9 @@ data class ProductInfoData(
         }.toBigDecimal()
 
     @IgnoredOnParcel
-    private val sizePizzaPrice: BigDecimal = if(pizzaName != null && pizzaName != "pizzaWithArrayOfPizza" && pizzaName != "None" && pizzaName != "null") {
+    private val sizePizzaPrice: BigDecimal = if(pizzaName != null && pizzaName != "pizzaWithArrayOfPizza" && pizzaName != "None" && pizzaName != "null" && productName == -1) {
         when (sizePizza) {
-            SizePizza.Small -> 0.99
+            SizePizza.Small -> 0.98
             SizePizza.Average -> 2.99
             SizePizza.Big -> 4.99
             SizePizza.VeryBig -> 6.99
