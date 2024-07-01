@@ -58,7 +58,7 @@ fun CartUI(
     val totalCost : MutableState<Float> = rememberSaveable {
         mutableFloatStateOf(0f)
     }
-    var productInfo: HashMap<String, String> = hashMapOf()
+    var productInfo: HashMap<String, String>
     val product: HashMap<String, Map<String, HashMap<String, String>>> = hashMapOf()
 
 
