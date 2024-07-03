@@ -1,16 +1,20 @@
 package com.example.codapizza.orderhistory
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,16 +27,35 @@ import androidx.compose.ui.text.style.TextIndent
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.room.Query
 import com.example.codapizza.R
+import com.example.codapizza.cart.database.OrderFromFirebase
+import com.example.codapizza.cart.database.Orders
 import com.example.codapizza.cart.swipetodismiss.SwipeToDismiss
 import com.example.codapizza.cart.viewmodel.MainActivityViewModel
 import com.example.codapizza.desygnfiles.TopAppBarForScreens
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 
 @Composable
 fun OrderHistory(
     navController: NavController
 ) {
+
+    val list = remember {
+        mutableStateOf(emptyList<OrderFromFirebase>())
+    }
+
+    val fs = Firebase.firestore
+
+    fs.collection("drink_info").get().addOnCompleteListener { task ->
+        if(task.isComplete) {
+            list.value = task.result.toObjects(OrderFromFirebase::class.java)
+        }
+    }
+
+    Log.d("InfoListFromFirestore", "$list")
 
     SwipeToDismiss(
         navController
@@ -82,6 +105,9 @@ fun OrderHistory(
                                 fontSize = 20.sp,
                             )
                         }
+                    }
+                    LazyColumn {
+
                     }
                 }
             }
