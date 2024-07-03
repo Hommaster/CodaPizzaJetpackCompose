@@ -39,6 +39,7 @@ import com.example.codapizza.productInfo.snack.ProductInfoData
 import kotlinx.coroutines.launch
 import java.util.Date
 import java.util.UUID
+import kotlin.math.roundToInt
 
 @Composable
 fun OrderButton(
@@ -103,7 +104,7 @@ fun OrderButton(
             ) {
 
                 val price = product.price
-                Log.d("changeSize", "$price")
+                val totalCostAfterRounded = (price.toFloat()*100).roundToInt() / 100.0
 
                 Text(
                     modifier = modifier
@@ -113,7 +114,7 @@ fun OrderButton(
                             transformOrigin = TransformOrigin.Center
                         },
                     style = LocalTextStyle.current.copy(textMotion = TextMotion.Animated),
-                    text = stringResource(R.string.place_order_button, price)
+                    text = stringResource(R.string.place_order_button, totalCostAfterRounded)
                         .toUpperCase(Locale.current),
                     textAlign = TextAlign.Center
                 )
@@ -154,6 +155,7 @@ fun OrderButton(
                 )
             ) {
                 val price = product.price
+                val totalCostAfterRounded = (price.toFloat()*100).roundToInt() / 100.0
                 Text(
                     modifier = modifier
                         .graphicsLayer {
@@ -162,7 +164,7 @@ fun OrderButton(
                             transformOrigin = TransformOrigin.Center
                         },
                     style = LocalTextStyle.current.copy(textMotion = TextMotion.Animated),
-                    text = stringResource(R.string.change_order_button, price)
+                    text = stringResource(R.string.change_order_button, totalCostAfterRounded)
                         .toUpperCase(Locale.current),
                     textAlign = TextAlign.Center
                 )
