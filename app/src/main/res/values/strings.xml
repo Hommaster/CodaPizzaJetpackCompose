@@ -38,7 +38,8 @@
     <string name="carbonara_ingredients">Earthy mushrooms, melty cheese, crispy bacon, and most important of all, eggs</string>
     <string name="price_carbonara">from 16.99</string>
     <string name="chicago">Chicago</string>
-    <string name="chicago_ingredients">Earthy mushrooms, melty cheese, crispy bacon, and most important of all, eggs</string>
+    <string name="chicago_ingredients">
+The deep pan in which it is baked gives the pizza its characteristically high edge, which provides plenty of room for plenty of cheese and thick tomato sauce.</string>
     <string name="price_chicago">from 15.99</string>
 
     <string name="cart_is_empty">Your cart is still empty! Maybe you would like to order something?</string>
