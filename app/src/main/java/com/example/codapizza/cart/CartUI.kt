@@ -37,6 +37,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
+import java.util.Date
 import kotlin.math.roundToInt
 
 
@@ -106,14 +107,13 @@ fun CartUI(
                         }
                         it.sauce.forEach { sauce ->
                             sauceProduct[sauce.key.toString()] = sauce.value.toString()
-
                         }
                         product.set(
-                            key = it.title,
+                            key = "${it.title}_${it.id}",
                             value = mapOf(
                                 "product_${it.title}" to productInfo,
                                 "toppings" to toppingProduct,
-                                "sauces" to sauceProduct
+                                "sauces" to sauceProduct,
                             )
                         )
                         BoxOfOrder(
@@ -128,8 +128,8 @@ fun CartUI(
                         )
                     }
                     orderInfo.set(
-                        key = "orderList_${}",
-                        value =
+                        key = "orderList_${Date()}",
+                        value = product
                     )
                 }
             }
@@ -142,7 +142,7 @@ fun CartUI(
                 onClick = {
                     val json = Uri.encode(Gson().toJson(orderList))
                     Log.d("InfoJson", json)
-                    fs.collection("drink_info").document().set(product)
+                    fs.collection("drink_info").document().set(orderInfo)
                 },
                 content = {
                     val totalCostAfterRounded = (totalCost.value*100).roundToInt() / 100.0
