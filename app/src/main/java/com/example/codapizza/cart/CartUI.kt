@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.codapizza.R
 import com.example.codapizza.cart.boxOfOrderUI.BoxOfOrder
+import com.example.codapizza.cart.database.OrderFromFirebase
 import com.example.codapizza.cart.database.Orders
 import com.example.codapizza.cart.swipetodismiss.SwipeToDismiss
 import com.example.codapizza.cart.viewmodel.MainActivityViewModel
@@ -63,6 +64,7 @@ fun CartUI(
     var productInfo: HashMap<String, String>
     val product: HashMap<String, Map<String, HashMap<String, String>>> = hashMapOf()
 
+    var ordersList: List<OrderFromFirebase> = emptyList()
 
     SwipeToDismiss(
         navController
@@ -91,23 +93,35 @@ fun CartUI(
                     }
                 }
                 item {
-
                     orderList.value.forEach {
                         val toppingProduct: HashMap<String, String> = hashMapOf()
+                        it.toppings.forEach { toppings ->
+                            toppingProduct[toppings.key.toString()] = toppings.value.toString()
+                        }
+
                         val sauceProduct: HashMap<String, String> = hashMapOf()
+                        it.sauce.forEach { sauce ->
+                            sauceProduct[sauce.key.toString()] = sauce.value.toString()
+                        }
+
+//                        ordersList = listOf(OrderFromFirebase(
+//                            title = it.title,
+//                            date = "",
+//                            description = it.description,
+//                            image = it.image,
+//                            toppings = toppingProduct,
+//                            sauce = sauceProduct,
+//                            price = it.price,
+//                            quantity = it.quantity,
+//                            productID = it.productID
+//                        ))
+
                         productInfo = hashMapOf(
                             "product_name" to it.title,
                             "product_date" to it.date.toString(),
                             "product_quantity" to it.quantity.toString(),
                             "product_price" to it.price.toString(),
                         )
-
-                        it.toppings.forEach { toppings ->
-                            toppingProduct[toppings.key.toString()] = toppings.value.toString()
-                        }
-                        it.sauce.forEach { sauce ->
-                            sauceProduct[sauce.key.toString()] = sauce.value.toString()
-                        }
                         product.set(
                             key = "${it.title}_${it.id}",
                             value = mapOf(
@@ -128,7 +142,7 @@ fun CartUI(
                         )
                     }
                     orderInfo.set(
-                        key = "orderList_${Date()}",
+                        key = "order_list",
                         value = product
                     )
                 }
@@ -142,7 +156,10 @@ fun CartUI(
                 onClick = {
                     val json = Uri.encode(Gson().toJson(orderList))
                     Log.d("InfoJson", json)
-                    fs.collection("drink_info").document().set(orderInfo)
+//                    fs.collection("drink_info").document().set(orderInfo)
+                    fs.collection("orders").document().set(OrderFromFirebase(
+                        orderInfo
+                    ))
                 },
                 content = {
                     val totalCostAfterRounded = (totalCost.value*100).roundToInt() / 100.0
