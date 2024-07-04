@@ -18,9 +18,9 @@ data class Orders(
     var description: String = "",
     var date: Date = Date(),
     var image: Int? = null,
-    var toppings: Map<Topping, ToppingPlacement>,
-    var sauce: Map<Sauce, Int>,
+    var toppings: Map<Topping, ToppingPlacement> = emptyMap(),
+    var sauce: Map<Sauce, Int> = emptyMap(),
     var price: Float = 0f,
     var quantity: Int = 1,
-    var productID: Int
+    var productID: Int = -1
 ): Parcelable
