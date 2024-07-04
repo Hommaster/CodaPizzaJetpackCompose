@@ -27,13 +27,12 @@ import androidx.compose.ui.text.style.TextIndent
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.room.Query
 import com.example.codapizza.R
 import com.example.codapizza.cart.database.OrderFromFirebase
-import com.example.codapizza.cart.database.Orders
 import com.example.codapizza.cart.swipetodismiss.SwipeToDismiss
 import com.example.codapizza.cart.viewmodel.MainActivityViewModel
 import com.example.codapizza.desygnfiles.TopAppBarForScreens
+import com.example.codapizza.model.Sauce
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -49,68 +48,100 @@ fun OrderHistory(
 
     val fs = Firebase.firestore
 
-    fs.collection("drink_info").get().addOnCompleteListener { task ->
-        if(task.isComplete) {
+    fs.collection("orders").get().addOnCompleteListener { task ->
+        if (task.isComplete) {
             list.value = task.result.toObjects(OrderFromFirebase::class.java)
         }
     }
+    var title: String = ""
+    var price: String = ""
+    var sauces: MutableMap<Sauce, String> = mutableMapOf()
 
-    Log.d("InfoListFromFirestore", "$list")
+    Log.d("InfoListFromFirestore", "${list}")
 
-    SwipeToDismiss(
-        navController
-    ) {
-        Column(
-            modifier = Modifier
-                .background(colorResource(id = R.color.black))
-                .fillMaxSize(),
-        ) {
-            TopAppBarForScreens(
-                textID = R.string.order_history,
-                navController = navController,
-                mainActivityViewModel = MainActivityViewModel(),
-                cartNotEmpty = false
-            )
-            Column(
-                modifier = Modifier
-                    .padding(30.dp, 250.dp)
-                    .align(Alignment.CenterHorizontally)
-            ) {
-                Card(
-                    shape = RoundedCornerShape(15.dp),
-                    colors = CardColors(colorResource(id = R.color.orange), Color.Cyan, Color.Cyan, Color.Cyan)
-                ) {
-                    Text(
-                        modifier = Modifier
-                            .padding(2.dp, 2.dp),
-                        color = colorResource(id = R.color.white),
-                        text = stringResource(id = R.string.order_history_is_empty),
-                        fontStyle = FontStyle.Italic,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 20.sp,
-                        style = TextStyle(textIndent = TextIndent(15.sp, 30.sp))
-                    )
-                    Row(
-                        modifier = Modifier
-                            .align(Alignment.CenterHorizontally)
-                    ){
-                        TextButton(onClick = {
-                            navController.popBackStack("screen_1", false)
-                        }) {
-                            Text(
-                                color = colorResource(id = R.color.black),
-                                text = stringResource(id = R.string.back_to_menu),
-                                fontStyle = FontStyle.Italic,
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 20.sp,
-                            )
+    list.value.forEach {
+        it.order_list.forEach { order ->
+            order.value.forEach { key, value2 ->
+                if (key == "sauces") {
+                    value2.values.forEach { k ->
+                        k.keys.forEach { keyss ->
+                            sauces[Sauce.valueOf(keyss)] = k.values.toString()
                         }
                     }
-                    LazyColumn {
-
+                } else if (key == "toppings") {
+                    null
+                } else {
+                    value2.values.forEach { value ->
+                        title = value["product_name"].toString()
+                        price = value["product_price"].toString()
                     }
                 }
             }
         }
     }
-}
+
+        Log.d("infoT", title)
+        Log.d("infoP", price)
+
+        SwipeToDismiss(
+            navController
+        ) {
+            Column(
+                modifier = Modifier
+                    .background(colorResource(id = R.color.black))
+                    .fillMaxSize(),
+            ) {
+                TopAppBarForScreens(
+                    textID = R.string.order_history,
+                    navController = navController,
+                    mainActivityViewModel = MainActivityViewModel(),
+                    cartNotEmpty = false
+                )
+                Column(
+                    modifier = Modifier
+                        .padding(30.dp, 250.dp)
+                        .align(Alignment.CenterHorizontally)
+                ) {
+                    Card(
+                        shape = RoundedCornerShape(15.dp),
+                        colors = CardColors(
+                            colorResource(id = R.color.orange),
+                            Color.Cyan,
+                            Color.Cyan,
+                            Color.Cyan
+                        )
+                    ) {
+                        Text(
+                            modifier = Modifier
+                                .padding(2.dp, 2.dp),
+                            color = colorResource(id = R.color.white),
+                            text = stringResource(id = R.string.order_history_is_empty),
+                            fontStyle = FontStyle.Italic,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 20.sp,
+                            style = TextStyle(textIndent = TextIndent(15.sp, 30.sp))
+                        )
+                        Row(
+                            modifier = Modifier
+                                .align(Alignment.CenterHorizontally)
+                        ) {
+                            TextButton(onClick = {
+                                navController.popBackStack("screen_1", false)
+                            }) {
+                                Text(
+                                    color = colorResource(id = R.color.black),
+                                    text = stringResource(id = R.string.back_to_menu),
+                                    fontStyle = FontStyle.Italic,
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 20.sp,
+                                )
+                            }
+                        }
+                        LazyColumn {
+
+                        }
+                    }
+                }
+            }
+        }
+    }
