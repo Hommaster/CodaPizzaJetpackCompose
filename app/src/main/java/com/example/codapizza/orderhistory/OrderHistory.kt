@@ -19,7 +19,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
@@ -53,8 +52,8 @@ fun OrderHistory(
         mutableStateOf(emptyList<OrderFromFirebase>())
     }
 
-    var orderList : HashMap<String, Orders> = hashMapOf()
-    var globalOrderList: HashMap<String, HashMap<String, Orders>> = hashMapOf()
+    val orderList : HashMap<String, Orders> = hashMapOf()
+    val globalOrderList: HashMap<String, HashMap<String, Orders>> = hashMapOf()
 
     val fs = Firebase.firestore
 
@@ -67,7 +66,7 @@ fun OrderHistory(
     list.value.forEach {
         it.order_list.forEach { order ->
             order.value.forEach { key, value2 ->
-                var orderOne = Orders()
+                val orderOne = Orders()
                 value2["sauces"]!!.forEach { k->
                     orderOne.sauce = mapOf(
                         Sauce.valueOf(k.key) to k.value.toInt()

@@ -38,7 +38,6 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
-import java.util.Date
 import kotlin.math.roundToInt
 
 
@@ -63,8 +62,6 @@ fun CartUI(
     val orderInfo : HashMap<String, HashMap<String, Map<String, HashMap<String, String>>>> = hashMapOf()
     var productInfo: HashMap<String, String>
     val product: HashMap<String, Map<String, HashMap<String, String>>> = hashMapOf()
-
-    var ordersList: List<OrderFromFirebase> = emptyList()
 
     SwipeToDismiss(
         navController
