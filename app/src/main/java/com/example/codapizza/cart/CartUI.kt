@@ -125,7 +125,7 @@ fun CartUI(
                         product.set(
                             key = "${it.title}_${it.id}",
                             value = mapOf(
-                                "product_${it.title}" to productInfo,
+                                "product_info" to productInfo,
                                 "toppings" to toppingProduct,
                                 "sauces" to sauceProduct,
                             )
