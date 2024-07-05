@@ -2,6 +2,8 @@ package com.example.codapizza.orderhistory
 
 import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,6 +19,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
@@ -29,12 +32,16 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.codapizza.R
 import com.example.codapizza.cart.database.OrderFromFirebase
+import com.example.codapizza.cart.database.Orders
 import com.example.codapizza.cart.swipetodismiss.SwipeToDismiss
 import com.example.codapizza.cart.viewmodel.MainActivityViewModel
 import com.example.codapizza.desygnfiles.TopAppBarForScreens
 import com.example.codapizza.model.Sauce
+import com.example.codapizza.model.Topping
+import com.example.codapizza.model.ToppingPlacement
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import java.util.Date
 
 
 @Composable
@@ -46,6 +53,9 @@ fun OrderHistory(
         mutableStateOf(emptyList<OrderFromFirebase>())
     }
 
+    var orderList : HashMap<String, Orders> = hashMapOf()
+    var globalOrderList: HashMap<String, HashMap<String, Orders>> = hashMapOf()
+
     val fs = Firebase.firestore
 
     fs.collection("orders").get().addOnCompleteListener { task ->
@@ -53,35 +63,44 @@ fun OrderHistory(
             list.value = task.result.toObjects(OrderFromFirebase::class.java)
         }
     }
-    var title: String = ""
-    var price: String = ""
-    var sauces: MutableMap<Sauce, String> = mutableMapOf()
-
-    Log.d("InfoListFromFirestore", "${list}")
 
     list.value.forEach {
         it.order_list.forEach { order ->
             order.value.forEach { key, value2 ->
-                if (key == "sauces") {
-                    value2.values.forEach { k ->
-                        k.keys.forEach { keyss ->
-                            sauces[Sauce.valueOf(keyss)] = k.values.toString()
+                var orderOne = Orders()
+                value2["sauces"]!!.forEach { k->
+                    orderOne.sauce = mapOf(
+                        Sauce.valueOf(k.key) to k.value.toInt()
+                    )
+                }
+                value2["toppings"]!!.forEach { k ->
+                    orderOne.toppings = mapOf(
+                        Topping.valueOf(k.key) to ToppingPlacement.valueOf(k.value)
+                    )
+                }
+                value2["product_info"]!!.forEach { valu ->
+                    when(valu.key) {
+                        "product_name" -> {
+                            orderOne.title = valu.value
+                        }
+                        "product_price" -> {
+                            orderOne.price = valu.value.toFloat()
+                        }
+                        "product_quantity" -> {
+                            orderOne.quantity = valu.value.toInt()
+                        }
+                        "product_date" -> {
+                            orderOne.description = valu.value
                         }
                     }
-                } else if (key == "toppings") {
-                    null
-                } else {
-                    value2.values.forEach { value ->
-                        title = value["product_name"].toString()
-                        price = value["product_price"].toString()
-                    }
                 }
+                orderList[orderOne.description] = orderOne
             }
+            Log.d("infoOrderList", "${orderList}")
         }
+        globalOrderList[Date().toString()] = orderList
+        Log.d("infoOrderList", "${globalOrderList}")
     }
-
-        Log.d("infoT", title)
-        Log.d("infoP", price)
 
         SwipeToDismiss(
             navController
@@ -138,7 +157,32 @@ fun OrderHistory(
                             }
                         }
                         LazyColumn {
-
+                            item {
+                                globalOrderList.forEach { orderList ->
+                                    Box(
+                                        modifier = Modifier
+                                            .background(Color.White)
+                                            .border(2.dp, Color.Red, RoundedCornerShape(13.dp))
+                                    ) {
+                                        Text(text = "pidor")
+                                    }
+                                }
+//                                listOfOrderList.forEach { orderList ->
+//                                    Text(text = "gavno")
+//                                    Log.d("InfoWtf", "${listOfOrderList.get(0)}")
+//                                    Box(
+//                                        modifier = Modifier
+//                                            .background(Color.White)
+//                                            .border(2.dp, Color.Red, RoundedCornerShape(13.dp))
+//                                    ) {
+//                                        Column {
+//                                            orderList.forEach { order ->
+//                                                Text(text = order.title)
+//                                            }
+//                                        }
+//                                    }
+//                                }
+                            }
                         }
                     }
                 }
