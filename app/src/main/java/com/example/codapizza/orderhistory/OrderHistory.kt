@@ -40,8 +40,6 @@ import com.example.codapizza.model.Topping
 import com.example.codapizza.model.ToppingPlacement
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.google.firestore.v1.StructuredQuery.Order
-import java.util.Date
 
 
 @Composable
