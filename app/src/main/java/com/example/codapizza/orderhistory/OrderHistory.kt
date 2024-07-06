@@ -40,6 +40,7 @@ import com.example.codapizza.model.Topping
 import com.example.codapizza.model.ToppingPlacement
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firestore.v1.StructuredQuery.Order
 import java.util.Date
 
 
@@ -52,8 +53,8 @@ fun OrderHistory(
         mutableStateOf(emptyList<OrderFromFirebase>())
     }
 
-    val orderList : HashMap<String, Orders> = hashMapOf()
-    val globalOrderList: HashMap<String, HashMap<String, Orders>> = hashMapOf()
+    val orderList : MutableList<Orders> = mutableListOf()
+    val globalOrderList: MutableList<MutableList<Orders>> = mutableListOf()
 
     val fs = Firebase.firestore
 
@@ -64,9 +65,10 @@ fun OrderHistory(
     }
 
     list.value.forEach {
+        Log.d("listFromFirestore", "${list.value}")
         it.order_list.forEach { order ->
+            val orderOne = Orders()
             order.value.forEach { key, value2 ->
-                val orderOne = Orders()
                 value2["sauces"]!!.forEach { k->
                     orderOne.sauce = mapOf(
                         Sauce.valueOf(k.key) to k.value.toInt()
@@ -93,13 +95,14 @@ fun OrderHistory(
                         }
                     }
                 }
-                orderList[orderOne.description] = orderOne
             }
-            Log.d("infoOrderList", "${orderList}")
+            Log.d("orderOne", "$orderOne")
+            orderList.add(orderOne)
+            Log.d("orderList", "$orderList")
         }
-        globalOrderList[Date().toString()] = orderList
-        Log.d("infoOrderList", "${globalOrderList}")
+        globalOrderList.add(orderList)
     }
+    Log.d("globalOrderList", "$globalOrderList")
 
         SwipeToDismiss(
             navController
@@ -163,7 +166,12 @@ fun OrderHistory(
                                             .background(Color.White)
                                             .border(2.dp, Color.Red, RoundedCornerShape(13.dp))
                                     ) {
-                                        Text(text = "pidor")
+                                        Column {
+                                            orderList.forEach { order ->
+                                                Text(text = order.title)
+                                            }
+                                        }
+
                                     }
                                 }
 //                                listOfOrderList.forEach { orderList ->
