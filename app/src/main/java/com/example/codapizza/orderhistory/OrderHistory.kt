@@ -47,60 +47,83 @@ fun OrderHistory(
     navController: NavController
 ) {
 
-    val list = remember {
-        mutableStateOf(emptyList<OrderFromFirebase>())
+    val hashMap = remember {
+        hashMapOf<String, OrderFromFirebase>()
     }
+    val listOrders = remember {
+        mutableListOf(listOf<OrderFromFirebase>())
+    }
+        val hashMapOfOrderFromFirebase: HashMap<String, MutableList<Orders>> = hashMapOf()
+        val listOrderFromFirebase = mutableListOf<OrderFromFirebase>()
 
-    val orderList : MutableList<Orders> = mutableListOf()
-    val globalOrderList: MutableList<MutableList<Orders>> = mutableListOf()
-
-    val fs = Firebase.firestore
-
-    fs.collection("orders").get().addOnCompleteListener { task ->
-        if (task.isComplete) {
-            list.value = task.result.toObjects(OrderFromFirebase::class.java)
+        val orderList = remember {
+            mutableListOf<Orders>()
         }
-    }
+        val globalOrderList = remember {
+            mutableListOf<MutableList<Orders>>()
+        }
 
-    list.value.forEach {
-        Log.d("listFromFirestore", "${list.value}")
-        it.order_list.forEach { order ->
-            val orderOne = Orders()
-            order.value.forEach { key, value2 ->
-                value2["sauces"]!!.forEach { k->
-                    orderOne.sauce = mapOf(
-                        Sauce.valueOf(k.key) to k.value.toInt()
-                    )
-                }
-                value2["toppings"]!!.forEach { k ->
-                    orderOne.toppings = mapOf(
-                        Topping.valueOf(k.key) to ToppingPlacement.valueOf(k.value)
-                    )
-                }
-                value2["product_info"]!!.forEach { valu ->
-                    when(valu.key) {
-                        "product_name" -> {
-                            orderOne.title = valu.value
-                        }
-                        "product_price" -> {
-                            orderOne.price = valu.value.toFloat()
-                        }
-                        "product_quantity" -> {
-                            orderOne.quantity = valu.value.toInt()
-                        }
-                        "product_date" -> {
-                            orderOne.description = valu.value
-                        }
-                    }
+        val fs = Firebase.firestore
+
+        fs.collection("orders").get().addOnCompleteListener { task ->
+            if (task.isComplete) {
+                task.result.documents.forEach { documentSnapshot ->
+                    listOrders.add(listOf(documentSnapshot.toObject(OrderFromFirebase::class.java)!!))
+//                listOrderFromFirebase.add(documentSnapshot.toObject(OrderFromFirebase::class.java)!!)
+//                hashMap[documentSnapshot.id] = documentSnapshot.toObject(OrderFromFirebase::class.java)!!
                 }
             }
-            Log.d("orderOne", "$orderOne")
-            orderList.add(orderOne)
-            Log.d("orderList", "$orderList")
         }
-        globalOrderList.add(orderList)
-    }
-    Log.d("globalOrderList", "$globalOrderList")
+
+        listOrders.forEach { listOrders1 ->
+            if (listOrders1.isNotEmpty()) {
+                Log.d("list1", "${listOrders1}")
+                listOrders1.forEach { it ->
+                    Log.d("itList2", "$it")
+                    it.order_list.forEach { order ->
+                        orderList.clear()
+                        Log.d("itList3", "$order")
+                        order.value.forEach { key, value2 ->
+                            val orderOne = Orders()
+                            Log.d("itList4", "$value2")
+                            value2["sauces"]!!.forEach { k->
+                                orderOne.sauce = mapOf(
+                                    Sauce.valueOf(k.key) to k.value.toInt()
+                                )
+                            }
+                            value2["toppings"]!!.forEach { k ->
+                                orderOne.toppings = mapOf(
+                                    Topping.valueOf(k.key) to ToppingPlacement.valueOf(k.value)
+                                )
+                            }
+                            value2["product_info"]!!.forEach { valu ->
+                                when(valu.key) {
+                                    "product_name" -> {
+                                        orderOne.title = valu.value
+                                    }
+                                    "product_price" -> {
+                                        orderOne.price = valu.value.toFloat()
+                                    }
+                                    "product_quantity" -> {
+                                        orderOne.quantity = valu.value.toInt()
+                                    }
+                                    "product_date" -> {
+                                        orderOne.description = valu.value
+                                    }
+                                }
+                            }
+                            orderList.add(orderOne)
+                            Log.d("orderList", "$orderList")
+                        }
+                        Log.d("orderList2", "$orderList")
+                    }
+                }
+                hashMapOfOrderFromFirebase[orderList.hashCode().toString()] = orderList
+            }
+//            globalOrderList.add(orderList)
+//            Log.d("globalOrderList1", "$globalOrderList")
+        }
+    Log.d("govna", "$hashMapOfOrderFromFirebase")
 
         SwipeToDismiss(
             navController
@@ -158,35 +181,12 @@ fun OrderHistory(
                         }
                         LazyColumn {
                             item {
-                                globalOrderList.forEach { orderList ->
-                                    Box(
-                                        modifier = Modifier
-                                            .background(Color.White)
-                                            .border(2.dp, Color.Red, RoundedCornerShape(13.dp))
-                                    ) {
-                                        Column {
-                                            orderList.forEach { order ->
-                                                Text(text = order.title)
-                                            }
-                                        }
-
+                                hashMap.values.forEach { OrderFromFirebase ->
+                                    OrderFromFirebase.order_list.values.forEach { value1 ->
+                                        value1.values
                                     }
                                 }
-//                                listOfOrderList.forEach { orderList ->
-//                                    Text(text = "gavno")
-//                                    Log.d("InfoWtf", "${listOfOrderList.get(0)}")
-//                                    Box(
-//                                        modifier = Modifier
-//                                            .background(Color.White)
-//                                            .border(2.dp, Color.Red, RoundedCornerShape(13.dp))
-//                                    ) {
-//                                        Column {
-//                                            orderList.forEach { order ->
-//                                                Text(text = order.title)
-//                                            }
-//                                        }
-//                                    }
-//                                }
+
                             }
                         }
                     }
