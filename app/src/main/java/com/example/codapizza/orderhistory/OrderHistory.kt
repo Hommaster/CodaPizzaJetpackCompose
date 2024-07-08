@@ -50,6 +50,7 @@ fun OrderHistory(
     val listOrders = remember {
         mutableListOf(listOf<OrderFromFirebase>())
     }
+    val lizGavnoliz: MutableList<List<MutableList<Orders>>> = mutableListOf()
         val hashMapOfOrderFromFirebase: HashMap<String, MutableList<Orders>> = hashMapOf()
         val listOrderFromFirebase = mutableListOf<OrderFromFirebase>()
 
@@ -73,12 +74,12 @@ fun OrderHistory(
         }
 
         listOrders.forEach { listOrders1 ->
+            orderList.clear()
             if (listOrders1.isNotEmpty()) {
                 Log.d("list1", "${listOrders1}")
                 listOrders1.forEach { it ->
                     Log.d("itList2", "$it")
                     it.order_list.forEach { order ->
-                        orderList.clear()
                         Log.d("itList3", "$order")
                         order.value.forEach { key, value2 ->
                             val orderOne = Orders()
@@ -119,8 +120,9 @@ fun OrderHistory(
             }
 //            globalOrderList.add(orderList)
 //            Log.d("globalOrderList1", "$globalOrderList")
+            lizGavnoliz.add(listOf(orderList))
+            Log.d("govna", "$lizGavnoliz")
         }
-    Log.d("govna", "$hashMapOfOrderFromFirebase")
 
         SwipeToDismiss(
             navController
