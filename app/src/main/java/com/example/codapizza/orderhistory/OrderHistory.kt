@@ -26,7 +26,7 @@ fun OrderHistory(
     val listOrderFromDatabase = remember {
         mutableListOf(listOf<OrderFromFirebase>())
     }
-    val listOrders = ParsedListOfOrdersFromFirebase(listOrderFromDatabase)
+    val listOrders = parsedListOfOrdersFromFirebase(listOrderFromDatabase)
 
     SwipeToDismiss(
         navController
