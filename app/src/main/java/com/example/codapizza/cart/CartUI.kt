@@ -100,24 +100,12 @@ fun CartUI(
                         it.sauce.forEach { sauce ->
                             sauceProduct[sauce.key.toString()] = sauce.value.toString()
                         }
-
-//                        ordersList = listOf(OrderFromFirebase(
-//                            title = it.title,
-//                            date = "",
-//                            description = it.description,
-//                            image = it.image,
-//                            toppings = toppingProduct,
-//                            sauce = sauceProduct,
-//                            price = it.price,
-//                            quantity = it.quantity,
-//                            productID = it.productID
-//                        ))
-
                         productInfo = hashMapOf(
                             "product_name" to it.title,
                             "product_date" to it.date.toString(),
                             "product_quantity" to it.quantity.toString(),
                             "product_price" to it.price.toString(),
+                            "product_image" to it.image.toString()
                         )
                         product.set(
                             key = "${it.title}_${it.id}",
@@ -151,9 +139,6 @@ fun CartUI(
                     .width(300.dp),
                 colors = ButtonColors(colorResource(id = R.color.orange), Color.White, Color.Yellow, Color.White),
                 onClick = {
-                    val json = Uri.encode(Gson().toJson(orderList))
-                    Log.d("InfoJson", json)
-//                    fs.collection("drink_info").document().set(orderInfo)
                     fs.collection("orders").document().set(OrderFromFirebase(
                         orderInfo
                     ))
