@@ -139,6 +139,10 @@ fun CartUI(
                     fs.collection("orders").document().set(OrderFromFirebase(
                         orderInfo
                     ))
+                    coroutineScope.launch {
+                        mainActivityViewModel.deleteAll()
+                    }
+                    navController.navigate("cart_screen_empty")
                 },
                 content = {
                     val totalCostAfterRounded = (totalCost.value*100).roundToInt() / 100.0
