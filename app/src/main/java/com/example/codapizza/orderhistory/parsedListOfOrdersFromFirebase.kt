@@ -26,34 +26,37 @@ fun parsedListOfOrdersFromFirebase(
 
     listOrderFromDatabase.forEach { listOrders1 ->
         if (listOrders1.isNotEmpty()) {
-            listOrders1.forEach { it ->
+            listOrders1.forEach {
                 it.order_list.forEach { order ->
                     val ordersList: MutableList<Orders> = mutableListOf()
-                    order.value.forEach { key, value2 ->
+                    order.value.forEach { (_, value2) ->
                         val orderOne = Orders()
                         value2["sauces"]!!.forEach { k->
-                            orderOne.sauce = mapOf(
+                            orderOne.sauce += mapOf(
                                 Sauce.valueOf(k.key) to k.value.toInt()
                             )
                         }
                         value2["toppings"]!!.forEach { k ->
-                            orderOne.toppings = mapOf(
+                            orderOne.toppings += mapOf(
                                 Topping.valueOf(k.key) to ToppingPlacement.valueOf(k.value)
                             )
                         }
-                        value2["product_info"]!!.forEach { valu ->
-                            when(valu.key) {
+                        value2["product_info"]!!.forEach { valueProductInfo ->
+                            when(valueProductInfo.key) {
                                 "product_name" -> {
-                                    orderOne.title = valu.value
+                                    orderOne.title = valueProductInfo.value
                                 }
                                 "product_price" -> {
-                                    orderOne.price = valu.value.toFloat()
+                                    orderOne.price = valueProductInfo.value.toFloat()
                                 }
                                 "product_quantity" -> {
-                                    orderOne.quantity = valu.value.toInt()
+                                    orderOne.quantity = valueProductInfo.value.toInt()
                                 }
                                 "product_date" -> {
-                                    orderOne.description = valu.value
+                                    orderOne.description = valueProductInfo.value
+                                }
+                                "product_image" -> {
+                                    orderOne.image = valueProductInfo.value.toInt()
                                 }
                             }
                         }
