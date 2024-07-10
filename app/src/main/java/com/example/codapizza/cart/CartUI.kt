@@ -1,7 +1,5 @@
 package com.example.codapizza.cart
 
-import android.net.Uri
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -36,7 +34,6 @@ import com.example.codapizza.cart.viewmodel.MainActivityViewModel
 import com.example.codapizza.desygnfiles.TopAppBarForScreens
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
