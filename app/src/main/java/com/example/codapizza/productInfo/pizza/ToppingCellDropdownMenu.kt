@@ -1,6 +1,5 @@
 package com.example.codapizza.productInfo.pizza
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -121,7 +120,6 @@ fun ToppingCellDropdownMenu(
                                 veryBigString -> setSizePizza(SizePizza.VeryBig)
                                 standardSizeProduct -> setSizeProduct(SizeProductNotPizza.Standard)
                             }
-                            Log.d("InfoSize", selectedText)
                             Toast.makeText(context, item, Toast.LENGTH_SHORT).show()
                         },
                     )
