@@ -1,5 +1,6 @@
 package com.example.codapizza.cart
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -38,6 +39,7 @@ import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 
+@SuppressLint("MutableCollectionMutableState")
 @Composable
 fun CartUI(
     navController: NavHostController,
@@ -56,9 +58,15 @@ fun CartUI(
     val totalCost : MutableState<Float> = rememberSaveable {
         mutableFloatStateOf(0f)
     }
-    val orderInfo : HashMap<String, HashMap<String, Map<String, HashMap<String, String>>>> = hashMapOf()
-    var productInfo: HashMap<String, String>
-    val product: HashMap<String, Map<String, HashMap<String, String>>> = hashMapOf()
+    val orderInfo: MutableState<HashMap<String, HashMap<String, Map<String, HashMap<String, String>>>>> = rememberSaveable {
+        mutableStateOf(hashMapOf())
+    }
+    val productInfo: MutableState<HashMap<String, String>> = rememberSaveable {
+        mutableStateOf(hashMapOf())
+    }
+    val product: MutableState<HashMap<String, Map<String, HashMap<String, String>>>> = rememberSaveable {
+        mutableStateOf(hashMapOf())
+    }
 
     SwipeToDismiss(
         navController
@@ -97,17 +105,17 @@ fun CartUI(
                         it.sauce.forEach { sauce ->
                             sauceProduct[sauce.key.toString()] = sauce.value.toString()
                         }
-                        productInfo = hashMapOf(
+                        productInfo.value = hashMapOf(
                             "product_name" to it.title,
                             "product_date" to it.date.toString(),
                             "product_quantity" to it.quantity.toString(),
                             "product_price" to it.price.toString(),
-                            "product_image" to it.image.toString()
+                            "product_image" to it.image.toString(),
+                            "product_ID" to it.productID.toString()
                         )
-                        product.set(
-                            key = "${it.title}_${it.id}",
-                            value = mapOf(
-                                "product_info" to productInfo,
+                        product.value = hashMapOf(
+                            "${it.title}_${it.id}" to mapOf(
+                                "product_info" to productInfo.value,
                                 "toppings" to toppingProduct,
                                 "sauces" to sauceProduct,
                             )
@@ -123,9 +131,8 @@ fun CartUI(
                             order = it
                         )
                     }
-                    orderInfo.set(
-                        key = "order_list",
-                        value = product
+                    orderInfo.value = hashMapOf(
+                        "order_list" to product.value
                     )
                 }
             }
@@ -137,7 +144,7 @@ fun CartUI(
                 colors = ButtonColors(colorResource(id = R.color.orange), Color.White, Color.Yellow, Color.White),
                 onClick = {
                     fs.collection("orders").document().set(OrderFromFirebase(
-                        orderInfo
+                        orderInfo.value
                     ))
                     coroutineScope.launch {
                         mainActivityViewModel.deleteAll()
