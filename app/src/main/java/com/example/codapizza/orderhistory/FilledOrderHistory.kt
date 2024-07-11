@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.codapizza.R
 import com.example.codapizza.cart.database.Orders
@@ -48,7 +49,7 @@ fun FilledOrderHistory(
                         modifier = Modifier
                             .padding(8.dp, 4.dp)
                     ) {
-                        Text(text = "Your order from $date")
+                        Text(text = stringResource(id = R.string.order_date, date))
                         orderList.forEach { order ->
                             Row (
                                 modifier = Modifier
@@ -60,7 +61,7 @@ fun FilledOrderHistory(
                                     Text(text = order.title)
                                     if(order.toppings.isNotEmpty()) {
                                         Row {
-                                            Text(text = "Toppings: ")
+                                            Text(text = stringResource(id = R.string.order_history_toppings))
                                             Column {
                                                 order.toppings.forEach { (key, value) ->
                                                     Text(text = "$key - $value")
@@ -70,7 +71,7 @@ fun FilledOrderHistory(
                                     }
                                     if(order.sauce.isNotEmpty()) {
                                         Row {
-                                            Text(text = "Sauces: ")
+                                            Text(text = stringResource(id = R.string.order_history_sauces))
                                             Column {
                                                 order.sauce.forEach { (key, value) ->
                                                     Text(text = "$key - $value")
@@ -78,12 +79,12 @@ fun FilledOrderHistory(
                                             }
                                         }
                                     }
-                                    Text(text = "Price: ${order.price}")
+                                    Text(text = stringResource(id = R.string.order_history_price, order.price))
                                 }
                                 Image(painter = painterResource(id = order.image!!), contentDescription = order.image.toString())
                             }
                         }
-                        Text(text = "Total price - $totalPrice")
+                        Text(text = stringResource(id = R.string.order_history_total_price, totalPrice))
                     }
                 }
             }

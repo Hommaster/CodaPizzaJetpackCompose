@@ -75,4 +75,10 @@ The deep pan in which it is baked gives the pizza its characteristically high ed
     <string name="sauce_sweet_chili">Sweet chili</string>
 
     <string name="null_pointer_string">None</string>
+
+    <string name="order_date">Your order from (%1$s)</string>
+    <string name="order_history_toppings">Toppings: </string>
+    <string name="order_history_sauces">Sauces: </string>
+    <string name="order_history_price">Price: </string>
+    <string name="order_history_total_price">Total price - </string>
 </resources>
