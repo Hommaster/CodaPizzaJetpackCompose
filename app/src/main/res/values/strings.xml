@@ -76,9 +76,10 @@ The deep pan in which it is baked gives the pizza its characteristically high ed
 
     <string name="null_pointer_string">None</string>
 
-    <string name="order_date">Your order from (%1$s)</string>
+    <string name="order_date">Your order from %1$s</string>
     <string name="order_history_toppings">Toppings: </string>
     <string name="order_history_sauces">Sauces: </string>
-    <string name="order_history_price">Price: </string>
-    <string name="order_history_total_price">Total price - </string>
+    <string name="order_history_price">Price: %1$s</string>
+    <string name="order_history_total_price">Total price - %1$s</string>
+    <string name="order_from_history_added_to_cart">Order has been added to cart</string>
 </resources>
