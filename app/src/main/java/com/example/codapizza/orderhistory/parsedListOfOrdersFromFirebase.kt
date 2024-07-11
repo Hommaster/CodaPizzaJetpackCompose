@@ -58,6 +58,9 @@ fun parsedListOfOrdersFromFirebase(
                                 "product_image" -> {
                                     orderOne.image = valueProductInfo.value.toInt()
                                 }
+                                "product_ID" -> {
+                                    orderOne.productID = valueProductInfo.value.toInt()
+                                }
                             }
                         }
                         ordersList.add(orderOne)
