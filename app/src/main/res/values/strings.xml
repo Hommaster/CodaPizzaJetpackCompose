@@ -82,4 +82,8 @@ The deep pan in which it is baked gives the pizza its characteristically high ed
     <string name="order_history_price">Price: %1$s</string>
     <string name="order_history_total_price">Total price - %1$s</string>
     <string name="order_from_history_added_to_cart">Order has been added to cart</string>
+
+    <string name="do_not_internet">You do not have an Internet connection</string>
+    <string name="do_not_internet_order_history">To access your order history you need to connect to the server</string>
+    <string name="do_not_internet_cart_ui">You cannot submit an order for purchase without internet access</string>
 </resources>
