@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import java.util.UUID
 
 class MainActivityViewModel : ViewModel() {
 
@@ -56,10 +55,6 @@ class MainActivityViewModel : ViewModel() {
         orderRepository.deleteOrder(order)
     }
 
-    suspend fun getOrder(id: UUID) {
-        orderRepository.getOrder(id)
-    }
-
     suspend fun updateOrder(order: Orders){
         orderRepository.updateOrder(order)
     }
@@ -77,9 +72,4 @@ class MainActivityViewModel : ViewModel() {
     suspend fun deleteAll() {
         orderRepository.deleteAll()
     }
-
-
-
-
-
 }
