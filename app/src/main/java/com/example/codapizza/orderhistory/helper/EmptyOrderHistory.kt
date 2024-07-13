@@ -1,4 +1,4 @@
-package com.example.codapizza.orderhistory
+package com.example.codapizza.orderhistory.helper
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
