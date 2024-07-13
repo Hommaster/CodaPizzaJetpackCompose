@@ -13,8 +13,10 @@ import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -27,12 +29,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.codapizza.R
+import com.example.codapizza.arraypizza.helper.DialogAboutNoInternet
 import com.example.codapizza.cart.boxOfOrderUI.BoxOfOrder
 import com.example.codapizza.cart.database.OrderFromFirebase
 import com.example.codapizza.cart.database.Orders
+import com.example.codapizza.cart.internetHelper.connectivityStatus
 import com.example.codapizza.cart.swipetodismiss.SwipeToDismiss
 import com.example.codapizza.cart.viewmodel.MainActivityViewModel
 import com.example.codapizza.desygnfiles.TopAppBarForScreens
+import com.example.codapizza.helperInternet.ConnectionStatus
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
@@ -67,6 +72,8 @@ fun CartUI(
     val product: MutableState<HashMap<String, Map<String, HashMap<String, String>>>> = rememberSaveable {
         mutableStateOf(hashMapOf())
     }
+
+    val openDialog = remember { mutableStateOf(false) }
 
     SwipeToDismiss(
         navController
@@ -136,6 +143,8 @@ fun CartUI(
                     )
                 }
             }
+            val connection by connectivityStatus()
+            val isConnected = connection === ConnectionStatus.Available
             Button(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
@@ -143,13 +152,18 @@ fun CartUI(
                     .width(300.dp),
                 colors = ButtonColors(colorResource(id = R.color.orange), Color.White, Color.Yellow, Color.White),
                 onClick = {
-                    fs.collection("orders").document().set(OrderFromFirebase(
-                        orderInfo.value
-                    ))
-                    coroutineScope.launch {
-                        mainActivityViewModel.deleteAll()
+                    if(isConnected) {
+                        fs.collection("orders").document().set(OrderFromFirebase(
+                            orderInfo.value
+                        ))
+                        coroutineScope.launch {
+                            mainActivityViewModel.deleteAll()
+                        }
+                        navController.navigate("cart_screen_empty")
+                    } else {
+                        openDialog.value = true
                     }
-                    navController.navigate("cart_screen_empty")
+
                 },
                 content = {
                     val totalCostAfterRounded = (totalCost.value*100).roundToInt() / 100.0
@@ -158,6 +172,12 @@ fun CartUI(
                         textAlign = TextAlign.Center,
                         fontSize = 15.sp
                     )
+                }
+            )
+            DialogAboutNoInternet(
+                openDialog,
+                onClick = {
+                    openDialog.value = false
                 }
             )
         }
