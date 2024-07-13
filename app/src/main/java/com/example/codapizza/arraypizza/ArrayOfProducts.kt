@@ -28,13 +28,8 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.produceState
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -50,15 +45,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.codapizza.R
-import com.example.codapizza.arraypizza.helper.DialogAboutNoInternet
 import com.example.codapizza.arraypizza.helper.HaveOrderNumber
 import com.example.codapizza.arraypizza.helper.checkNameItemForNavigate
 import com.example.codapizza.arraypizza.viewpager.ViewPager
 import com.example.codapizza.cart.viewmodel.MainActivityViewModel
 import com.example.codapizza.desygnfiles.TopAppBarCustom
-import com.example.codapizza.helperInternet.ConnectionStatus
-import com.example.codapizza.helperInternet.currentConnectivityStatus
-import com.example.codapizza.helperInternet.observeConnectivityAsFlow
 import com.example.codapizza.model.NavigationDrawerItems
 import kotlinx.coroutines.launch
 
@@ -68,9 +59,6 @@ fun ArrayOfProducts(
     navController: NavHostController,
     mainActivityViewModel: MainActivityViewModel,
 ) {
-
-    val openDialog = remember { mutableStateOf(false) }
-
     val context = LocalContext.current
 
     val drawerState = rememberDrawerState(DrawerValue.Closed)
@@ -164,19 +152,6 @@ fun ArrayOfProducts(
                 }
             },
             content = {
-                val connection by connectivityStatus()
-
-                val isConnected = connection === ConnectionStatus.Available
-
-                if(!isConnected) {
-                    openDialog.value = true
-                    DialogAboutNoInternet(
-                        openDialog,
-                        onClick = {
-                            openDialog.value = false
-                        }
-                    )
-                }
 
                 Box {
                     LaunchedEffect(key1 = Unit) {
@@ -232,13 +207,4 @@ fun ArrayOfProducts(
                 }
             }
         )
-}
-
-@Composable
-fun connectivityStatus(): State<ConnectionStatus> {
-    val mCtx = LocalContext.current
-
-    return produceState(initialValue = mCtx.currentConnectivityStatus) {
-        mCtx.observeConnectivityAsFlow().collect { value = it}
-    }
 }
